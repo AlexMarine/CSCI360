@@ -1,0 +1,292 @@
+//KC03D3BA JOB ,'ALEX MARINE',MSGCLASS=H                                00010000
+//STEP1 EXEC PGM=ASSIST                                                 00020000
+//STEPLIB DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                        00030000
+//SYSPRINT DD SYSOUT=*                                                  00040000
+//SYSIN DD *                                                            00050000
+********************************************                            00060000
+* Alex Marine                                                           00070000
+* CSCI 360                                                              00080000
+* Assignment 6                                                          00090001
+* Regsiter Usage:                                                       00100000
+* 1        PARMS                                                        00110008
+*12        Base Register                                                00120000
+*13        Address of the local save area                               00130000
+*14        Address for returning to the caller                          00140000
+*15        Adress of the subroutine itself                              00150000
+********************************************                            00160000
+ENTRY   DSECT                Format for Table                           00170001
+DESCR   DS    30C                                                       00180001
+VALUE   DS    PL3                                                       00190001
+********************************************                            00200001
+MAIN    CSECT                                                           00210001
+        STM   14,12,12(13)   Save the registers                         00211001
+        LR    12,15          Establish R12 as the                       00212002
+        USING MAIN,12        Base register                              00213001
+        LA    14,MANSAVE     Point R14 at MANSAVE                       00214001
+        ST    13,4(0,14)     Save the forward pointer                   00215001
+        ST    14,8(0,13)     Save the backward pointer                  00216001
+        LR    13,14          Point R13 at MANSAVE                       00217001
+*                                                                       00218027
+        LA    1,PARMS        Address of PARMS                           00219001
+        L     15,=V(BUILD)   Poit R15 at BUILD                          00219101
+        BALR  14,15          Branch to BUILD                            00219201
+*                                                                       00219327
+        LA    1,PARMS        Address of PARMS                           00219401
+        L     15,=V(PRINT)   Poit R15 at PRINT                          00219501
+        BALR  14,15          Branch to PRINT                            00219601
+*                                                                       00219727
+        LA    1,PARMS        Address of PARMS                           00219801
+        L     15,=V(STATS)   Poit R15 at STATS                          00219901
+        BALR  14,15          Branch to STATS                            00220001
+*                                                                       00220127
+        L     13,4(0,13)     Point R13 at caller's save areae           00220201
+        LM    14,12,12(13)   Restore the registers                      00220301
+        BR    14             Return to the caller                       00220401
+        LTORG                Literals                                   00220535
+*                                                                       00220627
+MANSAVE DS    18F            Main Save area                             00220728
+TABLE   DS    70CL48         Table                                      00220828
+EOT     DS    F              End of Table                               00220928
+PARMS   DC    A(TABLE)       Adress of TABLE                            00221028
+        DC    A(EOT)         Address of EOT                             00221128
+********************************************                            00222000
+* BUILD Subroutine                                                      00223008
+* Regsiter Usage:                                                       00224008
+* 1        PARMS                                                        00225008
+* 3        TABLE                                                        00226008
+* 4        EOT                                                          00227008
+* 5        Buffer                                                       00228008
+*12        Base Register                                                00229008
+*13        Address of the local save area                               00229108
+*14        Address for returning to the caller                          00229208
+*15        Address of the subroutine                                    00229308
+********************************************                            00229408
+BUILD   CSECT                                                           00229508
+        STM   14,12,12(13)   Save the registers                         00229608
+        LR    12,15          Establish R12 as the                       00229708
+        USING BUILD,12       Base register                              00229808
+        LA    14,BLDSAVE     Point R14 at BLDSAVE                       00229908
+        ST    13,4(0,14)     Save the forward pointer                   00230008
+        ST    14,8(0,13)     Save the backward pointer                  00230108
+        LR    13,14          Point R13 at BLDSAVE                       00230208
+*                                                                       00230308
+        LM    3,4,0(1)       Load TABLE into R3 and EOT into R4         00230428
+        USING ENTRY,3        Use DSECT ENTRY at R3                      00230528
+        LA    5,BUFF         Load address of BUFF into R5               00230608
+        USING BUFFER,5       Use DSECT BUFFER at R5                     00230728
+        XREAD 0(5),80        Read the input line                        00230808
+BLOOP   BC    B'0100',BEND   If end of file, go to BEND                 00230908
+        CR    3,4            Compare R3 to R4                           00231008
+        BC    B'1000',BEND   If they are euqal, go to BEND              00231108
+        MVC   DESCR(30),DSCRP Load Description into line                00231208
+        PACK  VALUE(3),VAL(6) Load Value into line                      00231347
+        LA    3,48(0,3)      Load next address                          00231427
+        XREAD 0(0,5),80      Read next line                             00231527
+        BC    B'1111',BLOOP  Go to BLOOP                                00231627
+BEND    ST    3,0(4)         Store EOT address                          00231727
+*                                                                       00231830
+        L     13,4(0,13)     Point R13 at caller's save area            00231930
+        LM    14,12,12(13)   Restore the registers                      00232030
+        BR    14             Return to the caller                       00232130
+        LTORG                Literals                                   00232235
+*                                                                       00232330
+BLDSAVE DS    18F            BUILD save area                            00232430
+BUFF    DS    CL80           Buffer                                     00232530
+        DC    C'*'                                                      00232630
+BUFFER  DSECT                DSECT definition                           00232730
+DSCRP   DS    30C            Description                                00232830
+        DC    CL2' '                                                    00232930
+VAL     DS    5Z             Value                                      00233030
+        DC    CL2' '                                                    00233130
+********************************************                            00233230
+* PRINT Subroutine                                                      00233330
+* 1        PARMS                                                        00233430
+* 3        TABLE                                                        00233530
+* 4        EOT                                                          00233630
+* 7        Counter                                                      00233730
+*12        Base Register                                                00233830
+*13        Address of the local save area                               00233930
+*14        Address for returning to the caller                          00234030
+*15        Address of the subroutine                                    00234130
+********************************************                            00234230
+PRINT   CSECT                                                           00234330
+        STM   14,12,12(13)   Save the registers                         00234430
+        LR    12,15          Establish R12 as the                       00234530
+        USING PRINT,12       Base register                              00234630
+        LA    14,PRTSAVE     Point R14 at PRTSAVE                       00234730
+        ST    13,4(0,14)     Save the forward pointer                   00234830
+        ST    14,8(0,13)     Save the backward pointer                  00234930
+        LR    13,14          Point R13 at PRTSAVE                       00235030
+*                                                                       00235130
+        LM    3,4,0(1)       Load TABLE into R3 and EOT into R4         00235230
+        SR    7,7            Set R7 to 0                                00235330
+        XPRNT PAGE1,83       Print Page1 header                         00235446
+        XPRNT ENTRY,3        Use DSECT ENTRY at R3                      00235544
+PLOOP   C     3,0(0,4)       Compare R3 to end of file                  00235630
+        BC    B'1000',PEND2  If they are eqaul, go to PEND              00235730
+        MVC   SMBL2(2),CLR   Reset the symbol                           00235835
+        MVC   PDSCRP(30),DESCR Move Description to print line           00235930
+        LA    1,PVAL+8       Load the address of PVAL+8                 00236035
+        MVC   SMBL2(2),SMBL1 Add the symbol to print line               00236135
+PEND1   XPRNT LINE,115       Print LINE                                 00236233
+        A     7,=F'1'        Add 1 to R7                                00236333
+        LA    3,48(0,3)      Load next address                          00236433
+        BC    B'1111',PLOOP  Go to PLOOP                                00236533
+PEND2   DS    0H                                                        00236633
+*                                                                       00236733
+        L     13,4(0,13)     Point R13 at caller's save area            00236833
+        LM    14,12,12(13)   Restore the registers                      00236933
+        BR    14             Return to the caller                       00237033
+        LTORG                Literals                                   00237135
+*                                                                       00237233
+PRTSAVE DS    18F            PRINT save area                            00237333
+SMBL1   DC    C'CR'          CR symbol                                  00237435
+CLR     DC    CL2' '         Clear                                      00237535
+LINE    DC    CL1'0'         Print line                                 00237633
+        DC    CL3' '                                                    00237733
+PDSCRP  DS    CL30           Description                                00237833
+        DC    CL3' '                                                    00237933
+PVAL    DS    CL12           Value                                      00238033
+        DC    CL1' '                                                    00238133
+SMBL2   DS    CL2' '         Place holder for Symbol                    00238235
+        DC    CL7' '                                                    00238333
+TITLE   DC    CL1'-'         Title                                      00238449
+        DC    CL3' '                                                    00238533
+        DC    CL30'Description'                                         00238633
+        DC    CL3' '                                                    00238733
+        DC    CL12' Value'                                              00238833
+        DC    CL3' '                                                    00238933
+PAGE1   DC    CL1'1'         Page1 header                               00239046
+        DC    CL25' '                                                   00239133
+        DC    CL24'Susans Business Ventures'                            00239233
+        DC    CL18' '                                                   00239333
+********************************************                            00239435
+* STATS Subroutine                                                      00239535
+* 1        PARMS                                                        00239635
+* 3        TABLE                                                        00239735
+* 4        EOT                                                          00239835
+*12        Base Register                                                00239935
+*13        Address of the local save area                               00240035
+*14        Address for returning to the caller                          00240135
+*15        Address of the subroutine                                    00240235
+********************************************                            00240335
+STATS   CSECT                                                           00240435
+        STM   14,12,12(13)       Save the registers                     00240535
+        LR    12,15              Establish R12 as the                   00240635
+        USING STATS,12           Base register                          00240735
+        LA    14,STTSAVE         Point R14 at STTSAVE                   00240835
+        ST    13,4(0,14)         Save the forward pointer               00240935
+        ST    14,8(0,13)         Save the backward pointer              00241035
+        LR    13,14              Point R13 at STTSAVE                   00241135
+*                                                                       00241235
+        LM    3,4,0(1)           Load TABLE into R3 and EOT into R4     00241335
+        XPRNT PAGE2,83           Print Page2                            00241446
+        USING ENTRY,3            Use DSECT ENTRY at R3                  00241535
+        ZAP   SUM(6),TEMP1(6)    Zero and add TEMP1 to SUM              00241637
+        ZAP   HIGH(5),TEMP2(5)   Zero and add TEMP2 to HIGH             00241737
+        ZAP   COUNT(2),TEMP3(2)  Zero and add TEMP3 to COUNT            00241837
+        ZAP   NCOUNT(2),TEMP3(2) Zero and add TEMP3 to NCOUNT           00241937
+SLOOP1  C     3,0(4)             Compare R3 end of file                 00242037
+        BC    B'1000',SEND       If they are equal, go to SEND          00242135
+        AP    SUM(6),VALUE(3)    Add packed VALUE to SUM                00242247
+        CP    VALUE(5),HIGH(5)   Compare VALUE to HIGH                  00242335
+        BC    B'1101',SLOOP2     If right is higher, go to SLOOP2       00242437
+        ZAP   HIGH(5),VALUE(3)   Zero and add VALUE to HIGH             00242547
+SLOOP2  CP    VALUE(5),=P'0'     Compare VALUE to 0                     00242635
+        BC    B'1011',SLOOP3     If left is higher, go to SLOOP3        00242737
+        AP    NCOUNT(2),=P'1'    Add packed 1 to NCOUNT                 00242837
+SLOOP3  AP    COUNT(2),=P'1'     Add packed 1 to COUNT                  00242937
+        LA    3,48(0,3)          Load next address                      00243035
+        BC    B'1111',SLOOP1     Go to SLOOP1                           00243135
+SEND    ZAP   AVG(6),SUM(6)      Zero and add SUM to AVG                00243235
+        DP    AVG(6),COUNT(2)    Divide packed AVG by COUNT             00243337
+        ED    PCOUNT(4),COUNT    Edit COUNT into PCOUNT                 00243437
+        ED    PNCOUNT(4),NCOUNT  Edit NCOUNT into PNCOUNT               00243538
+        LA    1,SUM              Load address of SUM into R1            00243638
+        EDMK  SUMOUT(14),SUM     Edit SUM into SUMOUT                   00243738
+        CP    SUM(6),=P'0'       Compare SUM to 0                       00243841
+        BC    B'1011',SLOOP4     If positive, go to SLOOP4              00243941
+SLOOP4  LA    1,AVG              Load address of AVG into R1            00244041
+        EDMK  AVGOUT(10),AVG     Edit AVG into AVGOUT                   00244141
+        CP    AVG(4),=P'0'       Compare AVG to 0                       00244241
+        BC    B'1011',SLOOP5     If postive go to SLOOP5                00244341
+SLOOP5  LA    1,HIGH             Load address of HIGH into R1           00244441
+        EDMK  HIGHOUT(12),HIGH   Edit HIGH into HIGHOUT                 00244541
+        XPRNT LINE2,59           Print number of clients                00244641
+        XPRNT LINE3,62           Print sum of accounts                  00244741
+        XPRNT LINE4,62           Print average of account               00244841
+        XPRNT LINE5,62           Print largest account                  00244941
+        XPRNT LINE6,59           Print number of negatives              00245041
+*                                                                       00245141
+        L     13,4(0,13)         Point R13 at caller's save are         00245241
+        LM    14,12,12(13)       Restore the registers                  00245341
+        BR    14                 Return to the caller                   00245441
+        LTORG                    Literals                               00245541
+*                                                                       00245641
+STTSAVE DS    18F                STATS save area                        00245741
+TEMP1   DC    PL6'0'             Temp 1                                 00245841
+TEMP2   DC    PL5'0'             Temp 2                                 00245941
+TEMP3   DC    PL2'0'             Temp 3                                 00246041
+COUNT   DS    PL2                Count                                  00246141
+NCOUNT  DS    PL2                Negative Count                         00246241
+SUM     DS    PL6                Sum                                    00246341
+AVG     DS    PL6                Average                                00246441
+HIGH    DS    PL6                High                                   00246548
+LINE2   DC    CL1' '             Number of clients                      00246641
+        DC    CL22' '                                                   00246741
+        DC    CL25'Number of clients: '                                 00246841
+        DC    CL7' '                                                    00246941
+PCOUNT  DS    CL4                                                       00247041
+LINE3   DC    CL1' '             Sum of account balances                00247141
+        DC    CL22' '                                                   00247241
+        DC    CL25'Sum of account balances: '                           00247341
+SUMOUT  DS    CL12                                                      00247441
+        DC    CL1' '                                                    00247541
+LINE4   DC    CL1' '             Average of account balances            00247641
+        DC    CL22' '                                                   00247741
+        DC    CL25'Average account balance: '                           00247841
+        DC    CL4' '                                                    00247941
+AVGOUT  DS    CL8                                                       00248041
+        DC    CL1' '                                                    00248141
+LINE5   DC    CL1' '             Largest account balances               00248241
+        DC    CL22' '                                                   00248341
+        DC    CL25'Largest account balance: '                           00248441
+        DC    CL2' '                                                    00248541
+HIGHOUT DS    CL12                                                      00248641
+LINE6   DC    CL1' '             Number of negative balances            00248741
+        DC    CL22' '                                                   00248841
+        DC    CL29'Number of negative balances: '                       00248941
+        DC    CL3' '                                                    00249041
+PNCOUNT DS    CL4                                                       00249141
+PAGE2   DC    CL1'1'             Page2 header                           00249246
+        DC    CL25' '                                                   00249345
+        DC    CL35'Summary of Susans Business Ventures'                 00249445
+        DC    CL18' '                                                   00249545
+********************************************                            00249641
+        END   MAIN                                                      00249741
+/*                                                                      00249841
+//FT05F001  DD  DSN=KC02314.SPRING20.CSCI360.HW6DATA,DISP=SHR           00249941
+//                                                                      00250041
+                                                                        00250141
+                                                                        00250241
+                                                                        00250341
+                                                                        00250441
+                                                                        00250541
+                                                                        00250641
+                                                                        00250741
+                                                                        00250837
+                                                                        00250937
+                                                                        00251037
+                                                                        00251137
+                                                                        00251235
+                                                                        00251330
+                                                                        00251430
+                                                                        00251530
+                                                                        00251630
+                                                                        00251730
+                                                                        00251827
+                                                                        00251927
+                                                                        00252027
+                                                                        00252127
+                                                                        00253027
+                                                                        00260027
