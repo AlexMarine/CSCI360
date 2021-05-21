@@ -1,0 +1,36 @@
+//KC03D3BA JOB ,'ALEX MARINE',MSGCLASS=H                                00010001
+//STEP1 EXEC PGM=ASSIST                                                 00020000
+//STEPLIB DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                        00030000
+//SYSPRINT DD SYSOUT=*                                                  00040000
+//SYSIN DD *                                                            00050000
+********************************************                            00060000
+* ALEX MARINE                                                           00070007
+* CSCI 360                                                              00080007
+* ASSIGNMENT 1 A                                                        00090007
+* 2/1/2020                                                              00100007
+*                                                                       00101007
+* Register Usage                                                        00110000
+*                                                                       00120000
+*  1     FIRST  Addition                                                00130005
+*  2     SECOND Addition                                                00140005
+*  3     FIRST  Subtraction                                             00150005
+*  4     SECOND Subtraction                                             00160005
+* 15     Base Register                                                  00170005
+*                                                                       00171005
+********************************************                            00180005
+MAIN     CSECT                                                          00190005
+         USING MAIN,15                                                  00200005
+         L     1,FIRST      Load FIRST into R1                          00210005
+         L     2,SECOND     Load SECOND into R2                         00220005
+         AR    2,1          Add R2 and R1 together                      00230005
+         L     3,FIRST      Load FIRST into R3                          00240005
+         L     4,SECOND     Load SECOND into R4                         00250005
+         SR    4,3          Subtract R4 from R3                         00260006
+         XDUMP                                                          00270005
+         BR    14                                                       00280005
+FIRST    DS    F'219'       FIRST = 219                                 00290005
+SECOND   DS    F'83'        SECOND = 83                                 00300005
+         END   MAIN                                                     00310005
+/*                                                                      00320005
+//                                                                      00330005
+                                                                        00340005
