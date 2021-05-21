@@ -1,0 +1,136 @@
+//KC03D3BA JOB ,'ALEX MARINE',MSGCLASS=H                                00010000
+//STEP1 EXEC PGM=ASSIST                                                 00020000
+//STEPLIB DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                        00030000
+//SYSPRINT DD SYSOUT=*                                                  00040000
+//SYSIN DD *                                                            00050000
+********************************************                            00060000
+* Alex Marine                                                           00070000
+* CSCI 360                                                              00080000
+* Assignment 3                                                          00090000
+*                                                                       00091000
+* Register Usage:                                                       00092000
+* 0        Counter                                                      00092101
+* 1        XDECI                                                        00093000
+* 2        Product ID                                                   00094000
+* 3        Order ID                                                     00095000
+* 4        Calculations                                                 00096010
+* 5        Price Each                                                   00097000
+* 6        Number of Sales                                              00098000
+* 7        Number of Sales with Shipping = 0                            00099000
+* 8        Grand Total                                                  00099100
+* 9        Total Cost per Sale                                          00099200
+*10        Number Ordered                                               00099310
+*11        Sales Discount                                               00099400
+*12        Shipping Discount                                            00099500
+*15        Base Register                                                00099600
+********************************************                            00100000
+MAIN     CSECT                                                          00101000
+         USING MAIN,15                                                  00102000
+         SR    0,0             Make R0 equal to zero                    00102101
+         SR    7,7             Make R7 equal to zero                    00102201
+         SR    8,8             Make R8 equal to zero                    00102301
+         XPRNT HEADER,74       Print out the header                     00102400
+         XPRNT LINE1,119       Print out data headers                   00102500
+LOOP     XREAD BUFFER,80       Start loop and read in 80 lines          00103000
+         BC    B'0100',ENDLOOP Stop at End of Loop                      00104008
+         XDECI 2,BUFFER        Put first number in R2                   00105008
+         XDECI 3,0(1)          Put second number in R3                  00106008
+         XDECI 10,0(1)         Put third number in R10                  00107010
+         XDECI 5,0(1)          Put fourth number in R5                  00108008
+         XDECO 2,PRDID         Convert R2 and store in PRDID            00109000
+         XDECO 3,ORDID         Convert R3 and store in ORDID            00109100
+         XDECO 10,NMORD        Convert R10 and store in NMORD           00109210
+         XDECO 5,PRCCH         Convert R5 and store in PRCCH            00109300
+         A     7,=F'1'         Add one to R7                            00109408
+         MR    4,10            Multiply R4 by R10                       00109510
+         C     5,=F'18000'     Compare pretotal for discount            00109600
+         BC    B'0100',ELSE1   Branch to ELSE1 if no                    00109700
+         L     11,DISY         Load DISY into R11                       00109808
+         XDECO 11,DSCNT        Convert R11 and store in DSCNT           00109900
+         BC    B'1111',ELSE2   Branch to ELSE2                          00110000
+ELSE1    L     11,DISN         Load DISN into R11                       00110108
+         XDECO 11,DSCNT        Convert R11 and store in DSCNT           00110200
+ELSE2    C     2,=F'566824'    Compare R2 to 566824                     00110308
+         BC    B'0100',ELSE3   Go to ELSE3 if no                        00110404
+         A     11,=F'1000'     Add 1000 to R11                          00110500
+ELSE3    C     2,=F'731128'    Compare R2 to 731128                     00110608
+         BC    B'0100',ELSE4   Go to ELSE4 if no                        00110704
+         A     10,=F'1'        Add one to R10                           00110810
+ELSE4    C     5,=F'6000'      Compare R5 to 6000                       00110908
+         BC    B'0100',END     Go to END if yes                         00111000
+         L     12,SHPN         Load SHPN into R12                       00111108
+         A     0,=F'1'         Add one to R0                            00111208
+         XDECO 12,SHIP         Convert R12 and store in SHIP            00111300
+         BC    B'1111',ELSE5   Go to ELSE5                              00111404
+END      L     12,SHPY         Load SHPY into R12                       00111508
+         XDECO 12,SHIP         Convert R12 and store in SHIP            00111600
+ELSE5    AR    5,12            Add R5 and R12                           00111708
+         SR    5,11            Subtract R5 from R11                     00111808
+         XDECO 5,TOTAL         Convert R5 and store in TOTAL            00111908
+         AR    8,5             Add R8 and R5                            00112008
+         XPRNT LINE2,119       Print data                               00112101
+         BC    B'1111',LOOP    Go to top LOOP                           00112208
+ENDLOOP  DS    0H              End loop                                 00112301
+         SR    4,4             Make R4 zero                             00112410
+         M     4,=F'1'         Multiply R4 by one                       00112510
+         SR    6,6             Make R6 zero                             00112601
+         LR    6,7             Load R7 into R6                          00112701
+         LR    5,8             Load R8 into R5                          00112801
+         DR    4,6             Divide R4 by R6                          00112910
+         XDECO 7,CNT           Convert R7 and store in CNT              00113001
+         XDECO 5,SAVG          Convert R5 and store in SAVG             00113101
+         XDECO 8,SUM           Convert R8 and store in SUM              00113201
+         XDECO 0,SHPCNT        Convert R0 and store in SHPCNT           00113301
+         XPRNT TSLS,50         Print Total Sales                        00113411
+         XPRNT FRSHP,50        Print Free Shipping Counter              00113508
+         XPRNT SOAS,50         Print Sum of All Sales                   00113611
+         XPRNT AVG,50          Print Average                            00113708
+BUFFER   DS    CL80                                                     00113801
+HEADER   DC    CL44' '                                                  00113913
+         DC    CL30'Sales Report -- Get-It-From-Us'                     00114013
+LINE1    DC    CL4'   '        Header for the data                      00114113
+         DC    CL12'  ORDER ID'                                         00114214
+         DC    CL15'     PRODUCT ID'                                    00114317
+         DC    CL18'       PRICE EACH'                                  00114414
+         DC    CL18'    NUMBER ORDERED'                                 00114519
+         DC    CL18'        DISCOUNT'                                   00114618
+         DC    CL18'        SHIPPING'                                   00114718
+         DC    CL16'       TOTAL'                                       00114820
+         DC    CL80' '                                                  00114901
+LINE2    DC    CL1' '          Data that will be printed                00115008
+ORDID    DS    CL12            Order ID                                 00115108
+         DC    CL5' '                                                   00115201
+PRDID    DS    CL12            Product ID                               00115308
+         DC    CL5' '                                                   00115401
+PRCCH    DS    CL12            Price Each                               00115508
+         DC    CL5' '                                                   00115601
+NMORD    DS    CL12            Number Ordered                           00115708
+         DC    CL5' '                                                   00115801
+DSCNT    DS    CL12            Discount                                 00115908
+         DC    CL5' '                                                   00116001
+SHIP     DS    CL12            Shipping                                 00116108
+         DC    CL5' '                                                   00116201
+TOTAL    DS    CL12            Total Cost                               00116308
+         DC    CL80' '                                                  00116401
+DISY     DC    F'600'          Discount yes                             00116501
+DISN     DC    F'0'            Discount no                              00116601
+SHPY     DC    F'400'          Free shipping yes                        00116701
+SHPN     DC    F'0'            Free shipping no                         00116801
+TSLS     DC    CL28' TOTAL NUMBER OF SALES: '                           00116913
+CNT      DS    12C             Count                                    00117008
+         DC    CL80' '                                                  00117102
+FRSHP    DC    CL28' NUMBER WITH FREE SHIPPING: '                       00117212
+SHPCNT   DS    12C             Shipping Count                           00117308
+         DC    CL80' '                                                  00117402
+SOAS     DC    CL28' SUM OF ALL SALES: '                                00117513
+SUM      DS    12C             Sum of all sales                         00117608
+         DC    CL80' '                                                  00117702
+AVG      DC    CL28' AVERAGE SALE TOTAL: '                              00117813
+SAVG     DS    12C             Savings Average                          00117908
+         DC    CL80' '                                                  00118002
+         BR    14                                                       00118109
+         END   MAIN                                                     00118209
+/*                                                                      00118309
+//FT05F001 DD DSN=KC02314.SPRING20.CSCI360.HW3DATA,DISP=SHR             00119009
+//                                                                      00120009
+                                                                        00130009
