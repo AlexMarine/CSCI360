@@ -1,0 +1,384 @@
+//KC03D3BA JOB ,'ALEX MARINE',MSGCLASS=H                                00010000
+//STEP1 EXEC PGM=ASSIST                                                 00020000
+//STEPLIB DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                        00030000
+//SYSPRINT DD SYSOUT=*                                                  00040000
+//SYSIN DD *                                                            00050000
+********************************************                            00060000
+* Alex Marine                                                           00070000
+* CSCI 360                                                              00080000
+* Assignment 7                                                          00090000
+* Regsiter Usage:                                                       00100000
+* 1        PARMS                                                        00110000
+*12        Base Register                                                00120000
+*13        Address of the local save area                               00130000
+*14        Address for returning to the caller                          00140000
+*15        Adress of the subroutine itself                              00150000
+********************************************                            00160000
+$ENTRY   DSECT                                                          00170000
+$ID      DS    F                                                        00180000
+$LNAME   DS    10C                                                      00190000
+$FNAME   DS    10C                                                      00200000
+$SCORE   DS    PL3                                                      00210000
+$DATE    DS    PL5                                                      00220000
+********************************************                            00230000
+MAIN     CSECT                                                          00231000
+         STM   14,12,12(13)   Save the registers                        00232000
+         LR    12,15          Establish R12 as the                      00233000
+         USING MAIN,12        Base register                             00233100
+         LA    14,MAINSAVE    Point R14 at MAINSAVE                     00233200
+         ST    13,4(0,14)     Save the forward pointer                  00233300
+         ST    14,8(0,13)     Save the backward pointer                 00233400
+         LR    13,14          Point R13 at MAINSAVE                     00233500
+*                                                                       00233600
+         LA    1,BPARMS       Address of BPARMS                         00233700
+         L     15,=V(BUILD)   Point R15 at BUILD                        00233800
+         BALR  14,15          Branch to BUILD                           00233900
+*                                                                       00234000
+         LA    1,PPARMS1      Address of PPARMS1                        00234100
+         L     15,=V(PRINT)   Point R15 at PRINT                        00234200
+         BALR  14,15          Branch to PRINT                           00234300
+*                                                                       00234400
+         LA    1,UPARMS       Address of UPARMS                         00234500
+         L     15,=V(UPDATE)  Point R15 at UPDATE                       00234600
+         BALR  14,15          Branch to UPDATE                          00234700
+*                                                                       00234800
+         LA    1,PPARMS2      Address of PPARMS2                        00234900
+         L     15,=V(PRINT)   Point R15 at PRINT                        00235000
+         BALR  14,15          Branch to PRINT                           00235100
+*                                                                       00235200
+         L     13,4(0,13)     Point R13 at caller's save area           00235300
+         LM    14,12,12(13)   Restore the registers                     00235400
+         BR    14             Return to the caller                      00235500
+         LTORG                Literals                                  00235600
+*                                                                       00235711
+         ORG   MAIN+((*-MAIN+31)/32)*32                                 00235803
+MAINSAVE DS    18F            Main Save area                            00235911
+TABLE    DS    1600C          TABLE                                     00236011
+EOT      DS    F              End Of Table                              00236111
+MBUFF    DS    CL80           Main Buffer                               00236211
+MHEAD1   DC    CL24' '        MAIN Header1                              00236311
+         DC    CL22'Initial Table Contents'                             00236411
+         DC    24C'                  Page '                             00236511
+MHEAD2   DC    CL24' '        MAIN Header2                              00236611
+         DC    CL19'Table After Updates'                                00236711
+         DC    24C'                  Page '                             00236811
+MHEAD3   DC    CL24' '        MAIN Header3                              00236911
+         DC    CL17'Result of Updates'                                  00237011
+         DC    24C'                  Page '                             00237111
+BPARMS   DC    A(TABLE)       BUILD parameters                          00237211
+         DC    A(EOT)                                                   00237311
+PPARMS1  DC    A(TABLE)       PRINT1 parameters                         00237411
+         DC    A(EOT)                                                   00237511
+         DC    A(MHEAD1)                                                00237611
+PPARMS2  DC    A(TABLE)       PRINT2 parameters                         00237711
+         DC    A(EOT)                                                   00237811
+         DC    A(MHEAD2)                                                00237911
+UPARMS   DC    A(TABLE)       UPDATE paramters                          00238011
+         DC    A(EOT)                                                   00238111
+         DC    A(MBUFF)                                                 00238211
+         DC    A(MHEAD3)                                                00238311
+********************************************                            00238400
+* BUILD Subroutine                                                      00238500
+* Register Usage:                                                       00238600
+* 1        BPARMS                                                       00238700
+* 3        TABLE                                                        00238800
+* 4        EOT                                                          00238900
+* 5        Start of Entry                                               00239001
+* 7        End of Entry                                                 00239101
+*12        Base Register                                                00239200
+*13        Address of the local save area                               00239300
+*14        Address for returning to the caller                          00239400
+*15        Adress of the subroutine itself                              00239500
+********************************************                            00239600
+BUILD    CSECT                                                          00239700
+         STM   14,12,12(13)   Save the registers                        00239800
+         LR    12,15          Establish R12 as the                      00239900
+         USING BUILD,12       Base register                             00240000
+         LA    14,BLDSAVE     Point R14 at BLDSAVE                      00240100
+         ST    13,4(0,14)     Save the forward pointer                  00240200
+         ST    14,8(0,13)     Save the backward pointer                 00240300
+         LR    13,14          Point R13 at BLDSAVE                      00240400
+*                                                                       00240500
+         LM    3,4,0(1)       Load R3 through R4                        00240606
+         USING $ENTRY,3       Use DESCT $ENTRY at R3                    00240700
+BLOOP    XREAD BBUFF,80       Read in Line                              00240800
+         BC    B'0100',BEND   If end of file, go to BEND                00240900
+         LA    1,BBUFF        Load address of BBUFF into R1             00241000
+         TRT   0(80,1),TAKEN  Start ID                                  00241101
+         LR    5,1            Load R1 into R5                           00241201
+         TRT   0(80,1),EMPTY  End ID                                    00241301
+         LR    7,1            Load R1 into R7                           00241401
+         SR    7,5            Subract R5 from R7                        00241501
+         BCTR  7,0            Subtract 1 from R7                        00241601
+         EX    7,MVID         Execute MVID                              00241701
+         CLC   $ID(8),=CL8'99999999' Check if ID is the delimeter       00241801
+         BC    B'1000',BEND   If they are equal, go to BEND             00241901
+         TRT   0(80,1),TAKEN  Start FNAME                               00242001
+         LR    5,1            Load R1 into R5                           00242101
+         TRT   0(80,1),EMPTY  End FNAME                                 00242201
+         LR    7,1            Load R1 into R7                           00242301
+         SR    7,5            Subract R5 from R7                        00242401
+         BCTR  7,0            Subtract 1 from R7                        00242501
+         MVI   $FNAME,C' '    Destructive Overlap                       00242601
+         MVC   $FNAME+1(9),$FNAME Check if FNAME is empty               00242701
+         EX    7,MVFNAME      Execute MVFNAME                           00242801
+         TR    $FNAME(10),LOWER Make FNAME lower case                   00242901
+         TR    $FNAME(1),UPPER Make first letter of FNAME upper case    00243001
+         TRT   0(80,1),TAKEN  Start LNAME                               00243101
+         LR    5,1            Load R1 into R5                           00243201
+         TRT   0(80,1),EMPTY  End LNAME                                 00243301
+         LR    7,1            Load R1 into R7                           00243401
+         SR    7,5            Subract R5 from R7                        00243501
+         BCTR  7,0            Subtract 1 from R7                        00243601
+         MVI   $LNAME,C' '    Destructive Overlap                       00243701
+         MVC   $LNAME+1(9),$FNAME Check if LNAME is empty               00243801
+         EX    7,MVLNAME      Execute MVLNAME                           00243901
+         TR    $LNAME(10),LOWER Make LNAME lower case                   00244001
+         TR    $LNAME(1),UPPER Make first letter of LNAME upper case    00244101
+         TRT   0(80,1),TAKEN  Start SCORE                               00244201
+         LR    5,1            Load R1 into R5                           00244301
+         TRT   0(80,1),EMPTY  End SCORE                                 00244401
+         LR    7,1            Load R1 into R7                           00244501
+         SR    7,5            Subract R5 from R7                        00244601
+         BCTR  7,0            Subtract 1 from R7                        00244701
+         ZAP   $SCORE(4),=P'0' Zero and Add 0 to $SCORE                 00244801
+         EX    7,MVSCORE      Execute MVSCORE                           00244901
+         TRT   0(80,1),TAKEN  Start LNAME                               00245001
+         LR    5,1            Load R1 into R5                           00245101
+         TRT   0(80,1),EMPTY  End LNAME                                 00245201
+         LR    7,1            Load R1 into R7                           00245301
+         SR    7,5            Subract R5 from R7                        00245401
+         BCTR  7,0            Subtract 1 from R7                        00245501
+         EX    7,MVDATE       Execute MVDATE                            00245601
+         LA    3,36(0,3)      Load next address                         00245711
+         BC    B'1111',BLOOP  Go to BLOOP                               00245811
+BEND     DS    0H                                                       00245911
+         ST    3,0(0,4)       Store EOT address                         00246011
+*                                                                       00246111
+         L     13,4(0,13)     Point R13 at caller's save area           00246211
+         LM    14,12,12(13)   Restore the registers                     00246311
+         BR    14             Return to the caller                      00246411
+         LTORG                Literals                                  00246511
+*                                                                       00246611
+BLDSAVE  DS    18F            BUILD save area                           00246711
+BBUFF    DS    80C            BUILD Buffer                              00246811
+         DC    C'*'                                                     00246911
+EMPTY    DC    256X'00'       Search for empty spaces                   00247011
+         ORG   EMPTY+C' '                                               00247111
+         DC    X'FF'                                                    00247211
+         ORG                                                            00247311
+TAKEN    DC    256X'FF'       Search for taken spaces                   00247411
+         ORG   TAKEN+C' '                                               00247511
+         DC    X'00'                                                    00247611
+         ORG                                                            00247711
+LOWER    DC    256C' '        Set Lower Case letters                    00247811
+         ORG   LOWER+C'a'                                               00247911
+         DC    CL9'abcdefghi'                                           00248011
+         ORG                                                            00248111
+         ORG   LOWER+C'j'                                               00248211
+         DC    CL9'jklmnopqr'                                           00248311
+         ORG                                                            00248411
+         ORG   LOWER+C's'                                               00248511
+         DC    CL8'stuvwxyz'                                            00248611
+         ORG                                                            00248711
+         ORG   LOWER+C'A'                                               00248811
+         DC    CL9'abcdefghi'                                           00248911
+         ORG                                                            00249011
+         ORG   LOWER+C'J'                                               00249111
+         DC    CL9'jklmnopqr'                                           00249211
+         ORG                                                            00249311
+         ORG   LOWER+C'S'                                               00249411
+         DC    CL8'stuvwxyz'                                            00249511
+         ORG                                                            00249611
+UPPER    DC    256C' '        Set Upper Case letters                    00249711
+         ORG   LOWER+C'a'                                               00249811
+         DC    CL9'ABCDEFGHI'                                           00249911
+         ORG                                                            00250011
+         ORG   LOWER+C'j'                                               00250111
+         DC    CL9'JKLMNOPQR'                                           00250211
+         ORG                                                            00250311
+         ORG   LOWER+C's'                                               00250411
+         DC    CL8'STUVWXYZ'                                            00250511
+         ORG                                                            00250611
+         ORG   LOWER+C'A'                                               00250711
+         DC    CL9'ABCDEFGHI'                                           00250811
+         ORG                                                            00250911
+         ORG   LOWER+C'J'                                               00251011
+         DC    CL9'JKLMNOPQR'                                           00251111
+         ORG                                                            00251211
+         ORG   LOWER+C'S'                                               00251311
+         DC    CL8'STUVWXYZ'                                            00251411
+         ORG                                                            00251511
+MVID     MVC   $ID(0),0(5)    Move ID into $ID                          00251611
+MVLNAME  MVC   $LNAME(0),0(5) Move Last Name into $LNAME                00251711
+MVFNAME  MVC   $FNAME(0),0(5) Move First Name into $LNAME               00251811
+MVSCORE  PACK  $SCORE(4),0(0,5) Pack Score into $SCORE                  00251911
+MVDATE   MVC   $DATE(0),0(5)  Move Date into $DATE                      00252011
+********************************************                            00252111
+* PRINT Subroutine                                                      00252211
+* Register Usage:                                                       00252311
+* 1        PPARMS                                                       00252411
+* 3        TABLE                                                        00252511
+* 4        EOT                                                          00252611
+* 5        Header                                                       00252711
+* 6        Counter                                                      00252811
+*12        Base Register                                                00252911
+*13        Address of the local save area                               00253011
+*14        Address for returning to the caller                          00253111
+*15        Adress of the subroutine itself                              00253211
+********************************************                            00253311
+PRINT    CSECT                                                          00253411
+         STM   14,12,12(13)   Save the registers                        00253511
+         LR    12,15          Establish R12 as the                      00253611
+         USING PRINT,12       Base register                             00253711
+         LA    14,PRTSAVE     Point R14 at PRTSAVE                      00253811
+         ST    13,4(0,14)     Save the forward pointer                  00253911
+         ST    14,8(0,13)     Save the backward pointer                 00254011
+         LR    13,14          Point R13 at PRTSAVE                      00254111
+*                                                                       00254211
+         LM    3,5,0(1)       Load R3 through R5                        00254311
+         USING $ENTRY,3       Use DESCT $ENTRY at R3                    00254411
+         SR    6,6            Set R6 to 0                               00254511
+PLOOP1   C     3,0(0,4)       Compare R3 to End of Table                00254611
+         BC    B'1000',PEND   If they are equal, go to PEND             00254711
+         C     6,=F'0'        Compare R6 to 0                           00254811
+         BC    B'1000',PLOOP3 If they are equal, go to PLOOP3           00254911
+PLOOP2   MVC   PID(8),$ID     Move $ID to PID                           00255011
+         MVC   PFNAME(12),$LNAME Move $PFNAME to PFNAME                 00255111
+         MVC   PLNAME(12),$FNAME Move $PLNAME to PLNAME                 00255211
+         MVC   PSCR(4),=X'40212020' Edit pattern for PSCR               00255311
+         ED    PSCR(4),$SCORE Edit $SCORE to PSCR                       00255411
+         MVC   PDATE(10),$DATE Move $DATE to PDATE                      00255511
+         XPRNT PLINE,75       Print PLINE                               00255611
+         LA    3,36(0,3)      Load next address                         00255711
+         S     6,=F'1'        Subract 1 from R6                         00255811
+         BC    B'1111',PLOOP1 Go to PLOOP1                              00255911
+PLOOP3   L     6,=F'18'       Set R6 to 18                              00256011
+         MVC   PHEAD(72),0(5) Move HEADER to PHEAD                      00256111
+         XPRNT PHEAD,72       Print PHEAD                               00256211
+         XPRNT TITLE,75       Print TITLE                               00256311
+         BC    B'1111',PLOOP2 Go to PLOOP2                              00256411
+PEND     DS    0H                                                       00256511
+         XPRNT BLINE,2        Print Blank Line                          00256611
+         DROP  3              Drop R3                                   00256711
+*                                                                       00256811
+         L     13,4(0,13)     Point R13 at caller's save area           00256911
+         LM    14,12,12(13)   Restore the registers                     00257011
+         BR    14             Return to the caller                      00257111
+         LTORG                Literals                                  00257211
+*                                                                       00257311
+PRTSAVE  DS    18F            Save area for PRINT                       00257411
+PHEAD    DS    CL70           Header                                    00257511
+TITLE    DC    CL10' ID Number' Title of each field                     00257611
+         DC    CL3' '                                                   00257711
+         DC    CL9'Last Name'                                           00257811
+         DC    CL5' '                                                   00257911
+         DC    CL10'First Name'                                         00258011
+         DC    CL7' '                                                   00258111
+         DC    CL10'High Score'                                         00258211
+         DC    CL8' '                                                   00258311
+         DC    CL4'Date'                                                00258411
+BLINE    DC    C'0'           Blank line                                00258511
+         DC    C' '                                                     00258611
+PLINE    DC    C' '           Print line                                00258711
+PID      DS    CL8            Print ID                                  00258811
+         DC    CL4' '                                                   00258911
+PLNAME   DS    CL12           Print LNAME                               00259011
+         DC    CL5' '                                                   00259111
+PFNAME   DS    CL10                                                     00259211
+         DC    CL6' '                                                   00259311
+PSCR     DS    CL4                                                      00259411
+         DC    CL9' '                                                   00259511
+PDATE    DS    CL10                                                     00259611
+         DC    CL30' '                                                  00259711
+********************************************                            00259811
+* UPDATE Subroutine                                                     00259911
+* Register Usage:                                                       00260011
+* 1        UPARMS                                                       00260111
+* 3        TABLE                                                        00260211
+* 4        EOT                                                          00260311
+* 5        Buffer                                                       00260411
+* 6        Header                                                       00260511
+* 7        Pointer                                                      00260611
+*12        Base Register                                                00260711
+*13        Address of the local save area                               00260811
+*14        Address for returning to the caller                          00260911
+*15        Adress of the subroutine itself                              00261011
+********************************************                            00261111
+UPDATE   CSECT                                                          00261211
+         STM   14,12,12(13)   Save the registers                        00261311
+         LR    12,15          Establish R12 as the                      00261411
+         USING UPDATE,12      Base register                             00261511
+         LA    14,UPDSAVE     Point R14 at UPDSAVE                      00261611
+         ST    13,4(0,14)     Save the forward pointer                  00261711
+         ST    14,8(0,13)     Save the backward pointer                 00261811
+         LR    13,14          Point R13 at UPDSAVE                      00261911
+*                                                                       00262011
+         LM    3,6,0(1)       Load R3 through R6                        00262111
+         USING $ENTRY,3       Use DESCT $ENTRY at R3                    00262211
+         MVC   UHEAD(70),0(6) Move HEADER to UHEAD                      00262311
+         XPRNT UHEAD,70       Print UHEAD                               00262411
+ULOOP1   XREAD 0(0,5),80      Read line                                 00262511
+         BC    B'0100',UEND   If empty, go to UEND                      00262611
+         LR    3,7            Load R7 into R3                           00262711
+         ZAP   TEMP(2),=P'0'  Zero and add 0 to TEMP                    00262811
+         ZAP   TMPSCR(2),=P'0' Zer0 and add 0 to TMPSCR                 00262911
+         MVC   NID(8),UID     Move TID into UID                         00263013
+ULOOP2   DS    0H                                                       00263111
+         C     3,0(0,4)       Compare R3 to end of table                00263211
+         BC    B'1000',ERROR  If they are equal, go to ERROR            00263311
+         CLC   $ID(8),UID     Compare $ID to UID                        00263413
+         BC    B'1000',ULOOP3 If they are equal, go to ULOOP3           00263513
+         LA    3,36(0,3)      Load next address                         00263611
+         BC    B'1111',ULOOP2 Go to ULOOP2                              00263711
+ULOOP3   DS    0H                                                       00263811
+         PACK  TMPSCR(2),USCORE(3) Pack USCORE into TMPSCR              00263913
+         CP    TMPSCR(2),$SCORE Compare TMPSCORE to $SCORE              00264011
+         BC    B'0010',ULOOP4 If TMPSCR is lower, go to ULOOP4          00264111
+         ZAP   $SCORE(2),TMPSCR Zero and add TMPSCORE to $SCORE         00264211
+         MVC   NCHNG(8),=CL12'Score Updated'  Move unto NCHNG           00264311
+         MVC   NSCR(4),=X'40212020' Edit pattern for NSCR               00264411
+         ED    NSCR(4),TMPSCR Edit TMPSCR into NSCR                     00264511
+         BC    B'1111',ULOOP5 Go to ULOOP4                              00264611
+ULOOP4   MVC   NCHNG(12),=CL9'No Change' Move into NCHNG                00264711
+         BC    B'1111',ULOOP5 Go to ULOOP5                              00264811
+ULOOP5   DS    0H                                                       00264911
+         XPRNT NPRINT,66      Print NPRINT                              00265011
+         LA    3,12(0,3)      Load next address                         00265111
+         BC    B'1111',ULOOP1 Go to ULOOP1                              00265211
+ERROR    DS    0H                                                       00265311
+         MVC   EID(8),UID     Move UID into EID                         00265413
+         XPRNT EPRINT,53      Print EPRINT                              00265511
+         LA    3,12(0,3)      Load next address                         00265611
+         BC    B'1111',ULOOP1 Go to ULOOP1                              00265711
+UEND     DS    0H                                                       00265811
+*                                                                       00265911
+         L     13,4(0,13)     Point R13 at caller's save area           00266011
+         LM    14,12,12(13)   Restore the registers                     00266111
+         BR    14             Return to the caller                      00266211
+         LTORG                Literals                                  00266311
+*                                                                       00266411
+UPDSAVE  DS    18F            Save area for UPDATE                      00266511
+UHEAD    DS    CL70           UPDATE HEader                             00266611
+TEMP     DS    PL2            Temp                                      00266711
+USCORE   DS    ZL3            Update Score                              00266813
+TMPSCR   DS    PL2            Temp Score                                00266911
+UID      DS    CL8            Update ID                                 00267013
+         DS    CL1                                                      00267111
+NID      DS    CL8            ID                                        00267211
+         DC    CL5' '                                                   00267311
+NPRINT   DS    CL1' '         New Print                                 00267413
+         DC    CL5'ID = '                                               00267511
+NSCR     DS    CL4            New Score                                 00267611
+         DC    CL5' '                                                   00267711
+NCHNG    DS    CL9            Change                                    00267811
+EPRINT   DC    CL1' '         Error Print                               00267911
+         DC    CL5'ID = '                                               00268011
+EID      DS    CL8            Error ID                                  00268113
+         DC    CL5' '                                                   00268211
+********************************************                            00268311
+         END   MAIN                                                     00268411
+/*                                                                      00268511
+//FT05F001  DD  DSN=KC02314.SPRING20.CSCI360.HW7DATA,DISP=SHR           00268611
+//                                                                      00269011
+                                                                        00270011

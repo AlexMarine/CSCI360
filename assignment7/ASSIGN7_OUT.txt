@@ -1,0 +1,692 @@
+1                   J E S 2  J O B  L O G  --  S Y S T E M  2 9 6 4  --  N O D E  S V S C J E S 2        
+0 
+ 11.47.53 JOB08552 ---- WEDNESDAY, 15 APR 2020 ----
+ 11.47.53 JOB08552  IRR010I  USERID KC03D3B  IS ASSIGNED TO THIS JOB.
+ 11.47.53 JOB08552  ICH70001I KC03D3B  LAST ACCESS AT 11:38:44 ON WEDNESDAY, APRIL 15, 2020
+ 11.47.53 JOB08552  $HASP373 KC03D3BA STARTED - INIT 1    - CLASS A        - SYS 2964
+ 11.47.54 JOB08552  $HASP395 KC03D3BA ENDED - RC=0000
+0------ JES2 JOB STATISTICS ------
+-  15 APR 2020 JOB EXECUTION DATE
+-          382 CARDS READ
+-          696 SYSOUT PRINT RECORDS
+-            0 SYSOUT PUNCH RECORDS
+-           81 SYSOUT SPOOL KBYTES
+-         0.00 MINUTES EXECUTION TIME
+         1 //KC03D3BA JOB ,'ALEX MARINE',MSGCLASS=H                                JOB08552
+         2 //STEP1 EXEC PGM=ASSIST                                                 00020000
+         3 //STEPLIB DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                        00030000
+         4 //SYSPRINT DD SYSOUT=*                                                  00040000
+         5 //SYSIN DD *                                                            00050000
+         6 //FT05F001  DD  DSN=KC02314.SPRING20.CSCI360.HW7DATA,DISP=SHR           00268611
+ ICH70001I KC03D3B  LAST ACCESS AT 11:38:44 ON WEDNESDAY, APRIL 15, 2020
+ IEFA111I KC03D3BA IS USING THE FOLLOWING JOB RELATED SETTINGS:
+          SWA=ABOVE,TIOT SIZE=32K,DSENQSHR=DISALLOW,GDGBIAS=JOB
+ IEF236I ALLOC. FOR KC03D3BA STEP1
+ IGD103I SMS ALLOCATED TO DDNAME STEPLIB
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IEF237I JES2 ALLOCATED TO SYSIN
+ IGD103I SMS ALLOCATED TO DDNAME FT05F001
+ IEF142I KC03D3BA STEP1 - STEP WAS EXECUTED - COND CODE 0000
+ IGD104I KC02293.ASSIST.LOADLIB                       RETAINED,  DDNAME=STEPLIB 
+ IEF285I   KC03D3B.KC03D3BA.JOB08552.D0000102.?         SYSOUT        
+ IEF285I   KC03D3B.KC03D3BA.JOB08552.D0000101.?         SYSIN         
+ IGD104I KC02314.SPRING20.CSCI360.HW7DATA             RETAINED,  DDNAME=FT05F001
+ IEF373I STEP/STEP1   /START 2020106.1147
+ IEF032I STEP/STEP1   /STOP  2020106.1147 
+         CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+         VIRT:   584K  SYS:   252K  EXT:        0K  SYS:    11488K
+         ATB- REAL:                  1044K  SLOTS:                     0K
+              VIRT- ALLOC:      11M SHRD:       0M
+ IEF375I  JOB/KC03D3BA/START 2020106.1147
+ IEF033I  JOB/KC03D3BA/STOP  2020106.1147 
+         CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+1*** ASSIST 4.0/A2-05/15/82  470/V7A/0:OS/VS2  INS=SDFP7/X=BGHO, CHECK/TRC/=1180, OPTS=CDKMPR FROM PENN ST*NIU COMPSCI*LT         
+0                                                                                                                                 
+0                                                                                                               PAGE    1         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                       1 ********************************************                            00060000         
+                                       2 * Alex Marine                                                           00070000         
+                                       3 * CSCI 360                                                              00080000         
+                                       4 * Assignment 7                                                          00090000         
+                                       5 * Regsiter Usage:                                                       00100000         
+                                       6 * 1        PARMS                                                        00110000         
+                                       7 *12        Base Register                                                00120000         
+                                       8 *13        Address of the local save area                               00130000         
+                                       9 *14        Address for returning to the caller                          00140000         
+                                      10 *15        Adress of the subroutine itself                              00150000         
+                                      11 ********************************************                            00160000         
+ 000000                               12 $ENTRY   DSECT                                                          00170000         
+ 000000                               13 $ID      DS    F                                                        00180000         
+ 000004                               14 $LNAME   DS    10C                                                      00190000         
+ 00000E                               15 $FNAME   DS    10C                                                      00200000         
+ 000018                               16 $SCORE   DS    PL3                                                      00210000         
+ 00001B                               17 $DATE    DS    PL5                                                      00220000         
+                                      18 ********************************************                            00230000         
+ 000000                               19 MAIN     CSECT                                                          00231000         
+ 000000 90EC D00C            0000C    20          STM   14,12,12(13)   Save the registers                        00232000         
+ 000004 18CF                          21          LR    12,15          Establish R12 as the                      00233000         
+ 000000                               22          USING MAIN,12        Base register                             00233100         
+ 000006 41E0 C060            00060    23          LA    14,MAINSAVE    Point R14 at MAINSAVE                     00233200         
+ 00000A 50D0 E004            00004    24          ST    13,4(0,14)     Save the forward pointer                  00233300         
+ 00000E 50E0 D008            00008    25          ST    14,8(0,13)     Save the backward pointer                 00233400         
+ 000012 18DE                          26          LR    13,14          Point R13 at MAINSAVE                     00233500         
+                                      27 *                                                                       00233600         
+ 000014 4110 CE38            00E38    28          LA    1,BPARMS       Address of BPARMS                         00233700         
+ 000018 58F0 C048            00048    29          L     15,=V(BUILD)   Point R15 at BUILD                        00233800         
+ 00001C 05EF                          30          BALR  14,15          Branch to BUILD                           00233900         
+                                      31 *                                                                       00234000         
+ 00001E 4110 CE40            00E40    32          LA    1,PPARMS1      Address of PPARMS1                        00234100         
+ 000022 58F0 C04C            0004C    33          L     15,=V(PRINT)   Point R15 at PRINT                        00234200         
+ 000026 05EF                          34          BALR  14,15          Branch to PRINT                           00234300         
+                                      35 *                                                                       00234400         
+ 000028 4110 CE58            00E58    36          LA    1,UPARMS       Address of UPARMS                         00234500         
+ 00002C 58F0 C050            00050    37          L     15,=V(UPDATE)  Point R15 at UPDATE                       00234600         
+ 000030 05EF                          38          BALR  14,15          Branch to UPDATE                          00234700         
+                                      39 *                                                                       00234800         
+ 000032 4110 CE4C            00E4C    40          LA    1,PPARMS2      Address of PPARMS2                        00234900         
+ 000036 58F0 C04C            0004C    41          L     15,=V(PRINT)   Point R15 at PRINT                        00235000         
+ 00003A 05EF                          42          BALR  14,15          Branch to PRINT                           00235100         
+                                      43 *                                                                       00235200         
+ 00003C 58D0 D004            00004    44          L     13,4(0,13)     Point R13 at caller's save area           00235300         
+ 000040 98EC D00C            0000C    45          LM    14,12,12(13)   Restore the registers                     00235400         
+ 000044 07FE                          46          BR    14             Return to the caller                      00235500         
+                                      47          LTORG                Literals                                  00235600         
+ 000048 00000E68                      48                =V(BUILD)                                                                 
+ 00004C 00001420                      49                =V(PRINT)                                                                 
+ 000050 000015F8                      50                =V(UPDATE)                                                                
+                                      51 *                                                                       00235711         
+ 000060                               52          ORG   MAIN+((*-MAIN+31)/32)*32                                 00235803         
+1                                                                                                               PAGE    2         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 000060                               53 MAINSAVE DS    18F            Main Save area                            00235911         
+ 0000A8                               54 TABLE    DS    1600C          TABLE                                     00236011         
+ 0006E8                               55 EOT      DS    F              End Of Table                              00236111         
+ 0006EC                               56 MBUFF    DS    CL80           Main Buffer                               00236211         
+ 00073C 4040404040404040              57 MHEAD1   DC    CL24' '        MAIN Header1                              00236311         
+ 000754 C99589A389819340              58          DC    CL22'Initial Table Contents'                             00236411         
+ 00076A 4040404040404040              59          DC    24C'                  Page '                             00236511         
+ 000992 4040404040404040              60 MHEAD2   DC    CL24' '        MAIN Header2                              00236611         
+ 0009AA E38182938540C186              61          DC    CL19'Table After Updates'                                00236711         
+ 0009BD 4040404040404040              62          DC    24C'                  Page '                             00236811         
+ 000BE5 4040404040404040              63 MHEAD3   DC    CL24' '        MAIN Header3                              00236911         
+ 000BFD D985A2A493A34096              64          DC    CL17'Result of Updates'                                  00237011         
+ 000C0E 4040404040404040              65          DC    24C'                  Page '                             00237111         
+ 000E38 000000A8                      66 BPARMS   DC    A(TABLE)       BUILD parameters                          00237211         
+ 000E3C 000006E8                      67          DC    A(EOT)                                                   00237311         
+ 000E40 000000A8                      68 PPARMS1  DC    A(TABLE)       PRINT1 parameters                         00237411         
+ 000E44 000006E8                      69          DC    A(EOT)                                                   00237511         
+ 000E48 0000073C                      70          DC    A(MHEAD1)                                                00237611         
+ 000E4C 000000A8                      71 PPARMS2  DC    A(TABLE)       PRINT2 parameters                         00237711         
+ 000E50 000006E8                      72          DC    A(EOT)                                                   00237811         
+ 000E54 00000992                      73          DC    A(MHEAD2)                                                00237911         
+ 000E58 000000A8                      74 UPARMS   DC    A(TABLE)       UPDATE paramters                          00238011         
+ 000E5C 000006E8                      75          DC    A(EOT)                                                   00238111         
+ 000E60 000006EC                      76          DC    A(MBUFF)                                                 00238211         
+ 000E64 00000BE5                      77          DC    A(MHEAD3)                                                00238311         
+                                      78 ********************************************                            00238400         
+                                      79 * BUILD Subroutine                                                      00238500         
+                                      80 * Register Usage:                                                       00238600         
+                                      81 * 1        BPARMS                                                       00238700         
+                                      82 * 3        TABLE                                                        00238800         
+                                      83 * 4        EOT                                                          00238900         
+                                      84 * 5        Start of Entry                                               00239001         
+                                      85 * 7        End of Entry                                                 00239101         
+                                      86 *12        Base Register                                                00239200         
+                                      87 *13        Address of the local save area                               00239300         
+                                      88 *14        Address for returning to the caller                          00239400         
+                                      89 *15        Adress of the subroutine itself                              00239500         
+                                      90 ********************************************                            00239600         
+ 000E68                               91 BUILD    CSECT                                                          00239700         
+ 000E68 90EC D00C            0000C    92          STM   14,12,12(13)   Save the registers                        00239800         
+ 000E6C 18CF                          93          LR    12,15          Establish R12 as the                      00239900         
+ 000E68                               94          USING BUILD,12       Base register                             00240000         
+ 000E6E 41E0 C0FC            00F64    95          LA    14,BLDSAVE     Point R14 at BLDSAVE                      00240100         
+ 000E72 50D0 E004            00004    96          ST    13,4(0,14)     Save the forward pointer                  00240200         
+ 000E76 50E0 D008            00008    97          ST    14,8(0,13)     Save the backward pointer                 00240300         
+ 000E7A 18DE                          98          LR    13,14          Point R13 at BLDSAVE                      00240400         
+                                      99 *                                                                       00240500         
+ 000E7C 9834 1000            00000   100          LM    3,4,0(1)       Load R3 through R4                        00240606         
+ 000000                              101          USING $ENTRY,3       Use DESCT $ENTRY at R3                    00240700         
+ 000E80 E000 C144 0050 00FAC         102 BLOOP    XREAD BBUFF,80       Read in Line                              00240800         
+ 000E86 4740 C0E2            00F4A   103          BC    B'0100',BEND   If end of file, go to BEND                00240900         
+ 000E8A 4110 C144            00FAC   104          LA    1,BBUFF        Load address of BBUFF into R1             00241000         
+ 000E8E DD4F 1000 C295 00000 010FD   105          TRT   0(80,1),TAKEN  Start ID                                  00241101         
+ 000E94 1851                         106          LR    5,1            Load R1 into R5                           00241201         
+ 000E96 DD4F 1000 C195 00000 00FFD   107          TRT   0(80,1),EMPTY  End ID                                    00241301         
+ 000E9C 1871                         108          LR    7,1            Load R1 into R7                           00241401         
+ 000E9E 1B75                         109          SR    7,5            Subract R5 from R7                        00241501         
+1                                                                                                               PAGE    3         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 000EA0 0670                         110          BCTR  7,0            Subtract 1 from R7                        00241601         
+ 000EA2 4470 C596            013FE   111          EX    7,MVID         Execute MVID                              00241701         
+ 000EA6 D507 3000 C0F0 00000 00F58   112          CLC   $ID(8),=CL8'99999999' Check if ID is the delimeter       00241801         
+ 000EAC 4780 C0E2            00F4A   113          BC    B'1000',BEND   If they are equal, go to BEND             00241901         
+ 000EB0 DD4F 1000 C295 00000 010FD   114          TRT   0(80,1),TAKEN  Start FNAME                               00242001         
+ 000EB6 1851                         115          LR    5,1            Load R1 into R5                           00242101         
+ 000EB8 DD4F 1000 C195 00000 00FFD   116          TRT   0(80,1),EMPTY  End FNAME                                 00242201         
+ 000EBE 1871                         117          LR    7,1            Load R1 into R7                           00242301         
+ 000EC0 1B75                         118          SR    7,5            Subract R5 from R7                        00242401         
+ 000EC2 0670                         119          BCTR  7,0            Subtract 1 from R7                        00242501         
+ 000EC4 9240 300E      0000E         120          MVI   $FNAME,C' '    Destructive Overlap                       00242601         
+ 000EC8 D208 300F 300E 0000F 0000E   121          MVC   $FNAME+1(9),$FNAME Check if FNAME is empty               00242701         
+ 000ECE 4470 C5A2            0140A   122          EX    7,MVFNAME      Execute MVFNAME                           00242801         
+ 000ED2 DC09 300E C395 0000E 011FD   123          TR    $FNAME(10),LOWER Make FNAME lower case                   00242901         
+ 000ED8 DC00 300E C495 0000E 012FD   124          TR    $FNAME(1),UPPER Make first letter of FNAME upper case    00243001         
+ 000EDE DD4F 1000 C295 00000 010FD   125          TRT   0(80,1),TAKEN  Start LNAME                               00243101         
+ 000EE4 1851                         126          LR    5,1            Load R1 into R5                           00243201         
+ 000EE6 DD4F 1000 C195 00000 00FFD   127          TRT   0(80,1),EMPTY  End LNAME                                 00243301         
+ 000EEC 1871                         128          LR    7,1            Load R1 into R7                           00243401         
+ 000EEE 1B75                         129          SR    7,5            Subract R5 from R7                        00243501         
+ 000EF0 0670                         130          BCTR  7,0            Subtract 1 from R7                        00243601         
+ 000EF2 9240 3004      00004         131          MVI   $LNAME,C' '    Destructive Overlap                       00243701         
+ 000EF6 D208 3005 300E 00005 0000E   132          MVC   $LNAME+1(9),$FNAME Check if LNAME is empty               00243801         
+ 000EFC 4470 C59C            01404   133          EX    7,MVLNAME      Execute MVLNAME                           00243901         
+ 000F00 DC09 3004 C395 00004 011FD   134          TR    $LNAME(10),LOWER Make LNAME lower case                   00244001         
+ 000F06 DC00 3004 C495 00004 012FD   135          TR    $LNAME(1),UPPER Make first letter of LNAME upper case    00244101         
+ 000F0C DD4F 1000 C295 00000 010FD   136          TRT   0(80,1),TAKEN  Start SCORE                               00244201         
+ 000F12 1851                         137          LR    5,1            Load R1 into R5                           00244301         
+ 000F14 DD4F 1000 C195 00000 00FFD   138          TRT   0(80,1),EMPTY  End SCORE                                 00244401         
+ 000F1A 1871                         139          LR    7,1            Load R1 into R7                           00244501         
+ 000F1C 1B75                         140          SR    7,5            Subract R5 from R7                        00244601         
+ 000F1E 0670                         141          BCTR  7,0            Subtract 1 from R7                        00244701         
+ 000F20 F830 3018 C0F8 00018 00F60   142          ZAP   $SCORE(4),=P'0' Zero and Add 0 to $SCORE                 00244801         
+ 000F26 4470 C5A8            01410   143          EX    7,MVSCORE      Execute MVSCORE                           00244901         
+ 000F2A DD4F 1000 C295 00000 010FD   144          TRT   0(80,1),TAKEN  Start LNAME                               00245001         
+ 000F30 1851                         145          LR    5,1            Load R1 into R5                           00245101         
+ 000F32 DD4F 1000 C195 00000 00FFD   146          TRT   0(80,1),EMPTY  End LNAME                                 00245201         
+ 000F38 1871                         147          LR    7,1            Load R1 into R7                           00245301         
+ 000F3A 1B75                         148          SR    7,5            Subract R5 from R7                        00245401         
+ 000F3C 0670                         149          BCTR  7,0            Subtract 1 from R7                        00245501         
+ 000F3E 4470 C5AE            01416   150          EX    7,MVDATE       Execute MVDATE                            00245601         
+ 000F42 4130 3024            00024   151          LA    3,36(0,3)      Load next address                         00245711         
+ 000F46 47F0 C018            00E80   152          BC    B'1111',BLOOP  Go to BLOOP                               00245811         
+ 000F4A                              153 BEND     DS    0H                                                       00245911         
+ 000F4A 5030 4000            00000   154          ST    3,0(0,4)       Store EOT address                         00246011         
+                                     155 *                                                                       00246111         
+ 000F4E 58D0 D004            00004   156          L     13,4(0,13)     Point R13 at caller's save area           00246211         
+ 000F52 98EC D00C            0000C   157          LM    14,12,12(13)   Restore the registers                     00246311         
+ 000F56 07FE                         158          BR    14             Return to the caller                      00246411         
+                                     159          LTORG                Literals                                  00246511         
+ 000F58 F9F9F9F9F9F9F9F9             160                =CL8'99999999'                                                            
+ 000F60 0C                           161                =P'0'                                                                     
+                                     162 *                                                                       00246611         
+ 000F64                              163 BLDSAVE  DS    18F            BUILD save area                           00246711         
+ 000FAC                              164 BBUFF    DS    80C            BUILD Buffer                              00246811         
+ 000FFC 5C                           165          DC    C'*'                                                     00246911         
+ 000FFD 0000000000000000             166 EMPTY    DC    256X'00'       Search for empty spaces                   00247011         
+1                                                                                                               PAGE    4         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 00103D                              167          ORG   EMPTY+C' '                                               00247111         
+ 00103D FF                           168          DC    X'FF'                                                    00247211         
+ 0010FD                              169          ORG                                                            00247311         
+ 0010FD FFFFFFFFFFFFFFFF             170 TAKEN    DC    256X'FF'       Search for taken spaces                   00247411         
+ 00113D                              171          ORG   TAKEN+C' '                                               00247511         
+ 00113D 00                           172          DC    X'00'                                                    00247611         
+ 0011FD                              173          ORG                                                            00247711         
+ 0011FD 4040404040404040             174 LOWER    DC    256C' '        Set Lower Case letters                    00247811         
+ 00127E                              175          ORG   LOWER+C'a'                                               00247911         
+ 00127E 8182838485868788             176          DC    CL9'abcdefghi'                                           00248011         
+ 0012FD                              177          ORG                                                            00248111         
+ 00128E                              178          ORG   LOWER+C'j'                                               00248211         
+ 00128E 9192939495969798             179          DC    CL9'jklmnopqr'                                           00248311         
+ 0012FD                              180          ORG                                                            00248411         
+ 00129F                              181          ORG   LOWER+C's'                                               00248511         
+ 00129F A2A3A4A5A6A7A8A9             182          DC    CL8'stuvwxyz'                                            00248611         
+ 0012FD                              183          ORG                                                            00248711         
+ 0012BE                              184          ORG   LOWER+C'A'                                               00248811         
+ 0012BE 8182838485868788             185          DC    CL9'abcdefghi'                                           00248911         
+ 0012FD                              186          ORG                                                            00249011         
+ 0012CE                              187          ORG   LOWER+C'J'                                               00249111         
+ 0012CE 9192939495969798             188          DC    CL9'jklmnopqr'                                           00249211         
+ 0012FD                              189          ORG                                                            00249311         
+ 0012DF                              190          ORG   LOWER+C'S'                                               00249411         
+ 0012DF A2A3A4A5A6A7A8A9             191          DC    CL8'stuvwxyz'                                            00249511         
+ 0012FD                              192          ORG                                                            00249611         
+ 0012FD 4040404040404040             193 UPPER    DC    256C' '        Set Upper Case letters                    00249711         
+ 00127E                              194          ORG   LOWER+C'a'                                               00249811         
+ 00127E C1C2C3C4C5C6C7C8             195          DC    CL9'ABCDEFGHI'                                           00249911         
+ 0013FD                              196          ORG                                                            00250011         
+ 00128E                              197          ORG   LOWER+C'j'                                               00250111         
+ 00128E D1D2D3D4D5D6D7D8             198          DC    CL9'JKLMNOPQR'                                           00250211         
+ 0013FD                              199          ORG                                                            00250311         
+ 00129F                              200          ORG   LOWER+C's'                                               00250411         
+ 00129F E2E3E4E5E6E7E8E9             201          DC    CL8'STUVWXYZ'                                            00250511         
+ 0013FD                              202          ORG                                                            00250611         
+ 0012BE                              203          ORG   LOWER+C'A'                                               00250711         
+ 0012BE C1C2C3C4C5C6C7C8             204          DC    CL9'ABCDEFGHI'                                           00250811         
+ 0013FD                              205          ORG                                                            00250911         
+ 0012CE                              206          ORG   LOWER+C'J'                                               00251011         
+ 0012CE D1D2D3D4D5D6D7D8             207          DC    CL9'JKLMNOPQR'                                           00251111         
+ 0013FD                              208          ORG                                                            00251211         
+ 0012DF                              209          ORG   LOWER+C'S'                                               00251311         
+ 0012DF E2E3E4E5E6E7E8E9             210          DC    CL8'STUVWXYZ'                                            00251411         
+ 0013FD                              211          ORG                                                            00251511         
+ 0013FE D200 3000 5000 00000 00000   212 MVID     MVC   $ID(0),0(5)    Move ID into $ID                          00251611         
+ 001404 D200 3004 5000 00004 00000   213 MVLNAME  MVC   $LNAME(0),0(5) Move Last Name into $LNAME                00251711         
+ 00140A D200 300E 5000 0000E 00000   214 MVFNAME  MVC   $FNAME(0),0(5) Move First Name into $LNAME               00251811         
+ 001410 F230 3018 5000 00018 00000   215 MVSCORE  PACK  $SCORE(4),0(0,5) Pack Score into $SCORE                  00251911         
+ 001416 D200 301B 5000 0001B 00000   216 MVDATE   MVC   $DATE(0),0(5)  Move Date into $DATE                      00252011         
+                                     217 ********************************************                            00252111         
+                                     218 * PRINT Subroutine                                                      00252211         
+                                     219 * Register Usage:                                                       00252311         
+                                     220 * 1        PPARMS                                                       00252411         
+                                     221 * 3        TABLE                                                        00252511         
+                                     222 * 4        EOT                                                          00252611         
+                                     223 * 5        Header                                                       00252711         
+1                                                                                                               PAGE    5         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                     224 * 6        Counter                                                      00252811         
+                                     225 *12        Base Register                                                00252911         
+                                     226 *13        Address of the local save area                               00253011         
+                                     227 *14        Address for returning to the caller                          00253111         
+                                     228 *15        Adress of the subroutine itself                              00253211         
+                                     229 ********************************************                            00253311         
+ 001420                              230 PRINT    CSECT                                                          00253411         
+ 001420 90EC D00C            0000C   231          STM   14,12,12(13)   Save the registers                        00253511         
+ 001424 18CF                         232          LR    12,15          Establish R12 as the                      00253611         
+ 001420                              233          USING PRINT,12       Base register                             00253711         
+ 001426 41E0 C0A0            014C0   234          LA    14,PRTSAVE     Point R14 at PRTSAVE                      00253811         
+ 00142A 50D0 E004            00004   235          ST    13,4(0,14)     Save the forward pointer                  00253911         
+ 00142E 50E0 D008            00008   236          ST    14,8(0,13)     Save the backward pointer                 00254011         
+ 001432 18DE                         237          LR    13,14          Point R13 at PRTSAVE                      00254111         
+                                     238 *                                                                       00254211         
+ 001434 9835 1000            00000   239          LM    3,5,0(1)       Load R3 through R5                        00254311         
+ 000000                              240          USING $ENTRY,3       Use DESCT $ENTRY at R3                    00254411         
+ 001438 1B66                         241          SR    6,6            Set R6 to 0                               00254511         
+ 00143A 5930 4000            00000   242 PLOOP1   C     3,0(0,4)       Compare R3 to End of Table                00254611         
+ 00143E 4780 C07A            0149A   243          BC    B'1000',PEND   If they are equal, go to PEND             00254711         
+ 001442 5960 C090            014B0   244          C     6,=F'0'        Compare R6 to 0                           00254811         
+ 001446 4780 C060            01480   245          BC    B'1000',PLOOP3 If they are equal, go to PLOOP3           00254911         
+ 00144A D207 C173 3000 01593 00000   246 PLOOP2   MVC   PID(8),$ID     Move $ID to PID                           00255011         
+ 001450 D20B C190 3004 015B0 00004   247          MVC   PFNAME(12),$LNAME Move $PFNAME to PFNAME                 00255111         
+ 001456 D20B C17F 300E 0159F 0000E   248          MVC   PLNAME(12),$FNAME Move $PLNAME to PLNAME                 00255211         
+ 00145C D203 C1A0 C094 015C0 014B4   249          MVC   PSCR(4),=X'40212020' Edit pattern for PSCR               00255311         
+ 001462 DE03 C1A0 3018 015C0 00018   250          ED    PSCR(4),$SCORE Edit $SCORE to PSCR                       00255411         
+ 001468 D209 C1AD 301B 015CD 0001B   251          MVC   PDATE(10),$DATE Move $DATE to PDATE                      00255511         
+ 00146E E020 C172 004B 01592         252          XPRNT PLINE,75       Print PLINE                               00255611         
+ 001474 4130 3024            00024   253          LA    3,36(0,3)      Load next address                         00255711         
+ 001478 5B60 C098            014B8   254          S     6,=F'1'        Subract 1 from R6                         00255811         
+ 00147C 47F0 C01A            0143A   255          BC    B'1111',PLOOP1 Go to PLOOP1                              00255911         
+ 001480 5860 C09C            014BC   256 PLOOP3   L     6,=F'18'       Set R6 to 18                              00256011         
+ 001484 D247 C0E8 5000 01508 00000   257          MVC   PHEAD(72),0(5) Move HEADER to PHEAD                      00256111         
+ 00148A E020 C0E8 0048 01508         258          XPRNT PHEAD,72       Print PHEAD                               00256211         
+ 001490 E020 C12E 004B 0154E         259          XPRNT TITLE,75       Print TITLE                               00256311         
+ 001496 47F0 C02A            0144A   260          BC    B'1111',PLOOP2 Go to PLOOP2                              00256411         
+ 00149A                              261 PEND     DS    0H                                                       00256511         
+ 00149A E020 C170 0002 01590         262          XPRNT BLINE,2        Print Blank Line                          00256611         
+ 0014A0                              263          DROP  3              Drop R3                                   00256711         
+                                     264 *                                                                       00256811         
+ 0014A0 58D0 D004            00004   265          L     13,4(0,13)     Point R13 at caller's save area           00256911         
+ 0014A4 98EC D00C            0000C   266          LM    14,12,12(13)   Restore the registers                     00257011         
+ 0014A8 07FE                         267          BR    14             Return to the caller                      00257111         
+                                     268          LTORG                Literals                                  00257211         
+ 0014B0 00000000                     269                =F'0'                                                                     
+ 0014B4 40212020                     270                =X'40212020'                                                              
+ 0014B8 00000001                     271                =F'1'                                                                     
+ 0014BC 00000012                     272                =F'18'                                                                    
+                                     273 *                                                                       00257311         
+ 0014C0                              274 PRTSAVE  DS    18F            Save area for PRINT                       00257411         
+ 001508                              275 PHEAD    DS    CL70           Header                                    00257511         
+ 00154E 40C9C440D5A49482             276 TITLE    DC    CL10' ID Number' Title of each field                     00257611         
+ 001558 404040                       277          DC    CL3' '                                                   00257711         
+ 00155B D381A2A340D58194             278          DC    CL9'Last Name'                                           00257811         
+ 001564 4040404040                   279          DC    CL5' '                                                   00257911         
+ 001569 C68999A2A340D581             280          DC    CL10'First Name'                                         00258011         
+1                                                                                                               PAGE    6         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 001573 40404040404040               281          DC    CL7' '                                                   00258111         
+ 00157A C889878840E28396             282          DC    CL10'High Score'                                         00258211         
+ 001584 4040404040404040             283          DC    CL8' '                                                   00258311         
+ 00158C C481A385                     284          DC    CL4'Date'                                                00258411         
+ 001590 F0                           285 BLINE    DC    C'0'           Blank line                                00258511         
+ 001591 40                           286          DC    C' '                                                     00258611         
+ 001592 40                           287 PLINE    DC    C' '           Print line                                00258711         
+ 001593                              288 PID      DS    CL8            Print ID                                  00258811         
+ 00159B 40404040                     289          DC    CL4' '                                                   00258911         
+ 00159F                              290 PLNAME   DS    CL12           Print LNAME                               00259011         
+ 0015AB 4040404040                   291          DC    CL5' '                                                   00259111         
+ 0015B0                              292 PFNAME   DS    CL10                                                     00259211         
+ 0015BA 404040404040                 293          DC    CL6' '                                                   00259311         
+ 0015C0                              294 PSCR     DS    CL4                                                      00259411         
+ 0015C4 4040404040404040             295          DC    CL9' '                                                   00259511         
+ 0015CD                              296 PDATE    DS    CL10                                                     00259611         
+ 0015D7 4040404040404040             297          DC    CL30' '                                                  00259711         
+                                     298 ********************************************                            00259811         
+                                     299 * UPDATE Subroutine                                                     00259911         
+                                     300 * Register Usage:                                                       00260011         
+                                     301 * 1        UPARMS                                                       00260111         
+                                     302 * 3        TABLE                                                        00260211         
+                                     303 * 4        EOT                                                          00260311         
+                                     304 * 5        Buffer                                                       00260411         
+                                     305 * 6        Header                                                       00260511         
+                                     306 * 7        Pointer                                                      00260611         
+                                     307 *12        Base Register                                                00260711         
+                                     308 *13        Address of the local save area                               00260811         
+                                     309 *14        Address for returning to the caller                          00260911         
+                                     310 *15        Adress of the subroutine itself                              00261011         
+                                     311 ********************************************                            00261111         
+ 0015F8                              312 UPDATE   CSECT                                                          00261211         
+ 0015F8 90EC D00C            0000C   313          STM   14,12,12(13)   Save the registers                        00261311         
+ 0015FC 18CF                         314          LR    12,15          Establish R12 as the                      00261411         
+ 0015F8                              315          USING UPDATE,12      Base register                             00261511         
+ 0015FE 41E0 C0DC            016D4   316          LA    14,UPDSAVE     Point R14 at UPDSAVE                      00261611         
+ 001602 50D0 E004            00004   317          ST    13,4(0,14)     Save the forward pointer                  00261711         
+ 001606 50E0 D008            00008   318          ST    14,8(0,13)     Save the backward pointer                 00261811         
+ 00160A 18DE                         319          LR    13,14          Point R13 at UPDSAVE                      00261911         
+                                     320 *                                                                       00262011         
+ 00160C 9836 1000            00000   321          LM    3,6,0(1)       Load R3 through R6                        00262111         
+ 000000                              322          USING $ENTRY,3       Use DESCT $ENTRY at R3                    00262211         
+ 001610 D245 C124 6000 0171C 00000   323          MVC   UHEAD(70),0(6) Move HEADER to UHEAD                      00262311         
+ 001616 E020 C124 0046 0171C         324          XPRNT UHEAD,70       Print UHEAD                               00262411         
+ 00161C E000 5000 0050 00000         325 ULOOP1   XREAD 0(0,5),80      Read line                                 00262511         
+ 001622 4740 C0B4            016AC   326          BC    B'0100',UEND   If empty, go to UEND                      00262611         
+ 001626 1837                         327          LR    3,7            Load R7 into R3                           00262711         
+ 001628 F810 C16A C0D0 01762 016C8   328          ZAP   TEMP(2),=P'0'  Zero and add 0 to TEMP                    00262811         
+ 00162E F810 C16F C0D0 01767 016C8   329          ZAP   TMPSCR(2),=P'0' Zer0 and add 0 to TMPSCR                 00262911         
+ 001634 D207 C17A C171 01772 01769   330          MVC   NID(8),UID     Move TID into UID                         00263013         
+ 00163A                              331 ULOOP2   DS    0H                                                       00263111         
+ 00163A 5930 4000            00000   332          C     3,0(0,4)       Compare R3 to end of table                00263211         
+ 00163E 4780 C0A0            01698   333          BC    B'1000',ERROR  If they are equal, go to ERROR            00263311         
+ 001642 D507 3000 C171 00000 01769   334          CLC   $ID(8),UID     Compare $ID to UID                        00263413         
+ 001648 4780 C05C            01654   335          BC    B'1000',ULOOP3 If they are equal, go to ULOOP3           00263513         
+ 00164C 4130 3024            00024   336          LA    3,36(0,3)      Load next address                         00263611         
+ 001650 47F0 C042            0163A   337          BC    B'1111',ULOOP2 Go to ULOOP2                              00263711         
+1                                                                                                               PAGE    7         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 001654                              338 ULOOP3   DS    0H                                                       00263811         
+ 001654 F212 C16F C16C 01767 01764   339          PACK  TMPSCR(2),USCORE(3) Pack USCORE into TMPSCR              00263913         
+ 00165A F912 C16F 3018 01767 00018   340          CP    TMPSCR(2),$SCORE Compare TMPSCORE to $SCORE              00264011         
+ 001660 4720 C088            01680   341          BC    B'0010',ULOOP4 If TMPSCR is lower, go to ULOOP4          00264111         
+ 001664 F811 3018 C16F 00018 01767   342          ZAP   $SCORE(2),TMPSCR Zero and add TMPSCORE to $SCORE         00264211         
+ 00166A D207 C196 C0C0 0178E 016B8   343          MVC   NCHNG(8),=CL12'Score Updated'  Move unto NCHNG           00264311         
+ 001670 D203 C18D C0CC 01785 016C4   344          MVC   NSCR(4),=X'40212020' Edit pattern for NSCR               00264411         
+ 001676 DE03 C18D C16F 01785 01767   345          ED    NSCR(4),TMPSCR Edit TMPSCR into NSCR                     00264511         
+ 00167C 47F0 C092            0168A   346          BC    B'1111',ULOOP5 Go to ULOOP4                              00264611         
+ 001680 D20B C196 C0D1 0178E 016C9   347 ULOOP4   MVC   NCHNG(12),=CL9'No Change' Move into NCHNG                00264711         
+ 001686 47F0 C092            0168A   348          BC    B'1111',ULOOP5 Go to ULOOP5                              00264811         
+ 00168A                              349 ULOOP5   DS    0H                                                       00264911         
+ 00168A E020 C187 0042 0177F         350          XPRNT NPRINT,66      Print NPRINT                              00265011         
+ 001690 4130 300C            0000C   351          LA    3,12(0,3)      Load next address                         00265111         
+ 001694 47F0 C024            0161C   352          BC    B'1111',ULOOP1 Go to ULOOP1                              00265211         
+ 001698                              353 ERROR    DS    0H                                                       00265311         
+ 001698 D207 C1A5 C171 0179D 01769   354          MVC   EID(8),UID     Move UID into EID                         00265413         
+ 00169E E020 C19F 0035 01797         355          XPRNT EPRINT,53      Print EPRINT                              00265511         
+ 0016A4 4130 300C            0000C   356          LA    3,12(0,3)      Load next address                         00265611         
+ 0016A8 47F0 C024            0161C   357          BC    B'1111',ULOOP1 Go to ULOOP1                              00265711         
+ 0016AC                              358 UEND     DS    0H                                                       00265811         
+                                     359 *                                                                       00265911         
+ 0016AC 58D0 D004            00004   360          L     13,4(0,13)     Point R13 at caller's save area           00266011         
+ 0016B0 98EC D00C            0000C   361          LM    14,12,12(13)   Restore the registers                     00266111         
+ 0016B4 07FE                         362          BR    14             Return to the caller                      00266211         
+                                     363          LTORG                Literals                                  00266311         
+ 0016B8 E28396998540E497             364                =CL12'Score Updated'                                                      
+ 0016C4 40212020                     365                =X'40212020'                                                              
+ 0016C8 0C                           366                =P'0'                                                                     
+ 0016C9 D59640C388819587             367                =CL9'No Change'                                                           
+                                     368 *                                                                       00266411         
+ 0016D4                              369 UPDSAVE  DS    18F            Save area for UPDATE                      00266511         
+ 00171C                              370 UHEAD    DS    CL70           UPDATE HEader                             00266611         
+ 001762                              371 TEMP     DS    PL2            Temp                                      00266711         
+ 001764                              372 USCORE   DS    ZL3            Update Score                              00266813         
+ 001767                              373 TMPSCR   DS    PL2            Temp Score                                00266911         
+ 001769                              374 UID      DS    CL8            Update ID                                 00267013         
+ 001771                              375          DS    CL1                                                      00267111         
+ 001772                              376 NID      DS    CL8            ID                                        00267211         
+ 00177A 4040404040                   377          DC    CL5' '                                                   00267311         
+ 00177F                              378 NPRINT   DS    CL1' '         New Print                                 00267413         
+ 001780 C9C4407E40                   379          DC    CL5'ID = '                                               00267511         
+ 001785                              380 NSCR     DS    CL4            New Score                                 00267611         
+ 001789 4040404040                   381          DC    CL5' '                                                   00267711         
+ 00178E                              382 NCHNG    DS    CL9            Change                                    00267811         
+ 001797 40                           383 EPRINT   DC    CL1' '         Error Print                               00267911         
+ 001798 C9C4407E40                   384          DC    CL5'ID = '                                               00268011         
+ 00179D                              385 EID      DS    CL8            Error ID                                  00268113         
+ 0017A5 4040404040                   386          DC    CL5' '                                                   00268211         
+                                     387 ********************************************                            00268311         
+                                     388          END   MAIN                                                     00268411         
+0***  NO   STATEMENTS FLAGGED -  NO   WARNINGS,  NO   ERRORS                                                                      
+0*** DYNAMIC CORE AREA USED:  LOW:   23944 HIGH:    2008 LEAVING:  467616 FREE BYTES. AVERAGE:       66 BYTES/STMT ***            
+0*** ASSEMBLY TIME =    0.000 SECS,   389000 STATEMENTS/SEC ***                                                                   
+0*** PROGRAM EXECUTION BEGINNING - ANY OUTPUT BEFORE EXECUTION TIME MESSAGE IS PRODUCED BY USER PROGRAM ***                       
+                        Initial Table Contents                  Page                                                              
+1 D Number   Last Name     First Name       High Score        Date0  555555                                                       
+ 0041 DAM     HARON           DAMSON    H      00         28/11/2016                                                             
+ 6334 LLE     ONALD           LLENLD    O      00         15/12/2019                                                             
+ 9169 AKE     RIAN            AKERN     R      00         03/01/2026                                                             
+ 6962 AMP     EORGE           AMPBELL   E      03         12/12/2015                                                             
+ 5705 ART     USAN            ARTER     U      00         30/11/2013                                                             
+ 3281 LAR     EVIN            LARKN     E      00         02/12/2014                                                             
+ 4827 VAN     HARLES          VANSLES   H      00         15/11/2012                                                             
+ 2391 ARC     IMBERLY          ARCIARLY  I      00         31/12/2013                                                             
+ 3902 ONZ     ANIEL           ONZALEZ   A      00         01/01/2027                                                             
+ 7421 ALL     ARIA             ALLIA     A      00         25/11/2019                                                             
+ 9718 ARR     ENNIFER   &      ARRISFER  E      05         13/11/2015                                                             
+ 5447 ERN     ELEN            ERNANDEZ  E      00         14/12/2015                                                             
+ 5667 ONE     IMBERLEY        ONESERLEY I      00         01/02/2027                                                             
+ 7035 ING     ICHARD    	      INGHARD   I      00         15/03/2028                                                             
+ 8703 EEV     EVIN            EEVIN     E      00         11/02/2027                                                             
+ 7673 ART     LIZABETH        ARTINBETH L      00         30/12/2015                                                             
+ 5141 ART     ENNIFER         ARTINEZR  E      00         28/02/2028                                                             
+ 8253 ILL     HOMAS           ILLERS    H      00         01/03/2020                                                             
+                        Initial Table Contents                  Page                                                              
+  D Number   Last Name     First Name       High Score        Date0  8253 I                                                       
+ 0037 ELS     ANIEL           ELSONL    A      00         11/11/2018                                                             
+ 8723 ARK     EVIN            ARKER     E      00         28/01/2027                                                             
+ 7529 ERE     ANDRA           EREZRA    A      00         27/02/2022                                                             
+ 2190 OBE     ASON            OBERTS    A      00         23/12/2010                                                             
+ 0288 OBI     TEVEN           OBINSON   T      00         25/12/2019                                                             
+ 9040 ODR     ICHELLE         ODRIGUEZ  I      00         01/12/2025                                                             
+ 5890 AYL     EORGE           AYLORE    E      00         04/03/2024                                                             
+ 4370 HOM     ARK             HOMAS     A      00         10/12/2019                                                             
+ 9629 ALK     TEVEN           ALKERN    T      00         20/02/2024                                                             
+ 4084 ILL     UTH             ILLIAMS   U      02         15/02/2028                                                             
+ 8756 ILS     EFF             ILSON     E      02         05/03/2024                                                             
+ 4966 RIG     UTH             RIGHT     U      00         12/01/2013                                                             
+ 3931 OUN     ARK       	      OUNG      A      00         22/02/2029                                                             
+0                                                                                                                                 
+                        Result of Updates                  Page                                                                   
+0*** EXECUTION TIME =    0.001 SECS.      2095 INSTRUCTIONS EXECUTED -  2095000 INSTRUCTIONS/SEC ***                              
+0*** FIRST CARD NOT READ: 99610491  27/03/2020  33445                                                                             
+1 ASSIST COMPLETION DUMP                                                                                                          
+0PSW AT ABEND FFC50004 D0001648       COMPLETION CODE   SYSTEM = 0C4 PROTECTION                                                   
+0** TRACE OF INSTRUCTIONS JUST BEFORE TERMINATION: PSW BITS SHOWN ARE THOSE BEFORE CORRESPONDING INSTRUCTION DECODED ***          
+0  IM LOCATION    INSTRUCTION :  IM = PSW BITS 32-39(ILC,CC,MASK) BEFORE INSTRUCTION EXECUTED AT PROGRAM LOCATION SHOWN           
+0  00  001616     E020 C124 0046                                                                                                  
+0  C0  00161C     E000 5000 0050                                                                                                  
+0  C0  001622     4740 C0B4                                                                                                       
+0  80  001626     1837                                                                                                            
+0  40  001628     F810 C16A C0D0                                                                                                  
+0  C0  00162E     F810 C16F C0D0                                                                                                  
+0  C0  001634     D207 C17A C171                                                                                                  
+0  C0  00163A     5930 4000                                                                                                       
+0  90  00163E     4780 C0A0                                                                                                       
+0  90  001642     D507 3000 C171  <-- LAST INSTRUCTION DONE - PROBABLE CAUSE OF TERMINATION                                       
+0                                                                                                                                 
+-** TRACE OF LAST 10 BRANCH INSTRUCTIONS EXECUTED: PSW BITS SHOWN ARE THOSE BEFORE CORRESPONDING INSTRUCTION DECODED ***          
+0  IM LOCATION    INSTRUCTION :  IM = PSW BITS 32-39(ILC,CC,MASK) BEFORE INSTRUCTION EXECUTED AT PROGRAM LOCATION SHOWN           
+0  20  00147C     47F0 C01A                                                                                                       
+0  A0  00147C     47F0 C01A                                                                                                       
+0  A0  00147C     47F0 C01A                                                                                                       
+0  A0  00147C     47F0 C01A                                                                                                       
+0  A0  00147C     47F0 C01A                                                                                                       
+0  A0  00147C     47F0 C01A                                                                                                       
+0  A0  00147C     47F0 C01A                                                                                                       
+0  80  00143E     4780 C07A                                                                                                       
+0  80  0014A8     07FE                                                                                                            
+0  40  000030     05EF                                                                                                            
+0 REGS 0-7      F4F4F4F4    00000E58    F4F4F4F4    F4F4F4F4    000006E8    000006EC    00000BE5    F4F4F4F4                      
+  REGS 8-15     F4F4F4F4    F4F4F4F4    F4F4F4F4    F4F4F4F4    000015F8    000016D4    000016D4    000015F8                      
+0 FLTR 0-6      F4F4F4F4F4F4F4F4        F4F4F4F4F4F4F4F4        F4F4F4F4F4F4F4F4        F4F4F4F4F4F4F4F4                          
+1 USER STORAGE                                                                                                                    
+0                             CORE ADDRESSES SPECIFIED-     000000 TO 0018F8                                                      
+ 000000   90ECD00C 18CF41E0 C06050D0 E00450E0    D00818DE 4110CE38 58F0C048 05EF4110   *.........................0......*         
+ 000020   CE4058F0 C04C05EF 4110CE58 58F0C050    05EF4110 CE4C58F0 C04C05EF 58D0D004   *. .0.........0.........0........*         
+ 000040   98ECD00C 07FEF5F5 00000E68 00001420    000015F8 F5F5F5F5 F5F5F5F5 F5F5F5F5   *......55...........8555555555555*         
+ 000060   F5F5F5F5 000017B0 000016D4 40000032    000015F8 F4F4F4F4 00000E58 F4F4F4F4   *5555.......M ......84444....4444*         
+ 000080   F4F4F4F4 F4F4F4F4 F4F4F4F4 F4F4F4F4    F4F4F4F4 F4F4F4F4 F4F4F4F4 F4F4F4F4   *44444444444444444444444444444444*         
+ 0000A0   F4F4F4F4 00000000 F0F0F4F1 40C4C1D4    E2D6D540 404040C8 C1D9D6D5 40404040   *4444....0041 DAMSON    HARON    *         
+ 0000C0   000194F2 F861F1F1 61F2F0F1 F6F3F3F4    40D3D3C5 D5D3C440 404040D6 D5C1D3C4   *...28.11.2016334 LLENLD    ONALD*         
+ 0000E0   40404040 000724F1 F561F1F2 61F2F0F1    F9F1F6F9 40C1D2C5 D9D54040 404040D9   *    ...15.12.2019169 AKERN     R*         
+ 000100   C9C1D540 40404040 000470F0 F361F0F1    61F2F0F2 F6F9F6F2 40C1D4D7 C2C5D3D3   *IAN     ...03.01.2026962 AMPBELL*         
+ 000120   404040C5 D6D9C7C5 40404040 003913F1    F261F1F2 61F2F0F1 F5F7F0F5 40C1D9E3   *   EORGE    ...12.12.2015705 ART*         
+ 000140   C5D94040 404040E4 E2C1D540 40404040    000318F3 F061F1F1 61F2F0F1 F3F2F8F1   *ER     USAN     ...30.11.2013281*         
+ 000160   40D3C1D9 D2D54040 404040C5 E5C9D540    40404040 000404F0 F261F1F2 61F2F0F1   * LARKN     EVIN     ...02.12.201*         
+ 000180   F4F8F2F7 40E5C1D5 E2D3C5E2 404040C8    C1D9D3C5 E2404040 000662F1 F561F1F1   *4827 VANSLES   HARLES   ...15.11*         
+ 0001A0   61F2F0F1 F2F3F9F1 40C1D9C3 C9C1D9D3    E84040C9 D4C2C5D9 D3E84040 000054F3   *.2012391 ARCIARLY  IMBERLY  ...3*         
+ 0001C0   F161F1F2 61F2F0F1 F3F9F0F2 40D6D5E9    C1D3C5E9 404040C1 D5C9C5D3 40404040   *1.12.2013902 ONZALEZ   ANIEL    *         
+ 0001E0   000185F0 F161F0F1 61F2F0F2 F7F4F2F1    40C1D3D3 C9C14040 404040C1 D9C9C140   *...01.01.2027421 ALLIA     ARIA *         
+ 000200   40404040 000010F2 F561F1F1 61F2F0F1    F9F7F1F8 40C1D9D9 C9E2C6C5 D94040C5   *    ...25.11.2019718 ARRISFER  E*         
+ 000220   D5D5C9C6 C5D94040 005044F1 F361F1F1    61F2F0F1 F5F4F4F7 40C5D9D5 C1D5C4C5   *NNIFER  ...13.11.2015447 ERNANDE*         
+ 000240   E94040C5 D3C5D540 40404040 000235F1    F461F1F2 61F2F0F1 F5F6F6F7 40D6D5C5   *Z  ELEN     ...14.12.2015667 ONE*         
+ 000260   E2C5D9D3 C5E840C9 D4C2C5D9 D3C5E840    000944F0 F161F0F2 61F2F0F2 F7F0F3F5   *SERLEY IMBERLEY ...01.02.2027035*         
+ 000280   40C9D5C7 C8C1D9C4 404040C9 C3C8C1D9    C4404040 000503F1 F561F0F3 61F2F0F2   * INGHARD   ICHARD   ...15.03.202*         
+ 0002A0   F8F7F0F3 40C5C5E5 C9D54040 404040C5    E5C9D540 40404040 000837F1 F161F0F2   *8703 EEVIN     EVIN     ...11.02*         
+ 0002C0   61F2F0F2 F7F6F7F3 40C1D9E3 C9D5C2C5    E3C840D3 C9E9C1C2 C5E3C840 000211F3   *.2027673 ARTINBETH LIZABETH ...3*         
+ 0002E0   F061F1F2 61F2F0F1 F5F1F4F1 40C1D9E3    C9D5C5E9 D94040C5 D5D5C9C6 C5D94040   *0.12.2015141 ARTINEZR  ENNIFER  *         
+ 000300   000829F2 F861F0F2 61F2F0F2 F8F2F5F3    40C9D3D3 C5D9E240 404040C8 D6D4C1E2   *...28.02.2028253 ILLERS    HOMAS*         
+ 000320   40404040 000982F0 F161F0F3 61F2F0F2    F0F0F3F7 40C5D3E2 D6D5D340 404040C1   *    ...01.03.2020037 ELSONL    A*         
+ 000340   D5C9C5D3 40404040 000430F1 F161F1F1    61F2F0F1 F8F7F2F3 40C1D9D2 C5D94040   *NIEL    ...11.11.2018723 ARKER  *         
+ 000360   404040C5 E5C9D540 40404040 000405F2    F861F0F1 61F2F0F2 F7F5F2F9 40C5D9C5   *   EVIN     ...28.01.2027529 ERE*         
+ 000380   E9D9C140 404040C1 D5C4D9C1 40404040    000910F2 F761F0F2 61F2F0F2 F2F1F9F0   *ZRA    ANDRA    ...27.02.2022190*         
+ 0003A0   40D6C2C5 D9E3E240 404040C1 E2D6D540    40404040 000316F2 F361F1F2 61F2F0F1   * OBERTS    ASON     ...23.12.201*         
+ 0003C0   F0F2F8F8 40D6C2C9 D5E2D6D5 404040E3    C5E5C5D5 40404040 000141F2 F561F1F2   *0288 OBINSON   TEVEN    ...25.12*         
+ 0003E0   61F2F0F1 F9F0F4F0 40D6C4D9 C9C7E4C5    E94040C9 C3C8C5D3 D3C54040 000428F0   *.2019040 ODRIGUEZ  ICHELLE  ...0*         
+ 000400   F161F1F2 61F2F0F2 F5F8F9F0 40C1E8D3    D6D9C540 404040C5 D6D9C7C5 40404040   *1.12.2025890 AYLORE    EORGE    *         
+ 000420   000287F0 F461F0F3 61F2F0F2 F4F3F7F0    40C8D6D4 C1E24040 404040C1 D9D24040   *...04.03.2024370 HOMAS     ARK  *         
+ 000440   40404040 000913F1 F061F1F2 61F2F0F1    F9F6F2F9 40C1D3D2 C5D9D540 404040E3   *    ...10.12.2019629 ALKERN    T*         
+ 000460   C5E5C5D5 40404040 000370F2 F061F0F2    61F2F0F2 F4F0F8F4 40C9D3D3 C9C1D4E2   *EVEN    ...20.02.2024084 ILLIAMS*         
+ 000480   404040E4 E3C84040 40404040 002444F1    F561F0F2 61F2F0F2 F8F7F5F6 40C9D3E2   *   UTH      ...15.02.2028756 ILS*         
+ 0004A0   D6D54040 404040C5 C6C64040 40404040    002302F0 F561F0F3 61F2F0F2 F4F9F6F6   *ON     EFF      ...05.03.2024966*         
+ 0004C0   40D9C9C7 C8E34040 404040E4 E3C84040    40404040 000170F1 F261F0F1 61F2F0F1   * RIGHT     UTH      ...12.01.201*         
+ 0004E0   F3F9F3F1 40D6E4D5 C7404040 404040C1    D9D24040 40404040 000529F2 F261F0F2   *3931 OUNG      ARK      ...22.02*         
+ 000500   61F2F0F2 F9F9F9F9 F9F9F9F9 F5F5F5F5    F5F5F5F5 F5F5F5F5 F5F5F5F5 F5F5F5F5   *.2029999999955555555555555555555*         
+ 000520   F5F5F5F5 F5F5F5F5 F5F5F5F5 F5F5F5F5    F5F5F5F5 F5F5F5F5 F5F5F5F5 F5F5F5F5   *55555555555555555555555555555555*         
+   LINES    000540-0006C0    SAME AS ABOVE                                                                                        
+ 0006E0   F5F5F5F5 F5F5F5F5 00000504 F9F1F6F9    F5F7F2F4 4040F2F4 61F0F361 F2F0F2F0   *55555555....91695724  24.03.2020*         
+ 000700   4040F0F5 F9F8F340 40404040 40404040    40404040 40404040 40404040 40404040   *  05983                         *         
+ 000720   40404040 40404040 40404040 40404040    40404040 40404040 40404040 40404040   *                                *         
+ 000740   40404040 40404040 40404040 40404040    40404040 C99589A3 89819340 E3818293   *                    I...... T...*         
+ 000760   8540C396 95A38595 A3A24040 40404040    40404040 40404040 40404040 D7818785   *. C.......                  P...*         
+ 000780   40404040 40404040 40404040 40404040    404040D7 81878540 40404040 40404040   *                   P...         *         
+ 0007A0   40404040 40404040 4040D781 87854040    40404040 40404040 40404040 40404040   *          P...                  *         
+ 0007C0   40D78187 85404040 40404040 40404040    40404040 40404040 D7818785 40404040   * P...                   P...    *         
+ 0007E0   40404040 40404040 40404040 404040D7    81878540 40404040 40404040 40404040   *               P...             *         
+ 000800   40404040 4040D781 87854040 40404040    40404040 40404040 40404040 40D78187   *      P...                   P..*         
+ 000820   85404040 40404040 40404040 40404040    40404040 D7818785 40404040 40404040   *.                   P...        *         
+ 000840   40404040 40404040 404040D7 81878540    40404040 40404040 40404040 40404040   *           P...                 *         
+ 000860   4040D781 87854040 40404040 40404040    40404040 40404040 40D78187 85404040   *  P...                   P...   *         
+ 000880   40404040 40404040 40404040 40404040    D7818785 40404040 40404040 40404040   *                P...            *         
+ 0008A0   40404040 404040D7 81878540 40404040    40404040 40404040 40404040 4040D781   *       P...                   P.*         
+ 0008C0   87854040 40404040 40404040 40404040    40404040 40D78187 85404040 40404040   *..                   P...       *         
+ 0008E0   40404040 40404040 40404040 D7818785    40404040 40404040 40404040 40404040   *            P...                *         
+1000900   404040D7 81878540 40404040 40404040    40404040 40404040 4040D781 87854040   *   P...                   P...  *         
+ 000920   40404040 40404040 40404040 40404040    40D78187 85404040 40404040 40404040   *                 P...           *         
+ 000940   40404040 40404040 D7818785 40404040    40404040 40404040 40404040 404040D7   *        P...                   P*         
+ 000960   81878540 40404040 40404040 40404040    40404040 4040D781 87854040 40404040   *...                   P...      *         
+ 000980   40404040 40404040 40404040 40D78187    85404040 40404040 40404040 40404040   *             P...               *         
+ 0009A0   40404040 40404040 4040E381 82938540    C186A385 9940E497 8481A385 A2404040   *          T.... A.... U......   *         
+ 0009C0   40404040 40404040 40404040 404040D7    81878540 40404040 40404040 40404040   *               P...             *         
+ 0009E0   40404040 4040D781 87854040 40404040    40404040 40404040 40404040 40D78187   *      P...                   P..*         
+ 000A00   85404040 40404040 40404040 40404040    40404040 D7818785 40404040 40404040   *.                   P...        *         
+ 000A20   40404040 40404040 404040D7 81878540    40404040 40404040 40404040 40404040   *           P...                 *         
+ 000A40   4040D781 87854040 40404040 40404040    40404040 40404040 40D78187 85404040   *  P...                   P...   *         
+ 000A60   40404040 40404040 40404040 40404040    D7818785 40404040 40404040 40404040   *                P...            *         
+ 000A80   40404040 404040D7 81878540 40404040    40404040 40404040 40404040 4040D781   *       P...                   P.*         
+ 000AA0   87854040 40404040 40404040 40404040    40404040 40D78187 85404040 40404040   *..                   P...       *         
+ 000AC0   40404040 40404040 40404040 D7818785    40404040 40404040 40404040 40404040   *            P...                *         
+ 000AE0   404040D7 81878540 40404040 40404040    40404040 40404040 4040D781 87854040   *   P...                   P...  *         
+ 000B00   40404040 40404040 40404040 40404040    40D78187 85404040 40404040 40404040   *                 P...           *         
+ 000B20   40404040 40404040 D7818785 40404040    40404040 40404040 40404040 404040D7   *        P...                   P*         
+ 000B40   81878540 40404040 40404040 40404040    40404040 4040D781 87854040 40404040   *...                   P...      *         
+ 000B60   40404040 40404040 40404040 40D78187    85404040 40404040 40404040 40404040   *             P...               *         
+ 000B80   40404040 D7818785 40404040 40404040    40404040 40404040 404040D7 81878540   *    P...                   P... *         
+ 000BA0   40404040 40404040 40404040 40404040    4040D781 87854040 40404040 40404040   *                  P...          *         
+ 000BC0   40404040 40404040 40D78187 85404040    40404040 40404040 40404040 40404040   *         P...                   *         
+ 000BE0   D7818785 40404040 40404040 40404040    40404040 40404040 40404040 40D985A2   *P...                         R..*         
+ 000C00   A493A340 968640E4 978481A3 85A24040    40404040 40404040 40404040 40404040   *... .. U......                  *         
+ 000C20   D7818785 40404040 40404040 40404040    40404040 404040D7 81878540 40404040   *P...                   P...     *         
+ 000C40   40404040 40404040 40404040 4040D781    87854040 40404040 40404040 40404040   *              P...              *         
+ 000C60   40404040 40D78187 85404040 40404040    40404040 40404040 40404040 D7818785   *     P...                   P...*         
+ 000C80   40404040 40404040 40404040 40404040    404040D7 81878540 40404040 40404040   *                   P...         *         
+ 000CA0   40404040 40404040 4040D781 87854040    40404040 40404040 40404040 40404040   *          P...                  *         
+ 000CC0   40D78187 85404040 40404040 40404040    40404040 40404040 D7818785 40404040   * P...                   P...    *         
+ 000CE0   40404040 40404040 40404040 404040D7    81878540 40404040 40404040 40404040   *               P...             *         
+ 000D00   40404040 4040D781 87854040 40404040    40404040 40404040 40404040 40D78187   *      P...                   P..*         
+ 000D20   85404040 40404040 40404040 40404040    40404040 D7818785 40404040 40404040   *.                   P...        *         
+ 000D40   40404040 40404040 404040D7 81878540    40404040 40404040 40404040 40404040   *           P...                 *         
+ 000D60   4040D781 87854040 40404040 40404040    40404040 40404040 40D78187 85404040   *  P...                   P...   *         
+ 000D80   40404040 40404040 40404040 40404040    D7818785 40404040 40404040 40404040   *                P...            *         
+ 000DA0   40404040 404040D7 81878540 40404040    40404040 40404040 40404040 4040D781   *       P...                   P.*         
+ 000DC0   87854040 40404040 40404040 40404040    40404040 40D78187 85404040 40404040   *..                   P...       *         
+ 000DE0   40404040 40404040 40404040 D7818785    40404040 40404040 40404040 40404040   *            P...                *         
+ 000E00   404040D7 81878540 40404040 40404040    40404040 40404040 4040D781 87854040   *   P...                   P...  *         
+ 000E20   40404040 40404040 40404040 40404040    40D78187 8540F5F5 000000A8 000006E8   *                 P... 55.......Y*         
+ 000E40   000000A8 000006E8 0000073C 000000A8    000006E8 00000992 000000A8 000006E8   *.......Y...........Y...........Y*         
+ 000E60   000006EC 00000BE5 90ECD00C 18CF41E0    C0FC50D0 E00450E0 D00818DE 98341000   *.......V........................*         
+ 000E80   E000C144 00504740 C0E24110 C144DD4F    1000C295 1851DD4F 1000C195 18711B75   *..A.... .S..A.....B.......A.....*         
+ 000EA0   06704470 C596D507 3000C0F0 4780C0E2    DD4F1000 C2951851 DD4F1000 C1951871   *....E.N....0...S....B.......A...*         
+ 000EC0   1B750670 9240300E D208300F 300E4470    C5A2DC09 300EC395 DC00300E C495DD4F   *..... ..K.......E.....C.....D...*         
+ 000EE0   1000C295 1851DD4F 1000C195 18711B75    06709240 3004D208 3005300E 4470C59C   *..B.......A........ ..K.......E.*         
+ 000F00   DC093004 C395DC00 3004C495 DD4F1000    C2951851 DD4F1000 C1951871 1B750670   *....C.....D.....B.......A.......*         
+ 000F20   F8303018 C0F84470 C5A8DD4F 1000C295    1851DD4F 1000C195 18711B75 06704470   *8....8..E.....B.......A.........*         
+ 000F40   C5AE4130 302447F0 C0185030 400058D0    D00498EC D00C07FE F9F9F9F9 F9F9F9F9   *E......0.... ...........99999999*         
+ 000F60   0CF5F5F5 F5F5F5F5 00000060 F5F5F5F5    F5F5F5F5 F5F5F5F5 F5F5F5F5 F5F5F5F5   *.5555555....55555555555555555555*         
+ 000F80   F5F5F5F5 F5F5F5F5 F5F5F5F5 F5F5F5F5    F5F5F5F5 F5F5F5F5 F5F5F5F5 F5F5F5F5   *55555555555555555555555555555555*         
+ 000FA0   F5F5F5F5 F5F5F5F5 F5F5F5F5 F9F9F9F9    F9F9F9F9 4040C496 9596A397 A4A39485   *55555555555599999999  D.........*         
+ 000FC0   40C995A3 8885A381 82938540 F040F0F0    61F0F061 F0F0F0F0 40404040 40404040   * I......... 0 00.00.0000        *         
+ 000FE0   40404040 40404040 40404040 40404040    40404040 40404040 40404040 5C000000   *                            ....*         
+ 001000   00000000 00000000 00000000 00000000    00000000 00000000 00000000 00000000   *................................*         
+ 001020   00000000 00000000 00000000 00000000    00000000 00000000 00000000 00FF0000   *................................*         
+ 001040   00000000 00000000 00000000 00000000    00000000 00000000 00000000 00000000   *................................*         
+   LINES    001060-0010C0    SAME AS ABOVE                                                                                        
+ 0010E0   00000000 00000000 00000000 00000000    00000000 00000000 00000000 00FFFFFF   *................................*         
+ 001100   FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF    FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF   *................................*         
+ 001120   FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF    FFFFFFFF FFFFFFFF FFFFFFFF FF00FFFF   *................................*         
+1001140   FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF    FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF   *................................*         
+   LINES    001160-0011C0    SAME AS ABOVE                                                                                        
+ 0011E0   FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF    FFFFFFFF FFFFFFFF FFFFFFFF FF404040   *.............................   *         
+ 001200   40404040 40404040 40404040 40404040    40404040 40404040 40404040 40404040   *                                *         
+   LINES    001220-001240    SAME AS ABOVE                                                                                        
+ 001260   40404040 40404040 40404040 40404040    40404040 40404040 40404040 4040C1C2   *                              AB*         
+ 001280   C3C4C5C6 C7C8C940 40404040 4040D1D2    D3D4D5D6 D7D8D940 40404040 404040E2   *CDEFGHI       JKLMNOPQR        S*         
+ 0012A0   E3E4E5E6 E7E8E940 40404040 40404040    40404040 40404040 40404040 4040C1C2   *TUVWXYZ                       AB*         
+ 0012C0   C3C4C5C6 C7C8C940 40404040 4040D1D2    D3D4D5D6 D7D8D940 40404040 404040E2   *CDEFGHI       JKLMNOPQR        S*         
+ 0012E0   E3E4E5E6 E7E8E940 40404040 40404040    40404040 40404040 40404040 40404040   *TUVWXYZ                         *         
+ 001300   40404040 40404040 40404040 40404040    40404040 40404040 40404040 40404040   *                                *         
+   LINES    001320-0013C0    SAME AS ABOVE                                                                                        
+ 0013E0   40404040 40404040 40404040 40404040    40404040 40404040 40404040 40F5D200   *                             5K.*         
+ 001400   30005000 D2003004 5000D200 300E5000    F2303018 5000D200 301B5000 F5F5F5F5   *....K.....K.....2.....K.....5555*         
+ 001420   90ECD00C 18CF41E0 C0A050D0 E00450E0    D00818DE 98351000 1B665930 40004780   *............................ ...*         
+ 001440   C07A5960 C0904780 C060D207 C1733000    D20BC190 3004D20B C17F300E D203C1A0   *..........K.A...K.A...K.A...K.A.*         
+ 001460   C094DE03 C1A03018 D209C1AD 301BE020    C172004B 41303024 5B60C098 47F0C01A   *....A...K.A.....A............0..*         
+ 001480   5860C09C D247C0E8 5000E020 C0E80048    E020C12E 004B47F0 C02AE020 C1700002   *....K..Y.....Y....A....0....A...*         
+ 0014A0   58D0D004 98ECD00C 07FEF5F5 F5F5F5F5    00000000 40212020 00000001 00000012   *..........555555.... ...........*         
+ 0014C0   F5F5F5F5 00000060 F5F5F5F5 F5F5F5F5    F5F5F5F5 F5F5F5F5 F5F5F5F5 F5F5F5F5   *5555....555555555555555555555555*         
+ 0014E0   F5F5F5F5 F5F5F5F5 F5F5F5F5 F5F5F5F5    F5F5F5F5 F5F5F5F5 F5F5F5F5 F5F5F5F5   *55555555555555555555555555555555*         
+ 001500   F5F5F5F5 F5F5F5F5 40404040 40404040    40404040 40404040 40404040 40404040   *55555555                        *         
+ 001520   C99589A3 89819340 E3818293 8540C396    95A38595 A3A24040 40404040 40404040   *I...... T.... C.......          *         
+ 001540   40404040 40404040 D7818785 40404040    C440D5A4 94828599 404040D3 81A2A340   *        P...    D N.....   L... *         
+ 001560   D5819485 40404040 40C68999 A2A340D5    81948540 40404040 4040C889 878840E2   *N...     F.... N...       H... S*         
+ 001580   83969985 40404040 40404040 C481A385    F04040F3 F9F3F140 D6E4D540 40404040   *....        D...0  3931 OUN     *         
+ 0015A0   C1D9D240 40404040 40000540 40404040    40D6E4D5 C7404040 404040C1 40404040   *ARK      ..      OUNG      A    *         
+ 0015C0   4040F0F0 40404040 40404040 40F2F261    F0F261F2 F0F2F940 40404040 40404040   *  00         22.02.2029         *         
+ 0015E0   40404040 40404040 40404040 40404040    40404040 40F5F5F5 90ECD00C 18CF41E0   *                     555........*         
+ 001600   C0DC50D0 E00450E0 D00818DE 98361000    D245C124 6000E020 C1240046 E0005000   *................K.A.....A.......*         
+ 001620   00504740 C0B41837 F810C16A C0D0F810    C16FC0D0 D207C17A C1715930 40004780   *... ....8.A...8.A...K.A.A... ...*         
+ 001640   C0A0D507 3000C171 4780C05C 41303024    47F0C042 F212C16F C16CF912 C16F3018   *..N...A..........0..2.A.A.9.A...*         
+ 001660   4720C088 F8113018 C16FD207 C196C0C0    D203C18D C0CCDE03 C18DC16F 47F0C092   *....8...A.K.A...K.A.....A.A..0..*         
+ 001680   D20BC196 C0D147F0 C092E020 C1870042    4130300C 47F0C024 D207C1A5 C171E020   *K.A..J.0....A........0..K.A.A...*         
+ 0016A0   C19F0035 4130300C 47F0C024 58D0D004    98ECD00C 07FEF5F5 E2839699 8540E497   *A........0............55S.... U.*         
+ 0016C0   8481A385 40212020 0CD59640 C3888195    8785F5F5 F5F5F5F5 00000060 F5F5F5F5   *.... ....N. C.....555555....5555*         
+ 0016E0   F5F5F5F5 F5F5F5F5 F5F5F5F5 F5F5F5F5    F5F5F5F5 F5F5F5F5 F5F5F5F5 F5F5F5F5   *55555555555555555555555555555555*         
+ 001700   F5F5F5F5 F5F5F5F5 F5F5F5F5 F5F5F5F5    F5F5F5F5 F5F5F5F5 F5F5F5F5 40404040   *5555555555555555555555555555    *         
+ 001720   40404040 40404040 40404040 40404040    40404040 D985A2A4 93A34096 8640E497   *                    R..... .. U.*         
+ 001740   8481A385 A2404040 40404040 40404040    40404040 404040D7 81878540 40404040   *.....                  P...     *         
+ 001760   4040000C F5F5F500 0CF5F5F5 F5F5F5F5    F5F5F5F5 F5F5F5F5 F5F54040 404040F5   *  ..555..55555555555555555     5*         
+ 001780   C9C4407E 40F5F5F5 F5404040 4040F5F5    F5F5F5F5 F5F5F540 C9C4407E 40F5F5F5   *ID . 5555     555555555 ID . 555*         
+ 0017A0   F5F5F5F5 F5404040 4040F5F5 F5F5F5F5    F5F5F5F5 00000000 00000060 FFFE7960   *55555     5555555555............*         
+ 0017C0   00000000 F4F4F4F4 F4F4F4F4 F4F4F4F4    F4F4F4F4 F4F4F4F4 F4F4F4F4 F4F4F4F4   *....4444444444444444444444444444*         
+ 0017E0   F4F4F4F4 F4F4F4F4 F4F4F4F4 F4F4F4F4    F4F4F4F4 F4F4F4F4 F5F5F5F5 F5F5F5F5   *44444444444444444444444455555555*         
+ 001800   F5F5F5F5 F5F5F5F5 F5F5F5F5 F5F5F5F5    F5F5F5F5 F5F5F5F5 F5F5F5F5 F5F5F5F5   *55555555555555555555555555555555*         
+   LINES    001820-0018C0    SAME AS ABOVE                                                                                        
+0                                                                                                                                 
