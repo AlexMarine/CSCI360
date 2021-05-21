@@ -1,0 +1,167 @@
+//KC03D3BA JOB ,'ALEX MARINE',MSGCLASS=H                                00010000
+//STEP1 EXEC PGM=ASSIST                                                 00020000
+//STEPLIB DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                        00030000
+//SYSPRINT DD SYSOUT=*                                                  00040000
+//SYSIN DD *                                                            00050000
+********************************************                            00060000
+* Alex Marine                                                           00070000
+* CSCI 360                                                              00080000
+* Assignment 4                                                          00090000
+* Regsiter Usage:                                                       00091008
+* 1        BPARMS                                                       00092008
+*11        Return Address                                               00093008
+*15        Base Register                                                00093118
+********************************************                            00093218
+MAIN     CSECT                                                          00094018
+         USING MAIN,15                                                  00100018
+         LA    1,BPARMS       Load parameter into R1                    00101025
+         BAL   11,BUILD       Branch to BUILD                           00102025
+         LA    1,BPARMS       Load parameter into R1                    00103025
+         BAL   11,PRINT       Branch to PRINT                           00104025
+         LA    1,BPARMS       Load parameter into R1                    00105025
+         BAL   11,EVENS       Branch to EVENS                           00106025
+*******************************************                             00107018
+* Register Usage:                                                       00108018
+* 1        BPARMS                                                       00109028
+* 2        Address of Table                                             00109118
+* 3        Address of EOT                                               00109218
+* 4        Buffer                                                       00109328
+* 5        Counter                                                      00109418
+*11        Return Address                                               00109518
+********************************************                            00109618
+BUILD    DS    0H             BUILD subroutine                          00109725
+         SR    5,5            Set R5 to zero                            00109825
+         LM    2,3,0(1)       Load TABLE into R2, and EOT into R3       00109925
+BLOOP1   XREAD BUFFER,80      Read file                                 00110025
+         BC    B'0100',BEND   If end of file, go to BEND                00110125
+         C     5,=F'56'       Compare R5 to 56                          00110225
+         BC    B'1000',BEND   If equal, go to BEND                      00110325
+         XDECI 4,BUFFER       Put number in R4                          00110425
+BLOOP2   BC    B'0001',BLOOP1 If error.go to LOOP1                      00110525
+         ST    4,0(2)         Store value in table                      00110625
+         A     5,=F'1'        Add one to counter                        00110725
+         LA    2,4(2)         Add 4 to table pointer                    00110825
+         XDECI 4,0(1)         Get next valueld                          00110925
+         BC    B'1111',BLOOP2 Go to LOOP2                               00111025
+BEND     ST    2,0(3)         Store EOT in R2                           00111125
+         S     3,=F'4'        Store EOT in R2                           00111225
+         BR    11             Branch to MAIN                            00111325
+********************************************                            00111418
+* Register Usage:                                                       00111518
+* 1        BPARMS                                                       00111628
+* 2        Address of Table                                             00111718
+* 3        Address of EOT                                               00111818
+* 5        Counter                                                      00111918
+* 6        Used for dividing                                            00112028
+* 9        PLINE                                                        00112129
+*11        Return Address                                               00112218
+********************************************                            00112318
+PRINT    DS    0H             PRINT subroutine                          00112425
+         XPRNT PHEAD,20       Print PRINT header                        00112532
+         XPRNT LINE,74        Print space                               00113033
+         LM    2,3,0(1)       Load TABLE into R2, and EOT into R3       00114025
+         SR    5,5            Set R5 to zero                            00115025
+         SR    6,6            Set R6 to zero                            00116025
+         SR    9,9            Set R9 to zero                            00117029
+         LA    9,PLINE+1      Load address for PLINE into R9            00118029
+PLOOP1   C     2,0(3)         Compare R2 to EOT                         00119025
+         BC    B'1000',PEND   If EOT, go to PEND                        00119125
+         L     6,0(2)         Load TABLE into R6                        00119225
+         XDECO 6,0(9)         Convert R6 in PLINE                       00119329
+         A     5,=F'1'        Add 1 to R5                               00119425
+         A     9,=F'12'       Add 12 to R9                              00119529
+         A     2,=F'4'        Add 4 to R4                               00119625
+         C     5,=F'7'        Compare R5 to seven                       00119725
+         BC    B'0111',PSKIP  If they are not equal, go to PSKIP        00119830
+         XPRNT PLINE,61       Print PLINE                               00119925
+         LA    9,PLINE+1      Load adrress of PLINE into R9             00120029
+         MVI   PLINE+1,C' '                                             00120132
+         MVC   PLINE+2(59),PLINE+1                                      00120232
+         SR    5,5            Set R5 to zero                            00120325
+PSKIP    BC    B'1111',PLOOP1 Go to PLOOP1                              00120430
+PEND     XPRNT PLINE,49       Print PLINE                               00120534
+         BR    11             Branch to MAIN                            00120634
+********************************************                            00120734
+* Register Usage:                                                       00120834
+* 1        BPARMS                                                       00120934
+* 2        Address of Table                                             00121034
+* 3        Address of EOT                                               00121134
+* 5        Counter                                                      00121234
+* 6        Used for dividing                                            00121334
+* 7        Hold Table value                                             00121434
+* 8        Hold Table value                                             00121534
+* 9        PLINE                                                        00121634
+*11        Return Address                                               00121734
+********************************************                            00121834
+EVENS    DS    0H             EVENS subroutine                          00121934
+         XPRNT EHEAD,20       Print EVENS header                        00122034
+         XPRNT LINE,74        Print space                               00122134
+         LM    2,3,0(1)       Loads TABLE into R2, and EOT into R3      00122234
+         SR    5,5            Set R5 to zero                            00122334
+         SR    6,6            Set R6 to zero                            00122434
+         SR    9,9            Set R9 to zero                            00122534
+         LA    9,PLINE+1      Load address for PLINE into R9            00122634
+ELOOP1   C     2,0(3)         Compare R2 to EOT                         00122734
+         BC    B'1000',EEND   If they are equal, go to EEND             00122834
+         L     7,0(2)         Load TABLE into R7                        00122934
+         LR    8,7            Load R7 into R8                           00123034
+         M     6,=F'1'        Multiply R6 by 1                          00123134
+         D     6,=F'2'        Divide R6 by 2                            00123234
+         A     2,=F'4'        Add 4 to table pointer                    00123334
+         C     6,=F'0'        Compare R6 to 0                           00123434
+         BC    B'0110',ESKIP  If they are not equal, go to ESKIP        00123534
+         XDECO 8,0(9)         Convert R8 in PLINE                       00123634
+         A     5,=F'1'        Add 1 to R5                               00123734
+         A     9,=F'12'       Add 12 to R9                              00123834
+         C     5,=F'5'        Compare R5 to 5                           00123934
+         BC    B'0111',ESKIP  If they are not equal, go to ESKIP        00124034
+         XPRNT PLINE,73       Print PLINE                               00124134
+         LA    9,PLINE+1      Load address of PLINE into R9             00124234
+         MVI   PLINE+1,C' '                                             00124334
+         MVC   PLINE+2(59),PLINE+1                                      00124434
+         SR    5,5            Set R5 to zero                            00124534
+ESKIP    BC    B'1111',ELOOP1 Go to ELOOP1                              00124634
+EEND     XPRNT PLINE,13       Print PLINE                               00124734
+         BR    11             Branch to MAIN                            00124834
+***********************************                                     00124934
+         LTORG                Literals                                  00125034
+BPARMS   DC    A(TABLE)       Parameter list                            00125134
+         DC    A(BUFFER)                                                00125234
+BUFFER   DS    CL80                                                     00125334
+         DC    C'*'                                                     00125434
+EOT      DS    F                                                        00125534
+TABLE    DC    60F'-256'                                                00125634
+LINE     DC    CL74' '                                                  00125734
+PHEAD    DC    CL1' '                                                   00125834
+         DC    CL16' List of Numbers'                                   00125934
+EHEAD    DC    CL1' '                                                   00126034
+         DC    CL21' List of Even Numbers'                              00126134
+PLINE    DC    C' '                                                     00126234
+         DS    70C                                                      00126334
+         BR    14                                                       00126434
+         END   MAIN                                                     00126534
+/*                                                                      00126634
+//FT05F001  DD  DSN=KC02314.SPRING20.CSCI360.HW4DATA,DISP=SHR           00126734
+//                                                                      00126834
+                                                                        00126934
+                                                                        00127034
+                                                                        00127130
+                                                                        00127230
+                                                                        00127328
+                                                                        00127418
+                                                                        00127518
+                                                                        00127618
+                                                                        00127718
+                                                                        00127818
+                                                                        00127918
+                                                                        00128018
+                                                                        00128118
+                                                                        00128218
+                                                                        00128318
+                                                                        00128418
+                                                                        00128518
+                                                                        00128618
+                                                                        00128718
+                                                                        00129018
+                                                                        00130018
+                                                                        00140018

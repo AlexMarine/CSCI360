@@ -1,0 +1,294 @@
+1                   J E S 2  J O B  L O G  --  S Y S T E M  2 9 6 4  --  N O D E  S V S C J E S 2        
+0 
+ 17.30.42 JOB02177 ---- SATURDAY,  29 FEB 2020 ----
+ 17.30.42 JOB02177  IRR010I  USERID KC03D3B  IS ASSIGNED TO THIS JOB.
+ 17.30.42 JOB02177  ICH70001I KC03D3B  LAST ACCESS AT 17:23:12 ON SATURDAY, FEBRUARY 29, 2020
+ 17.30.42 JOB02177  $HASP373 KC03D3BA STARTED - INIT 2    - CLASS A        - SYS 2964
+ 17.30.42 JOB02177  -                                      -----TIMINGS (MINS.)------                          -----PAGING COUNTS-
+ 17.30.42 JOB02177  -STEPNAME PROCSTEP    RC   EXCP   CONN       TCB       SRB  CLOCK          SERV  WORKLOAD  PAGE  SWAP   VIO SW
+ 17.30.42 JOB02177  -STEP1                00     65      5       .00       .00     .0             9  BATCH        0     0     0   
+ 17.30.42 JOB02177  -KC03D3BA ENDED.  NAME-ALEX MARINE          TOTAL TCB CPU TIME=      .00 TOTAL ELAPSED TIME=    .0
+ 17.30.42 JOB02177  $HASP395 KC03D3BA ENDED - RC=0000
+0------ JES2 JOB STATISTICS ------
+-  29 FEB 2020 JOB EXECUTION DATE
+-          144 CARDS READ
+-          296 SYSOUT PRINT RECORDS
+-            0 SYSOUT PUNCH RECORDS
+-           32 SYSOUT SPOOL KBYTES
+-         0.00 MINUTES EXECUTION TIME
+         1 //KC03D3BA JOB ,'ALEX MARINE',MSGCLASS=H                                JOB02177
+         2 //STEP1 EXEC PGM=ASSIST                                                 00020000
+         3 //STEPLIB DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                        00030000
+         4 //SYSPRINT DD SYSOUT=*                                                  00040000
+         5 //SYSIN DD *                                                            00050000
+         6 //FT05F001  DD  DSN=KC02314.SPRING20.CSCI360.HW4DATA,DISP=SHR           00126734
+ ICH70001I KC03D3B  LAST ACCESS AT 17:23:12 ON SATURDAY, FEBRUARY 29, 2020
+ IEFA111I KC03D3BA IS USING THE FOLLOWING JOB RELATED SETTINGS:
+          SWA=ABOVE,TIOT SIZE=32K,DSENQSHR=DISALLOW,GDGBIAS=JOB
+ IEF236I ALLOC. FOR KC03D3BA STEP1
+ IGD103I SMS ALLOCATED TO DDNAME STEPLIB
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IEF237I JES2 ALLOCATED TO SYSIN
+ IGD103I SMS ALLOCATED TO DDNAME FT05F001
+ IEF142I KC03D3BA STEP1 - STEP WAS EXECUTED - COND CODE 0000
+ IGD104I KC02293.ASSIST.LOADLIB                       RETAINED,  DDNAME=STEPLIB 
+ IEF285I   KC03D3B.KC03D3BA.JOB02177.D0000102.?         SYSOUT        
+ IEF285I   KC03D3B.KC03D3BA.JOB02177.D0000101.?         SYSIN         
+ IGD104I KC02314.SPRING20.CSCI360.HW4DATA             RETAINED,  DDNAME=FT05F001
+ IEF373I STEP/STEP1   /START 2020060.1730
+ IEF032I STEP/STEP1   /STOP  2020060.1730 
+         CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+         VIRT:   584K  SYS:   248K  EXT:        0K  SYS:    13540K
+         ATB- REAL:                  4116K  SLOTS:                     0K
+              VIRT- ALLOC:      11M SHRD:       0M
+ IEF375I  JOB/KC03D3BA/START 2020060.1730
+ IEF033I  JOB/KC03D3BA/STOP  2020060.1730 
+         CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+1*** ASSIST 4.0/A2-05/15/82  470/V7A/0:OS/VS2  INS=SDFP7/X=BGHO, CHECK/TRC/=1180, OPTS=CDKMPR FROM PENN ST*NIU COMPSCI*LT         
+0                                                                                                                                 
+0                                                                                                               PAGE    1         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                       1 ********************************************                            00060000         
+                                       2 * Alex Marine                                                           00070000         
+                                       3 * CSCI 360                                                              00080000         
+                                       4 * Assignment 4                                                          00090000         
+                                       5 * Regsiter Usage:                                                       00091008         
+                                       6 * 1        BPARMS                                                       00092008         
+                                       7 *11        Return Address                                               00093008         
+                                       8 *15        Base Register                                                00093118         
+                                       9 ********************************************                            00093218         
+ 000000                               10 MAIN     CSECT                                                          00094018         
+ 000000                               11          USING MAIN,15                                                  00100018         
+ 000000 4110 F148            00148    12          LA    1,BPARMS       Load parameter into R1                    00101025         
+ 000004 45B0 F018            00018    13          BAL   11,BUILD       Branch to BUILD                           00102025         
+ 000008 4110 F148            00148    14          LA    1,BPARMS       Load parameter into R1                    00103025         
+ 00000C 45B0 F056            00056    15          BAL   11,PRINT       Branch to PRINT                           00104025         
+ 000010 4110 F148            00148    16          LA    1,BPARMS       Load parameter into R1                    00105025         
+ 000014 45B0 F0B6            000B6    17          BAL   11,EVENS       Branch to EVENS                           00106025         
+                                      18 *******************************************                             00107018         
+                                      19 * Register Usage:                                                       00108018         
+                                      20 * 1        BPARMS                                                       00109028         
+                                      21 * 2        Address of Table                                             00109118         
+                                      22 * 3        Address of EOT                                               00109218         
+                                      23 * 4        Buffer                                                       00109328         
+                                      24 * 5        Counter                                                      00109418         
+                                      25 *11        Return Address                                               00109518         
+                                      26 ********************************************                            00109618         
+ 000018                               27 BUILD    DS    0H             BUILD subroutine                          00109725         
+ 000018 1B55                          28          SR    5,5            Set R5 to zero                            00109825         
+ 00001A 9823 1000            00000    29          LM    2,3,0(1)       Load TABLE into R2, and EOT into R3       00109925         
+ 00001E E000 F150 0050 00150          30 BLOOP1   XREAD BUFFER,80      Read file                                 00110025         
+ 000024 4740 F04C            0004C    31          BC    B'0100',BEND   If end of file, go to BEND                00110125         
+ 000028 5950 F128            00128    32          C     5,=F'56'       Compare R5 to 56                          00110225         
+ 00002C 4780 F04C            0004C    33          BC    B'1000',BEND   If equal, go to BEND                      00110325         
+ 000030 5340 F150            00150    34          XDECI 4,BUFFER       Put number in R4                          00110425         
+ 000034 4710 F01E            0001E    35 BLOOP2   BC    B'0001',BLOOP1 If error.go to LOOP1                      00110525         
+ 000038 5042 0000            00000    36          ST    4,0(2)         Store value in table                      00110625         
+ 00003C 5A50 F12C            0012C    37          A     5,=F'1'        Add one to counter                        00110725         
+ 000040 4122 0004            00004    38          LA    2,4(2)         Add 4 to table pointer                    00110825         
+ 000044 5341 0000            00000    39          XDECI 4,0(1)         Get next valueld                          00110925         
+ 000048 47F0 F034            00034    40          BC    B'1111',BLOOP2 Go to LOOP2                               00111025         
+ 00004C 5023 0000            00000    41 BEND     ST    2,0(3)         Store EOT in R2                           00111125         
+ 000050 5B30 F130            00130    42          S     3,=F'4'        Store EOT in R2                           00111225         
+ 000054 07FB                          43          BR    11             Branch to MAIN                            00111325         
+                                      44 ********************************************                            00111418         
+                                      45 * Register Usage:                                                       00111518         
+                                      46 * 1        BPARMS                                                       00111628         
+                                      47 * 2        Address of Table                                             00111718         
+                                      48 * 3        Address of EOT                                               00111818         
+                                      49 * 5        Counter                                                      00111918         
+                                      50 * 6        Used for dividing                                            00112028         
+                                      51 * 9        PLINE                                                        00112129         
+                                      52 *11        Return Address                                               00112218         
+1                                                                                                               PAGE    2         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                      53 ********************************************                            00112318         
+ 000056                               54 PRINT    DS    0H             PRINT subroutine                          00112425         
+ 000056 E020 F2E2 0014 002E2          55          XPRNT PHEAD,20       Print PRINT header                        00112532         
+ 00005C E020 F298 004A 00298          56          XPRNT LINE,74        Print space                               00113033         
+ 000062 9823 1000            00000    57          LM    2,3,0(1)       Load TABLE into R2, and EOT into R3       00114025         
+ 000066 1B55                          58          SR    5,5            Set R5 to zero                            00115025         
+ 000068 1B66                          59          SR    6,6            Set R6 to zero                            00116025         
+ 00006A 1B99                          60          SR    9,9            Set R9 to zero                            00117029         
+ 00006C 4190 F30A            0030A    61          LA    9,PLINE+1      Load address for PLINE into R9            00118029         
+ 000070 5923 0000            00000    62 PLOOP1   C     2,0(3)         Compare R2 to EOT                         00119025         
+ 000074 4780 F0AE            000AE    63          BC    B'1000',PEND   If EOT, go to PEND                        00119125         
+ 000078 5862 0000            00000    64          L     6,0(2)         Load TABLE into R6                        00119225         
+ 00007C 5269 0000            00000    65          XDECO 6,0(9)         Convert R6 in PLINE                       00119329         
+ 000080 5A50 F12C            0012C    66          A     5,=F'1'        Add 1 to R5                               00119425         
+ 000084 5A90 F134            00134    67          A     9,=F'12'       Add 12 to R9                              00119529         
+ 000088 5A20 F130            00130    68          A     2,=F'4'        Add 4 to R4                               00119625         
+ 00008C 5950 F138            00138    69          C     5,=F'7'        Compare R5 to seven                       00119725         
+ 000090 4770 F0AA            000AA    70          BC    B'0111',PSKIP  If they are not equal, go to PSKIP        00119830         
+ 000094 E020 F309 003D 00309          71          XPRNT PLINE,61       Print PLINE                               00119925         
+ 00009A 4190 F30A            0030A    72          LA    9,PLINE+1      Load adrress of PLINE into R9             00120029         
+ 00009E 9240 F30A      0030A          73          MVI   PLINE+1,C' '                                             00120132         
+ 0000A2 D23A F30B F30A 0030B 0030A    74          MVC   PLINE+2(59),PLINE+1                                      00120232         
+ 0000A8 1B55                          75          SR    5,5            Set R5 to zero                            00120325         
+ 0000AA 47F0 F070            00070    76 PSKIP    BC    B'1111',PLOOP1 Go to PLOOP1                              00120430         
+ 0000AE E020 F309 0031 00309          77 PEND     XPRNT PLINE,49       Print PLINE                               00120534         
+ 0000B4 07FB                          78          BR    11             Branch to MAIN                            00120634         
+                                      79 ********************************************                            00120734         
+                                      80 * Register Usage:                                                       00120834         
+                                      81 * 1        BPARMS                                                       00120934         
+                                      82 * 2        Address of Table                                             00121034         
+                                      83 * 3        Address of EOT                                               00121134         
+                                      84 * 5        Counter                                                      00121234         
+                                      85 * 6        Used for dividing                                            00121334         
+                                      86 * 7        Hold Table value                                             00121434         
+                                      87 * 8        Hold Table value                                             00121534         
+                                      88 * 9        PLINE                                                        00121634         
+                                      89 *11        Return Address                                               00121734         
+                                      90 ********************************************                            00121834         
+ 0000B6                               91 EVENS    DS    0H             EVENS subroutine                          00121934         
+ 0000B6 E020 F2F3 0014 002F3          92          XPRNT EHEAD,20       Print EVENS header                        00122034         
+ 0000BC E020 F298 004A 00298          93          XPRNT LINE,74        Print space                               00122134         
+ 0000C2 9823 1000            00000    94          LM    2,3,0(1)       Loads TABLE into R2, and EOT into R3      00122234         
+ 0000C6 1B55                          95          SR    5,5            Set R5 to zero                            00122334         
+ 0000C8 1B66                          96          SR    6,6            Set R6 to zero                            00122434         
+ 0000CA 1B99                          97          SR    9,9            Set R9 to zero                            00122534         
+ 0000CC 4190 F30A            0030A    98          LA    9,PLINE+1      Load address for PLINE into R9            00122634         
+ 0000D0 5923 0000            00000    99 ELOOP1   C     2,0(3)         Compare R2 to EOT                         00122734         
+ 0000D4 4780 F120            00120   100          BC    B'1000',EEND   If they are equal, go to EEND             00122834         
+ 0000D8 5872 0000            00000   101          L     7,0(2)         Load TABLE into R7                        00122934         
+ 0000DC 1887                         102          LR    8,7            Load R7 into R8                           00123034         
+ 0000DE 5C60 F12C            0012C   103          M     6,=F'1'        Multiply R6 by 1                          00123134         
+ 0000E2 5D60 F13C            0013C   104          D     6,=F'2'        Divide R6 by 2                            00123234         
+ 0000E6 5A20 F130            00130   105          A     2,=F'4'        Add 4 to table pointer                    00123334         
+ 0000EA 5960 F140            00140   106          C     6,=F'0'        Compare R6 to 0                           00123434         
+ 0000EE 4760 F11C            0011C   107          BC    B'0110',ESKIP  If they are not equal, go to ESKIP        00123534         
+ 0000F2 5289 0000            00000   108          XDECO 8,0(9)         Convert R8 in PLINE                       00123634         
+ 0000F6 5A50 F12C            0012C   109          A     5,=F'1'        Add 1 to R5                               00123734         
+1                                                                                                               PAGE    3         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 0000FA 5A90 F134            00134   110          A     9,=F'12'       Add 12 to R9                              00123834         
+ 0000FE 5950 F144            00144   111          C     5,=F'5'        Compare R5 to 5                           00123934         
+ 000102 4770 F11C            0011C   112          BC    B'0111',ESKIP  If they are not equal, go to ESKIP        00124034         
+ 000106 E020 F309 0049 00309         113          XPRNT PLINE,73       Print PLINE                               00124134         
+ 00010C 4190 F30A            0030A   114          LA    9,PLINE+1      Load address of PLINE into R9             00124234         
+ 000110 9240 F30A      0030A         115          MVI   PLINE+1,C' '                                             00124334         
+ 000114 D23A F30B F30A 0030B 0030A   116          MVC   PLINE+2(59),PLINE+1                                      00124434         
+ 00011A 1B55                         117          SR    5,5            Set R5 to zero                            00124534         
+ 00011C 47F0 F0D0            000D0   118 ESKIP    BC    B'1111',ELOOP1 Go to ELOOP1                              00124634         
+ 000120 E020 F309 000D 00309         119 EEND     XPRNT PLINE,13       Print PLINE                               00124734         
+ 000126 07FB                         120          BR    11             Branch to MAIN                            00124834         
+                                     121 ***********************************                                     00124934         
+                                     122          LTORG                Literals                                  00125034         
+ 000128 00000038                     123                =F'56'                                                                    
+ 00012C 00000001                     124                =F'1'                                                                     
+ 000130 00000004                     125                =F'4'                                                                     
+ 000134 0000000C                     126                =F'12'                                                                    
+ 000138 00000007                     127                =F'7'                                                                     
+ 00013C 00000002                     128                =F'2'                                                                     
+ 000140 00000000                     129                =F'0'                                                                     
+ 000144 00000005                     130                =F'5'                                                                     
+ 000148 000001A8                     131 BPARMS   DC    A(TABLE)       Parameter list                            00125134         
+ 00014C 00000150                     132          DC    A(BUFFER)                                                00125234         
+ 000150                              133 BUFFER   DS    CL80                                                     00125334         
+ 0001A0 5C                           134          DC    C'*'                                                     00125434         
+ 0001A4                              135 EOT      DS    F                                                        00125534         
+ 0001A8 FFFFFF00FFFFFF00             136 TABLE    DC    60F'-256'                                                00125634         
+ 000298 4040404040404040             137 LINE     DC    CL74' '                                                  00125734         
+ 0002E2 40                           138 PHEAD    DC    CL1' '                                                   00125834         
+ 0002E3 40D389A2A3409686             139          DC    CL16' List of Numbers'                                   00125934         
+ 0002F3 40                           140 EHEAD    DC    CL1' '                                                   00126034         
+ 0002F4 40D389A2A3409686             141          DC    CL21' List of Even Numbers'                              00126134         
+ 000309 40                           142 PLINE    DC    C' '                                                     00126234         
+ 00030A                              143          DS    70C                                                      00126334         
+ 000350 07FE                         144          BR    14                                                       00126434         
+                                     145          END   MAIN                                                     00126534         
+0***  NO   STATEMENTS FLAGGED -  NO   WARNINGS,  NO   ERRORS                                                                      
+0*** DYNAMIC CORE AREA USED:  LOW:    8344 HIGH:     884 LEAVING:  484340 FREE BYTES. AVERAGE:       63 BYTES/STMT ***            
+0*** ASSEMBLY TIME =    0.000 SECS,   146000 STATEMENTS/SEC ***                                                                   
+0*** PROGRAM EXECUTION BEGINNING - ANY OUTPUT BEFORE EXECUTION TIME MESSAGE IS PRODUCED BY USER PROGRAM ***                       
+ Žÿÿ1×  ãL                                                                                                                    
+   ª  ¦   	   	   	   	   	     i  ã”  &  ÀÿÿÑÿÿ§–   
+ÿÿÿ¿  =   ÿÿ                                                        
+       -18467        -169         -58        5705      -16827                                                                     
+          902         382         718       11008       14989                                                                     
+         9503           6          76           4           6                                                                     
+           97        3290          17          13         355                                                                     
+         -724           7         -37          53       -8909                                                                     
+           13         588          10          26       -1869                                                                     
+          333      -15141         868         662         859                                                                     
+         -288       -8942       27446       -6729           6                                                                     
+         -840      -13931       32439       -5537          82                                                                     
+            5           5           5           5          58                                                                     
+        20532        7595       -4350        -374          21                                                                     
+           18        -788       -3728       22483         310                                                                     
+        -5249         798                                                                                                         
+   ‹7ÿÿ…"  n Numbe                                                                                                              
+1  ª  ¦   	   	   	   	   	     i  ã”  &  ÀÿÿÑÿÿ§–   
+ÿÿÿ¿  =   ÿÿ                                                        
+          -58        5436         902         382         718         514                                                         
+        11008           6          76           4           6         514                                                         
+       -26924        3290          74        -350        -724         514                                                         
+           46         588          10          26          26         514                                                         
+          868         662        -288       -8942       27446         514                                                         
+            6        3548         -84        -840          82         514                                                         
+           58       22386       20532       -4350        -374         514                                                         
+          -68        4734          18        -788       -3728         514                                                         
+          310                                                                                                                     
+0*** EXECUTION TIME =    0.001 SECS.      2757 INSTRUCTIONS EXECUTED -  2757000 INSTRUCTIONS/SEC ***                              
+1 ASSIST COMPLETION DUMP                                                                                                          
+0PSW AT ABEND FFC50000 C0000024       COMPLETION CODE   ASSIST = 220 ATTEMPTED READ PAST END-FILE                                 
+0** TRACE OF INSTRUCTIONS JUST BEFORE TERMINATION: PSW BITS SHOWN ARE THOSE BEFORE CORRESPONDING INSTRUCTION DECODED ***          
+0  IM LOCATION    INSTRUCTION :  IM = PSW BITS 32-39(ILC,CC,MASK) BEFORE INSTRUCTION EXECUTED AT PROGRAM LOCATION SHOWN           
+0  20  0000FE     5950 F144                                                                                                       
+0  90  000102     4770 F11C                                                                                                       
+0  90  00011C     47F0 F0D0                                                                                                       
+0  90  0000D0     5923 0000                                                                                                       
+0  80  0000D4     4780 F120                                                                                                       
+0  80  000120     E020 F309 000D                                                                                                  
+0  C0  000126     07FB                                                                                                            
+0  40  000018     1B55                                                                                                            
+0  40  00001A     9823 1000                                                                                                       
+0  80  00001E     E000 F150 0050  <-- LAST INSTRUCTION DONE - PROBABLE CAUSE OF TERMINATION                                       
+0                                                                                                                                 
+-** TRACE OF LAST 10 BRANCH INSTRUCTIONS EXECUTED: PSW BITS SHOWN ARE THOSE BEFORE CORRESPONDING INSTRUCTION DECODED ***          
+0  IM LOCATION    INSTRUCTION :  IM = PSW BITS 32-39(ILC,CC,MASK) BEFORE INSTRUCTION EXECUTED AT PROGRAM LOCATION SHOWN           
+0  10  000102     4770 F11C                                                                                                       
+0  90  00011C     47F0 F0D0                                                                                                       
+0  A0  0000EE     4760 F11C                                                                                                       
+0  A0  00011C     47F0 F0D0                                                                                                       
+0  90  0000EE     4760 F11C                                                                                                       
+0  90  00011C     47F0 F0D0                                                                                                       
+0  90  000102     4770 F11C                                                                                                       
+0  90  00011C     47F0 F0D0                                                                                                       
+0  80  0000D4     4780 F120                                                                                                       
+0  80  000126     07FB                                                                                                            
+0 REGS 0-7      F4F4F4F4    00000148    000001A8    00000150    0000031E    00000000    00000000    0000018F                      
+  REGS 8-15     0000031E    0000032E    F4F4F4F4    80000018    F4F4F4F4    00000358    FFFE7960    00000000                      
+0 FLTR 0-6      F4F4F4F4F4F4F4F4        F4F4F4F4F4F4F4F4        F4F4F4F4F4F4F4F4        F4F4F4F4F4F4F4F4                          
+1 USER STORAGE                                                                                                                    
+0                             CORE ADDRESSES SPECIFIED-     000000 TO 0004A0                                                      
+ 000000   4110F148 45B0F018 4110F148 45B0F056    4110F148 45B0F0B6 1B559823 1000E000   *..1...0...1...0...1...0.........*         
+ 000020   F1500050 4740F04C 5950F128 4780F04C    5340F150 4710F01E 50420000 5A50F12C   *1.... 0...1...0.. 1...0.......1.*         
+ 000040   41220004 53410000 47F0F034 50230000    5B30F130 07FBE020 F2E20014 E020F298   *.........00.......1.....2S....2.*         
+ 000060   004A9823 10001B55 1B661B99 4190F30A    59230000 4780F0AE 58620000 52690000   *..............3.......0.........*         
+ 000080   5A50F12C 5A90F134 5A20F130 5950F138    4770F0AA E020F309 003D4190 F30A9240   *..1...1...1...1...0...3.....3.. *         
+ 0000A0   F30AD23A F30BF30A 1B5547F0 F070E020    F3090031 07FBE020 F2F30014 E020F298   *3.K.3.3....00...3.......23....2.*         
+ 0000C0   004A9823 10001B55 1B661B99 4190F30A    59230000 4780F120 58720000 18875C60   *..............3.......1.........*         
+ 0000E0   F12C5D60 F13C5A20 F1305960 F1404760    F11C5289 00005A50 F12C5A90 F1345950   *1...1...1...1 ..1.......1...1...*         
+ 000100   F1444770 F11CE020 F3090049 4190F30A    9240F30A D23AF30B F30A1B55 47F0F0D0   *1...1...3.....3.. 3.K.3.3....00.*         
+ 000120   E020F309 000D07FB 00000038 00000001    00000004 0000000C 00000007 00000002   *..3.............................*         
+ 000140   00000000 00000005 000001A8 00000150    00000300 F1F04040 4040F5F1 F4404040   *....................10    514   *         
+ 000160   F1F8F9F3 F5404040 4060F5F2 F4F94040    40404040 40F7F9F8 40404040 40404040   *18935    .5249       798        *         
+ 000180   40404040 40404040 40404040 40404040    40404040 40404040 40404040 40404040   *                                *         
+ 0001A0   5CF5F5F5 F5F5F5F5 FFFFB7DD FFFFFF57    FFFFFFC6 00001649 FFFFBE45 00000BB3   *.5555555...........F............*         
+ 0001C0   0000153C 00000386 0000017E 000002CE    00002B00 00003A8D 000001E5 00000017   *...........................V....*         
+ 0001E0   0000251F 00000006 0000004C 00000004    00000006 FFFF96D4 0000001D 00000061   *.......................M........*         
+ 000200   00000CDA 00000011 0000000D 00000163    0000004A FFFFFEA2 FFFFFD2C 00000007   *................................*         
+ 000220   FFFFFFDB 00000035 FFFFDD33 00000015    0000002E 0000000D 0000024C 0000000A   *................................*         
+ 000240   0000001A FFFFF8B3 FFFFE765 0000001A    0000014D FFFFC4DB 00000364 00000296   *......8...X...........D.........*         
+ 000260   0000035B FFFFFDEF 00000023 FFFFFEE0    FFFFDD12 00006B36 FFFFE5B7 00000006   *..........................V.....*         
+ 000280   00000DDC FFFFFFAC FFFFFCB8 FFFFC995    00007EB7 FFFFEA5F 00000052 00000341   *..............I.................*         
+ 0002A0   00000005 00000005 00000005 00000005    00000005 0000003A 00000F89 00005772   *................................*         
+ 0002C0   00005034 00001DAB FFFFEF02 FFFFFE8A    00000015 FFFFFFBC 0000127E 00000012   *................................*         
+ 0002E0   FFFFFCEC FFFFF170 000057D3 00000136    00000202 000049F7 FFFFEB7F 0000031E   *......1....L...........7........*         
+ 000300   9540D5A4 94828599 A2404040 40404040    404040F3 F1F04040 40404040 404040F5   *. N......          310         5*         
+ 000320   F1F44040 40404040 404040F7 F9F84040    40404040 40404040 40404040 40404040   *14         798                  *         
+ 000340   40404040 40404040 40404040 404040F5    F1F44040 40404040 40F1F8F9 F3F50000   *               514       18935..*         
+ 000360   F5F5F5F5 F5F5F5F5 F5F5F5F5 F5F5F5F5    F5F5F5F5 F5F5F5F5 F5F5F5F5 F5F5F5F5   *55555555555555555555555555555555*         
+   LINES    000380-000460    SAME AS ABOVE                                                                                        
+0                                                                                                                                 
