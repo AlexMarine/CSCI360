@@ -1,0 +1,211 @@
+//KC03D3BA JOB ,'ALEX MARINE',MSGCLASS=H                                00010000
+//STEP1 EXEC PGM=ASSIST                                                 00020000
+//STEPLIB DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                        00030000
+//SYSPRINT DD SYSOUT=*                                                  00040000
+//SYSIN DD *                                                            00050000
+********************************************                            00060000
+* Alex Marine                                                           00070000
+* CSCI 360                                                              00080000
+* Assignment 5                                                          00090000
+* Regsiter Usage:                                                       00100000
+* 1        Address of parameter list                                    00110041
+* 2        Counter                                                      00120000
+* 3        Divide                                                       00121000
+*12        Base Register                                                00122041
+*13        Address of the local save area                               00123041
+*14        Address for returning to the caller                          00130041
+*15        Adress of the subroutine itself                              00131041
+********************************************                            00140000
+MAIN     CSECT                  Entry Linkage                           00150000
+         STM   14,12,12(13)     Save the registers                      00160040
+         LR    12,15            Establish R12 as the base register      00161040
+         USING MAIN,12          R12 is base register                    00162040
+         LA    14,MAINSAVE      Point R14 at MAINSAVE                   00163040
+         ST    13,4(0,14)       Save the forward pointer                00164040
+         ST    14,8(0,13)       Save the backward pointer               00165040
+         LR    13,14            Point R13 at MAINSAVE                   00166040
+*********Call BUILD*************************                            00167000
+         LA    1,BPARMS         Load BPARMS into R1                     00168000
+         L     15,=V(BUILD)     Load address of BUILD into R15          00169000
+         BALR  14,15            Branch and link to BUILD routine        00169100
+*********Call PRINT*************************                            00169200
+         XPRNT PHDR,15          Print PRINT Header                      00169301
+         LA    1,PPARMS         Load PPARMS into R1                     00169401
+         L     15,=V(PRINT)     Load address of PRINT into R15          00169501
+         BALR  14,15            Branch and link to PRINT routine        00169601
+*********Call HowMany***********************                            00169708
+         LA    1,PPARMS         Load PPARMS into R1                     00169808
+         L     15,=V(PRINT)     Load address of PRINT into R15          00169908
+         BALR  14,15            Branch and link to PRINT routine        00170008
+*********Exit Linkage***********************                            00170104
+         L    13,4(0,13)        Point R13 at caller's save area         00170238
+         LM   14,12,12(13)      Restore the registers                   00170338
+         BR   14                Return to the caller                    00170438
+         LTORG                  Literals                                00170538
+*********Main Storage***********************                            00170604
+TABLE    DC   80F'-16'          TABLE address initialized to -16        00170707
+EOT      DC   A(TABLE)          EOT address                             00170804
+MAINSAVE DS   18F               Save area for main                      00170904
+BUFF1    DS   CL80              Buffer 1                                00171040
+BPARMS   DC   A(TABLE)          Address of BUILD Table                  00171104
+         DC   A(EOT)            Address of BUILD EOT                    00171204
+         DC   A(BUFF1)          Address of BUILD Buffer                 00171339
+PPARMS   DC   A(TABLE)          Address of PRINT Table                  00171404
+         DC   A(EOT)            Address of PRINT EOT                    00171504
+PHDR     DC   C' '              PRINT Header                            00171604
+         DC   CL14'Table Contents'                                      00171704
+********************************************                            00171838
+* BUILD Subroutine                                                      00171938
+* Regsiter Usage:                                                       00172038
+* 1        Address of parameter list                                    00172141
+* 5        TABLE                                                        00172238
+* 6        EOT                                                          00172338
+* 7        Buffer                                                       00172438
+* 8        Holds numbers                                                00172538
+* 9        Counter                                                      00172638
+*12        Base Register                                                00172741
+*13        Address of the local save area                               00172841
+*14        Address for returning to the caller                          00172941
+*15        Address of the subroutine                                    00173041
+********************************************                            00173138
+BUILD    CSECT                  BUILD Subroutine                        00173238
+         STM   14,12,12(13)     Save the registers                      00173338
+         LR    12,15            Load R15 into R12                       00173438
+         USING BUILD,12         Use R12 as base register                00173538
+         LA    14,BLDSAVE       Point R14 at BLDSAVE                    00173638
+         ST    13,4(0,14)       Save the forward pointer                00173738
+         ST    14,8(0,13)       Save the backward pointer               00173838
+         LR    13,14            Load R14 into R13                       00173938
+         LM    5,7,0(1)         Unload the parameters                   00174038
+*                                                                       00174138
+         SR    9,9              Set R9 to 0                             00174238
+BLOOP1   XREAD BUFF2,80         Read from file                          00174338
+         BC    B'0100',BEND     IF end of file, go to BEND              00174438
+         C     8,=F'-44444444'  Check for delimeter                     00174538
+         BC    B'1000',BEND     If equal, go to BEND                    00174638
+         XDECI 8,BUFF2          Put number in R8                        00174738
+BLOOP2   BC    B'0001',BLOOP1   If there is an error, go to BLOOP1      00174838
+         ST    8,0(0,5)         Store number in TABLE                   00174938
+         A     9,=F'1'          Add 1 to R9                             00175038
+         LA    5,8(0,5)         Load adress and store in R5             00175138
+         CR    5,6              Compare registers R5 and R6             00175238
+         BC    B'1000',BEND     If they are equal, go to BEND           00175338
+         BC    B'1111',BLOOP2   Go to BLOOP2                            00175438
+BEND     ST    9,0(0,7)         Store EOT in R5                         00175538
+         L     13,4(13)         Point R13 at caller's save area         00175638
+         LM    14,12,12(13)     Restore the registers                   00175738
+         BR    14               Return to the caller                    00175838
+         LTORG                  Literals                                00175938
+*                                                                       00176038
+BUFF2    DS    80C              Buffer 2                                00176138
+         DC    C'*'                                                     00176238
+BLDSAVE  DS    18F              SAVE area for BUILD                     00176338
+********************************************                            00176438
+* PRINT Subroutine                                                      00176538
+* Regsiter Usage:                                                       00176638
+* 1        Address of parameter list                                    00176741
+* 2        Line location                                                00176838
+* 3        Length of table                                              00176938
+* 4        Width of table                                               00177038
+* 5        TABLE                                                        00177138
+* 6        EOT                                                          00177238
+*12        Base Register                                                00177341
+*13        Address of the local save area                               00177441
+*14        Address for returning to the caller                          00177541
+*15        Address of the subroutine                                    00177641
+********************************************                            00177738
+PRINT    CSECT                  PRINT Subroutine                        00177838
+         STM   14,12,12(13)     Save the registers                      00177938
+         LR    12,15            Load R15 into R12                       00178038
+         USING PRINT,12         Use R12 as base register                00178138
+         LA    14,PRTSAVE       Point R14 at PRTSAVE                    00178238
+         ST    13,4(0,14)       Save the forward pointer                00178338
+         ST    14,8(0,13)       Save the backward pointer               00178438
+         LR    13,14            Load R14 into R13                       00178538
+         LM    5,6,0(1)         Unload the parameters                   00178638
+*                                                                       00178738
+         SR    3,3              Set R3 to 0                             00178838
+         SR    4,4              Set R4 to 0                             00178938
+         SR    2,2              Set R2 to 0                             00179038
+         LA    2,PLINE+1        Load address for PLINE into R2          00179138
+PLOOP1   C     5,0(6)           Compare R5 to EOT                       00179238
+         BC    B'1000',PEND1    If they are equal, go to PEND1          00179338
+         L     4,0(5)           Load table into R4                      00179438
+         XDECO 4,0(2)           Convert R4 to PLINE                     00179538
+         A     3,=F'1'          Add 1 to R3                             00179640
+         C     3,=F'6'          Compare R3 to 6                         00179740
+         BC    B'0111',PLOOP2   If not equal, go to PLOOP2              00179840
+         XPRNT PLINE,61         Print PLINE                             00179938
+         LA    2,PLINE+1        Load adress of PLINE into R2            00180040
+         MVI   PLINE+1,C' '                                             00180138
+         MVC   PLINE+2(59),PLINE+1                                      00180238
+         SR    3,3              Set R3 to 0                             00180340
+PLOOP2   BC    B'1111',PLOOP1   Go to PLOOP1                            00180440
+PEND1    XPRNT PLINE,49         Print PLINE                             00180540
+         L     13,4(0,13)       Point R13 at caller's save area         00180638
+         LM    14,12,12(13)     Restore the registers                   00180738
+         BR    14               Return to the caller                    00180838
+         LTORG                  Literals                                00180938
+*                                                                       00181038
+PLINE    DC    CL1'0'           Print Line                              00181142
+         DS    CL84' '                                                  00181238
+PRTSAVE  DS    18F              Save area for PRINT                     00181338
+********************************************                            00181438
+* HOWANY Subroutine                                                     00181538
+* Regsiter Usage:                                                       00181638
+* 1        Address of parameter list                                    00181741
+* 5        TABLE                                                        00181840
+* 6        EOT                                                          00181940
+* 7        Buffer                                                       00182040
+*12        Base Register                                                00182141
+*13        Address of the local save area                               00182241
+*14        Address for returning to the caller                          00182341
+*15        Address of the subroutine                                    00182441
+********************************************                            00182540
+HOWMANY  CSECT                  HOWMANY Subroutine                      00182640
+         STM   14,12,12(13)     Save the registers                      00182740
+         LR    12,15            Load R15 into R12                       00182840
+         USING HOWMANY,12       Use R12 as base register                00182940
+         LA    14,HWMNSAVE      Point R14 at HWMNSAVE                   00183040
+         ST    13,4(0,14)       Save the forward pointer                00183140
+         ST    14,8(0,13)       Save the backward pointer               00183240
+         LR    13,14            Load R14 into R13                       00183340
+         LM    5,7,0(1)         Unload the parameters                   00183440
+*                                                                       00183540
+         L     13,4(0,13)       Point R13 at caller's save area         00183640
+         LM    14,12,12(13)     Restore the registers                   00183740
+         BR    14               Return to the caller                    00183840
+         LTORG                  Literals                                00183940
+*                                                                       00184040
+HWMNSAVE DS    18F              Save area for HOWMANY                   00184140
+********************************************                            00184240
+         END   MAIN                                                     00184340
+/*                                                                      00184440
+//FT05F001  DD  DSN=KC02314.SPRING20.CSCI360.HW5DATA,DISP=SHR           00184540
+//                                                                      00184640
+                                                                        00184740
+                                                                        00184840
+                                                                        00184940
+                                                                        00185040
+                                                                        00185140
+                                                                        00185240
+                                                                        00185340
+                                                                        00185440
+                                                                        00185538
+                                                                        00185638
+                                                                        00185738
+                                                                        00185838
+                                                                        00185938
+                                                                        00186038
+                                                                        00186138
+                                                                        00186238
+                                                                        00186338
+                                                                        00186438
+                                                                        00186538
+                                                                        00186638
+                                                                        00186738
+                                                                        00186838
+                                                                        00186938
+                                                                        00187038
+                                                                        00188038
+                                                                        00190038

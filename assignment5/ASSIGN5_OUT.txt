@@ -1,0 +1,245 @@
+1                   J E S 2  J O B  L O G  --  S Y S T E M  2 9 6 4  --  N O D E  S V S C J E S 2        
+0 
+ 19.22.07 JOB09311 ---- THURSDAY,  19 MAR 2020 ----
+ 19.22.07 JOB09311  IRR010I  USERID KC03D3B  IS ASSIGNED TO THIS JOB.
+ 19.22.07 JOB09311  ICH70001I KC03D3B  LAST ACCESS AT 19:17:43 ON THURSDAY, MARCH 19, 2020
+ 19.22.07 JOB09311  $HASP373 KC03D3BA STARTED - INIT 2    - CLASS A        - SYS 2964
+ 19.22.07 JOB09311  $HASP395 KC03D3BA ENDED - RC=0000
+0------ JES2 JOB STATISTICS ------
+-  19 MAR 2020 JOB EXECUTION DATE
+-          184 CARDS READ
+-          249 SYSOUT PRINT RECORDS
+-            0 SYSOUT PUNCH RECORDS
+-           30 SYSOUT SPOOL KBYTES
+-         0.00 MINUTES EXECUTION TIME
+         1 //KC03D3BA JOB ,'ALEX MARINE',MSGCLASS=H                                JOB09311
+         2 //STEP1 EXEC PGM=ASSIST                                                 00020000
+         3 //STEPLIB DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                        00030000
+         4 //SYSPRINT DD SYSOUT=*                                                  00040000
+         5 //SYSIN DD *                                                            00050000
+         6 //FT05F001  DD  DSN=KC02314.SPRING20.CSCI360.HW5DATA,DISP=SHR           00184540
+ ICH70001I KC03D3B  LAST ACCESS AT 19:17:43 ON THURSDAY, MARCH 19, 2020
+ IEFA111I KC03D3BA IS USING THE FOLLOWING JOB RELATED SETTINGS:
+          SWA=ABOVE,TIOT SIZE=32K,DSENQSHR=DISALLOW,GDGBIAS=JOB
+ IEF236I ALLOC. FOR KC03D3BA STEP1
+ IGD103I SMS ALLOCATED TO DDNAME STEPLIB
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IEF237I JES2 ALLOCATED TO SYSIN
+ IGD103I SMS ALLOCATED TO DDNAME FT05F001
+ IEF142I KC03D3BA STEP1 - STEP WAS EXECUTED - COND CODE 0000
+ IGD104I KC02293.ASSIST.LOADLIB                       RETAINED,  DDNAME=STEPLIB 
+ IEF285I   KC03D3B.KC03D3BA.JOB09311.D0000102.?         SYSOUT        
+ IEF285I   KC03D3B.KC03D3BA.JOB09311.D0000101.?         SYSIN         
+ IGD104I KC02314.SPRING20.CSCI360.HW5DATA             RETAINED,  DDNAME=FT05F001
+ IEF373I STEP/STEP1   /START 2020079.1922
+ IEF032I STEP/STEP1   /STOP  2020079.1922 
+         CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+         VIRT:   584K  SYS:   248K  EXT:        0K  SYS:    13544K
+         ATB- REAL:                  4116K  SLOTS:                     0K
+              VIRT- ALLOC:      11M SHRD:       0M
+ IEF375I  JOB/KC03D3BA/START 2020079.1922
+ IEF033I  JOB/KC03D3BA/STOP  2020079.1922 
+         CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+1*** ASSIST 4.0/A2-05/15/82  470/V7A/0:OS/VS2  INS=SDFP7/X=BGHO, CHECK/TRC/=1180, OPTS=CDKMPR FROM PENN ST*NIU COMPSCI*LT         
+0                                                                                                                                 
+0                                                                                                               PAGE    1         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                       1 ********************************************                            00060000         
+                                       2 * Alex Marine                                                           00070000         
+                                       3 * CSCI 360                                                              00080000         
+                                       4 * Assignment 5                                                          00090000         
+                                       5 * Regsiter Usage:                                                       00100000         
+                                       6 * 1        Address of parameter list                                    00110041         
+                                       7 * 2        Counter                                                      00120000         
+                                       8 * 3        Divide                                                       00121000         
+                                       9 *12        Base Register                                                00122041         
+                                      10 *13        Address of the local save area                               00123041         
+                                      11 *14        Address for returning to the caller                          00130041         
+                                      12 *15        Adress of the subroutine itself                              00131041         
+                                      13 ********************************************                            00140000         
+ 000000                               14 MAIN     CSECT                  Entry Linkage                           00150000         
+ 000000 90EC D00C            0000C    15          STM   14,12,12(13)     Save the registers                      00160040         
+ 000004 18CF                          16          LR    12,15            Establish R12 as the base register      00161040         
+ 000000                               17          USING MAIN,12          R12 is base register                    00162040         
+ 000006 41E0 C194            00194    18          LA    14,MAINSAVE      Point R14 at MAINSAVE                   00163040         
+ 00000A 50D0 E004            00004    19          ST    13,4(0,14)       Save the forward pointer                00164040         
+ 00000E 50E0 D008            00008    20          ST    14,8(0,13)       Save the backward pointer               00165040         
+ 000012 18DE                          21          LR    13,14            Point R13 at MAINSAVE                   00166040         
+                                      22 *********Call BUILD*************************                            00167000         
+ 000014 4110 C22C            0022C    23          LA    1,BPARMS         Load BPARMS into R1                     00168000         
+ 000018 58F0 C048            00048    24          L     15,=V(BUILD)     Load address of BUILD into R15          00169000         
+ 00001C 05EF                          25          BALR  14,15            Branch and link to BUILD routine        00169100         
+                                      26 *********Call PRINT*************************                            00169200         
+ 00001E E020 C240 000F 00240          27          XPRNT PHDR,15          Print PRINT Header                      00169301         
+ 000024 4110 C238            00238    28          LA    1,PPARMS         Load PPARMS into R1                     00169401         
+ 000028 58F0 C04C            0004C    29          L     15,=V(PRINT)     Load address of PRINT into R15          00169501         
+ 00002C 05EF                          30          BALR  14,15            Branch and link to PRINT routine        00169601         
+                                      31 *********Call HowMany***********************                            00169708         
+ 00002E 4110 C238            00238    32          LA    1,PPARMS         Load PPARMS into R1                     00169808         
+ 000032 58F0 C04C            0004C    33          L     15,=V(PRINT)     Load address of PRINT into R15          00169908         
+ 000036 05EF                          34          BALR  14,15            Branch and link to PRINT routine        00170008         
+                                      35 *********Exit Linkage***********************                            00170104         
+ 000038 58D0 D004            00004    36          L    13,4(0,13)        Point R13 at caller's save area         00170238         
+ 00003C 98EC D00C            0000C    37          LM   14,12,12(13)      Restore the registers                   00170338         
+ 000040 07FE                          38          BR   14                Return to the caller                    00170438         
+                                      39          LTORG                  Literals                                00170538         
+ 000048 00000250                      40                =V(BUILD)                                                                 
+ 00004C 00000350                      41                =V(PRINT)                                                                 
+                                      42 *********Main Storage***********************                            00170604         
+ 000050 FFFFFFF0FFFFFFF0              43 TABLE    DC   80F'-16'          TABLE address initialized to -16        00170707         
+ 000190 00000050                      44 EOT      DC   A(TABLE)          EOT address                             00170804         
+ 000194                               45 MAINSAVE DS   18F               Save area for main                      00170904         
+ 0001DC                               46 BUFF1    DS   CL80              Buffer 1                                00171040         
+ 00022C 00000050                      47 BPARMS   DC   A(TABLE)          Address of BUILD Table                  00171104         
+ 000230 00000190                      48          DC   A(EOT)            Address of BUILD EOT                    00171204         
+ 000234 000001DC                      49          DC   A(BUFF1)          Address of BUILD Buffer                 00171339         
+ 000238 00000050                      50 PPARMS   DC   A(TABLE)          Address of PRINT Table                  00171404         
+ 00023C 00000190                      51          DC   A(EOT)            Address of PRINT EOT                    00171504         
+ 000240 40                            52 PHDR     DC   C' '              PRINT Header                            00171604         
+1                                                                                                               PAGE    2         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 000241 E38182938540C396              53          DC   CL14'Table Contents'                                      00171704         
+                                      54 ********************************************                            00171838         
+                                      55 * BUILD Subroutine                                                      00171938         
+                                      56 * Regsiter Usage:                                                       00172038         
+                                      57 * 1        Address of parameter list                                    00172141         
+                                      58 * 5        TABLE                                                        00172238         
+                                      59 * 6        EOT                                                          00172338         
+                                      60 * 7        Buffer                                                       00172438         
+                                      61 * 8        Holds numbers                                                00172538         
+                                      62 * 9        Counter                                                      00172638         
+                                      63 *12        Base Register                                                00172741         
+                                      64 *13        Address of the local save area                               00172841         
+                                      65 *14        Address for returning to the caller                          00172941         
+                                      66 *15        Address of the subroutine                                    00173041         
+                                      67 ********************************************                            00173138         
+ 000250                               68 BUILD    CSECT                  BUILD Subroutine                        00173238         
+ 000250 90EC D00C            0000C    69          STM   14,12,12(13)     Save the registers                      00173338         
+ 000254 18CF                          70          LR    12,15            Load R15 into R12                       00173438         
+ 000250                               71          USING BUILD,12         Use R12 as base register                00173538         
+ 000256 41E0 C0B4            00304    72          LA    14,BLDSAVE       Point R14 at BLDSAVE                    00173638         
+ 00025A 50D0 E004            00004    73          ST    13,4(0,14)       Save the forward pointer                00173738         
+ 00025E 50E0 D008            00008    74          ST    14,8(0,13)       Save the backward pointer               00173838         
+ 000262 18DE                          75          LR    13,14            Load R14 into R13                       00173938         
+ 000264 9857 1000            00000    76          LM    5,7,0(1)         Unload the parameters                   00174038         
+                                      77 *                                                                       00174138         
+ 000268 1B99                          78          SR    9,9              Set R9 to 0                             00174238         
+ 00026A E000 C060 0050 002B0          79 BLOOP1   XREAD BUFF2,80         Read from file                          00174338         
+ 000270 4740 C04A            0029A    80          BC    B'0100',BEND     IF end of file, go to BEND              00174438         
+ 000274 5980 C058            002A8    81          C     8,=F'-44444444'  Check for delimeter                     00174538         
+ 000278 4780 C04A            0029A    82          BC    B'1000',BEND     If equal, go to BEND                    00174638         
+ 00027C 5380 C060            002B0    83          XDECI 8,BUFF2          Put number in R8                        00174738         
+ 000280 4710 C01A            0026A    84 BLOOP2   BC    B'0001',BLOOP1   If there is an error, go to BLOOP1      00174838         
+ 000284 5080 5000            00000    85          ST    8,0(0,5)         Store number in TABLE                   00174938         
+ 000288 5A90 C05C            002AC    86          A     9,=F'1'          Add 1 to R9                             00175038         
+ 00028C 4150 5008            00008    87          LA    5,8(0,5)         Load adress and store in R5             00175138         
+ 000290 1956                          88          CR    5,6              Compare registers R5 and R6             00175238         
+ 000292 4780 C04A            0029A    89          BC    B'1000',BEND     If they are equal, go to BEND           00175338         
+ 000296 47F0 C030            00280    90          BC    B'1111',BLOOP2   Go to BLOOP2                            00175438         
+ 00029A 5090 7000            00000    91 BEND     ST    9,0(0,7)         Store EOT in R5                         00175538         
+ 00029E 58DD 0004            00004    92          L     13,4(13)         Point R13 at caller's save area         00175638         
+ 0002A2 98EC D00C            0000C    93          LM    14,12,12(13)     Restore the registers                   00175738         
+ 0002A6 07FE                          94          BR    14               Return to the caller                    00175838         
+                                      95          LTORG                  Literals                                00175938         
+ 0002A8 FD59D4E4                      96                =F'-44444444'                                                             
+ 0002AC 00000001                      97                =F'1'                                                                     
+                                      98 *                                                                       00176038         
+ 0002B0                               99 BUFF2    DS    80C              Buffer 2                                00176138         
+ 000300 5C                           100          DC    C'*'                                                     00176238         
+ 000304                              101 BLDSAVE  DS    18F              SAVE area for BUILD                     00176338         
+                                     102 ********************************************                            00176438         
+                                     103 * PRINT Subroutine                                                      00176538         
+                                     104 * Regsiter Usage:                                                       00176638         
+                                     105 * 1        Address of parameter list                                    00176741         
+                                     106 * 2        Line location                                                00176838         
+                                     107 * 3        Length of table                                              00176938         
+                                     108 * 4        Width of table                                               00177038         
+                                     109 * 5        TABLE                                                        00177138         
+1                                                                                                               PAGE    3         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                     110 * 6        EOT                                                          00177238         
+                                     111 *12        Base Register                                                00177341         
+                                     112 *13        Address of the local save area                               00177441         
+                                     113 *14        Address for returning to the caller                          00177541         
+                                     114 *15        Address of the subroutine                                    00177641         
+                                     115 ********************************************                            00177738         
+ 000350                              116 PRINT    CSECT                  PRINT Subroutine                        00177838         
+ 000350 90EC D00C            0000C   117          STM   14,12,12(13)     Save the registers                      00177938         
+ 000354 18CF                         118          LR    12,15            Load R15 into R12                       00178038         
+ 000350                              119          USING PRINT,12         Use R12 as base register                00178138         
+ 000356 41E0 C0C8            00418   120          LA    14,PRTSAVE       Point R14 at PRTSAVE                    00178238         
+ 00035A 50D0 E004            00004   121          ST    13,4(0,14)       Save the forward pointer                00178338         
+ 00035E 50E0 D008            00008   122          ST    14,8(0,13)       Save the backward pointer               00178438         
+ 000362 18DE                         123          LR    13,14            Load R14 into R13                       00178538         
+ 000364 9856 1000            00000   124          LM    5,6,0(1)         Unload the parameters                   00178638         
+                                     125 *                                                                       00178738         
+ 000368 1B33                         126          SR    3,3              Set R3 to 0                             00178838         
+ 00036A 1B44                         127          SR    4,4              Set R4 to 0                             00178938         
+ 00036C 1B22                         128          SR    2,2              Set R2 to 0                             00179038         
+ 00036E 4120 C071            003C1   129          LA    2,PLINE+1        Load address for PLINE into R2          00179138         
+ 000372 5956 0000            00000   130 PLOOP1   C     5,0(6)           Compare R5 to EOT                       00179238         
+ 000376 4780 C058            003A8   131          BC    B'1000',PEND1    If they are equal, go to PEND1          00179338         
+ 00037A 5845 0000            00000   132          L     4,0(5)           Load table into R4                      00179438         
+ 00037E 5242 0000            00000   133          XDECO 4,0(2)           Convert R4 to PLINE                     00179538         
+ 000382 5A30 C068            003B8   134          A     3,=F'1'          Add 1 to R3                             00179640         
+ 000386 5930 C06C            003BC   135          C     3,=F'6'          Compare R3 to 6                         00179740         
+ 00038A 4770 C054            003A4   136          BC    B'0111',PLOOP2   If not equal, go to PLOOP2              00179840         
+ 00038E E020 C070 003D 003C0         137          XPRNT PLINE,61         Print PLINE                             00179938         
+ 000394 4120 C071            003C1   138          LA    2,PLINE+1        Load adress of PLINE into R2            00180040         
+ 000398 9240 C071      003C1         139          MVI   PLINE+1,C' '                                             00180138         
+ 00039C D23A C072 C071 003C2 003C1   140          MVC   PLINE+2(59),PLINE+1                                      00180238         
+ 0003A2 1B33                         141          SR    3,3              Set R3 to 0                             00180340         
+ 0003A4 47F0 C022            00372   142 PLOOP2   BC    B'1111',PLOOP1   Go to PLOOP1                            00180440         
+ 0003A8 E020 C070 0031 003C0         143 PEND1    XPRNT PLINE,49         Print PLINE                             00180540         
+ 0003AE 58D0 D004            00004   144          L     13,4(0,13)       Point R13 at caller's save area         00180638         
+ 0003B2 98EC D00C            0000C   145          LM    14,12,12(13)     Restore the registers                   00180738         
+ 0003B6 07FE                         146          BR    14               Return to the caller                    00180838         
+                                     147          LTORG                  Literals                                00180938         
+ 0003B8 00000001                     148                =F'1'                                                                     
+ 0003BC 00000006                     149                =F'6'                                                                     
+                                     150 *                                                                       00181038         
+ 0003C0 F0                           151 PLINE    DC    CL1'0'           Print Line                              00181142         
+ 0003C1                              152          DS    CL84' '                                                  00181238         
+ 000418                              153 PRTSAVE  DS    18F              Save area for PRINT                     00181338         
+                                     154 ********************************************                            00181438         
+                                     155 * HOWANY Subroutine                                                     00181538         
+                                     156 * Regsiter Usage:                                                       00181638         
+                                     157 * 1        Address of parameter list                                    00181741         
+                                     158 * 5        TABLE                                                        00181840         
+                                     159 * 6        EOT                                                          00181940         
+                                     160 * 7        Buffer                                                       00182040         
+                                     161 *12        Base Register                                                00182141         
+                                     162 *13        Address of the local save area                               00182241         
+                                     163 *14        Address for returning to the caller                          00182341         
+                                     164 *15        Address of the subroutine                                    00182441         
+                                     165 ********************************************                            00182540         
+ 000460                              166 HOWMANY  CSECT                  HOWMANY Subroutine                      00182640         
+1                                                                                                               PAGE    4         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 000460 90EC D00C            0000C   167          STM   14,12,12(13)     Save the registers                      00182740         
+ 000464 18CF                         168          LR    12,15            Load R15 into R12                       00182840         
+ 000460                              169          USING HOWMANY,12       Use R12 as base register                00182940         
+ 000466 41E0 C028            00488   170          LA    14,HWMNSAVE      Point R14 at HWMNSAVE                   00183040         
+ 00046A 50D0 E004            00004   171          ST    13,4(0,14)       Save the forward pointer                00183140         
+ 00046E 50E0 D008            00008   172          ST    14,8(0,13)       Save the backward pointer               00183240         
+ 000472 18DE                         173          LR    13,14            Load R14 into R13                       00183340         
+ 000474 9857 1000            00000   174          LM    5,7,0(1)         Unload the parameters                   00183440         
+                                     175 *                                                                       00183540         
+ 000478 58D0 D004            00004   176          L     13,4(0,13)       Point R13 at caller's save area         00183640         
+ 00047C 98EC D00C            0000C   177          LM    14,12,12(13)     Restore the registers                   00183740         
+ 000480 07FE                         178          BR    14               Return to the caller                    00183840         
+                                     179          LTORG                  Literals                                00183940         
+                                     180 *                                                                       00184040         
+ 000488                              181 HWMNSAVE DS    18F              Save area for HOWMANY                   00184140         
+                                     182 ********************************************                            00184240         
+                                     183          END   MAIN                                                     00184340         
+0***  NO   STATEMENTS FLAGGED -  NO   WARNINGS,  NO   ERRORS                                                                      
+0*** DYNAMIC CORE AREA USED:  LOW:   11388 HIGH:     960 LEAVING:  481220 FREE BYTES. AVERAGE:       67 BYTES/STMT ***            
+0*** ASSEMBLY TIME =    0.000 SECS,   184000 STATEMENTS/SEC ***                                                                   
+0*** PROGRAM EXECUTION BEGINNING - ANY OUTPUT BEFORE EXECUTION TIME MESSAGE IS PRODUCED BY USER PROGRAM ***                       
+ Table Contents                                                                                                                   
+0555555555555555555555555555555555555555555555555                                                                                 
+0555555555555555555555555555555555555555555555555                                                                                 
+0*** EXECUTION TIME =    0.000 SECS.       349 INSTRUCTIONS EXECUTED -   349000 INSTRUCTIONS/SEC ***                              
+0*** FIRST CARD NOT READ:      22     -1393  229  -3784    5    91  62                                                            
+0*** AM004 - NORMAL USER TERMINATION BY RETURN ***                                                                                
