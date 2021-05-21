@@ -1,0 +1,597 @@
+1                   J E S 2  J O B  L O G  --  S Y S T E M  2 9 6 4  --  N O D E  S V S C J E S 2        
+0 
+ 12.36.04 JOB03882 ---- FRIDAY,    24 APR 2020 ----
+ 12.36.04 JOB03882  IRR010I  USERID KC03D3B  IS ASSIGNED TO THIS JOB.
+ 12.36.04 JOB03882  ICH70001I KC03D3B  LAST ACCESS AT 12:28:46 ON FRIDAY, APRIL 24, 2020
+ 12.36.04 JOB03882  $HASP373 KC03D3BA STARTED - INIT 1    - CLASS A        - SYS 2964
+ 12.36.04 JOB03882  $HASP395 KC03D3BA ENDED - RC=0000
+0------ JES2 JOB STATISTICS ------
+-  24 APR 2020 JOB EXECUTION DATE
+-          374 CARDS READ
+-          601 SYSOUT PRINT RECORDS
+-            0 SYSOUT PUNCH RECORDS
+-           68 SYSOUT SPOOL KBYTES
+-         0.00 MINUTES EXECUTION TIME
+         1 //KC03D3BA JOB ,'ALEX MARINE',MSGCLASS=H                                JOB03882
+         2 //STEP1 EXEC PGM=ASSIST                                                 00020000
+         3 //STEPLIB DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                        00030000
+         4 //SYSPRINT DD SYSOUT=*                                                  00040000
+         5 //SYSIN DD *                                                            00050000
+         6 //FT05F001  DD  DSN=KC02314.SPRING20.CSCI360.HW8DATA,DISP=SHR           00243506
+ ICH70001I KC03D3B  LAST ACCESS AT 12:28:46 ON FRIDAY, APRIL 24, 2020
+ IEFA111I KC03D3BA IS USING THE FOLLOWING JOB RELATED SETTINGS:
+          SWA=ABOVE,TIOT SIZE=32K,DSENQSHR=DISALLOW,GDGBIAS=JOB
+ IEF236I ALLOC. FOR KC03D3BA STEP1
+ IGD103I SMS ALLOCATED TO DDNAME STEPLIB
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IEF237I JES2 ALLOCATED TO SYSIN
+ IGD103I SMS ALLOCATED TO DDNAME FT05F001
+ IEF142I KC03D3BA STEP1 - STEP WAS EXECUTED - COND CODE 0000
+ IGD104I KC02293.ASSIST.LOADLIB                       RETAINED,  DDNAME=STEPLIB 
+ IEF285I   KC03D3B.KC03D3BA.JOB03882.D0000102.?         SYSOUT        
+ IEF285I   KC03D3B.KC03D3BA.JOB03882.D0000101.?         SYSIN         
+ IGD104I KC02314.SPRING20.CSCI360.HW8DATA             RETAINED,  DDNAME=FT05F001
+ IEF373I STEP/STEP1   /START 2020115.1236
+ IEF032I STEP/STEP1   /STOP  2020115.1236 
+         CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+         VIRT:   584K  SYS:   248K  EXT:        0K  SYS:    11488K
+         ATB- REAL:                  1044K  SLOTS:                     0K
+              VIRT- ALLOC:      11M SHRD:       0M
+ IEF375I  JOB/KC03D3BA/START 2020115.1236
+ IEF033I  JOB/KC03D3BA/STOP  2020115.1236 
+         CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+1*** ASSIST 4.0/A2-05/15/82  470/V7A/0:OS/VS2  INS=SDFP7/X=BGHO, CHECK/TRC/=1180, OPTS=CDKMPR FROM PENN ST*NIU COMPSCI*LT         
+0                                                                                                                                 
+0                                                                                                               PAGE    1         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                       1 ********************************************                            00060000         
+                                       2 * Alex Marine                                                           00070000         
+                                       3 * CSCI 360                                                              00080000         
+                                       4 * Assignment 8                                                          00090000         
+                                       5 * Regsiter Usage:                                                       00100000         
+                                       6 * 1        PARMS                                                        00110000         
+                                       7 *12        Base Register                                                00120000         
+                                       8 *13        Address of the local save area                               00130000         
+                                       9 *14        Address for returning to the caller                          00140000         
+                                      10 *15        Adress of the subroutine itself                              00150000         
+                                      11 ********************************************                            00160000         
+ 000000                               12 $ENTRY   DSECT                                                          00161000         
+ 000000                               13 $ID      DS    CL4            ID                                        00162006         
+ 000004                               14 $PWRD    DS    CL8            Password                                  00163006         
+ 00000C                               15 $HOLD    DS    CL3            Hold                                      00164006         
+                                      16 ********************************************                            00165000         
+ 000000                               17 MAIN     CSECT                                                          00170000         
+ 000000 90EC D00C            0000C    18          STM   14,12,12(13)   Save the registers                        00180000         
+ 000004 18CF                          19          LR    12,15          Establish R12 as the                      00190000         
+ 000000                               20          USING MAIN,12        Base register                             00200000         
+ 000006 41E0 C05C            0005C    21          LA    14,MANSAVE     Point R14 at MANSAVE                      00201015         
+ 00000A 50D0 E004            00004    22          ST    13,4(0,14)     Save the forward pointer                  00202000         
+ 00000E 50E0 D008            00008    23          ST    14,8(0,13)     Save the backward pointer                 00203000         
+ 000012 18DE                          24          LR    13,14          Point R13 at MAINSAVE                     00204000         
+                                      25 *                                                                       00205000         
+ 000014 4110 C23C            0023C    26          LA    1,BPARMS       Address of BPARMS                         00206000         
+ 000018 58F0 C050            00050    27          L     15,=V(BUILD)   Point R15 at BUILD                        00207000         
+ 00001C 05EF                          28          BALR  14,15          Branch to BUILD                           00208000         
+ 00001E E060 C0A4 003C 000A4          29          XDUMP TABLE,60       DUMP TABLE                                00208100         
+                                      30 *                                                                       00209000         
+ 000024 4110 C244            00244    31          LA    1,PPARMS1      Address of PPARMS1                        00209100         
+ 000028 58F0 C054            00054    32          L     15,=V(PRINT)   Point R15 at PRINT                        00209200         
+ 00002C 05EF                          33          BALR  14,15          Branch to PRINT                           00209300         
+                                      34 *                                                                       00209400         
+ 00002E 4110 C23C            0023C    35          LA    1,BPARMS       Address of BPARMS                         00209500         
+ 000032 58F0 C058            00058    36          L     15,=V(SORTID)  Point R15 at SORTID                       00209600         
+ 000036 05EF                          37          BALR  14,15          Branch to SORTID                          00209700         
+                                      38 *                                                                       00209800         
+ 000038 4110 C24C            0024C    39          LA    1,PPARMS2      Address of PPARMS2                        00209900         
+ 00003C 58F0 C054            00054    40          L     15,=V(PRINT)   Point R15 at PRINT                        00210000         
+ 000040 05EF                          41          BALR  14,15          Branch to PRINT                           00210100         
+                                      42 *                                                                       00210200         
+ 000042 58D0 D004            00004    43          L     13,4(0,13)     Point R13 at caller's save area           00210300         
+ 000046 98EC D00C            0000C    44          LM    14,12,12(13)   Restore the registers                     00210400         
+ 00004A 07FE                          45          BR    14             Return to the caller                      00210500         
+                                      46          LTORG                Literals                                  00210600         
+ 000050 00000258                      47                =V(BUILD)                                                                 
+ 000054 00000478                      48                =V(PRINT)                                                                 
+ 000058 00000740                      49                =V(SORTID)                                                                
+                                      50 *                                                                       00210700         
+ 00005C                               51 MANSAVE  DS    18F            MAIN save area                            00210815         
+ 0000A4                               52 TABLE    DS    20CL15         TABLE                                     00210900         
+1                                                                                                               PAGE    2         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 0001D0                               53 EOT      DS    F              End Of Table                              00211000         
+ 0001D4 4040404040404040              54 MHEAD1   DC    CL15' '        Main Header 1                             00211100         
+ 0001E3 C19797968995A394              55          DC    CL36'Appointment Information             '               00211206         
+ 000207 4040404040404040              56 MHEAD2   DC    CL15' '        Main Header 2                             00211300         
+ 000216 C19797968995A394              57          DC    CL36'Appointment Information by ID Number'               00212000         
+ 00023C 000000A4                      58 BPARMS   DC    A(TABLE)       BUILD parameters                          00212100         
+ 000240 000001D0                      59          DC    A(EOT)                                                   00212200         
+ 000244 000000A4                      60 PPARMS1  DC    A(TABLE)       PRINT1 parameters                         00212300         
+ 000248 000001D0                      61          DC    A(EOT)                                                   00212400         
+ 00024C 000000A4                      62 PPARMS2  DC    A(TABLE)       PRINT2 parameters                         00212500         
+ 000250 000001D0                      63          DC    A(EOT)                                                   00212600         
+                                      64 ********************************************                            00212700         
+                                      65 * BUILD Subroutine                                                      00212800         
+                                      66 * Register Usage:                                                       00212900         
+                                      67 * 1        PARMS                                                        00213002         
+                                      68 * 2        Storage                                                      00213100         
+                                      69 * 3        TABLE                                                        00213200         
+                                      70 * 4        EOT                                                          00213300         
+                                      71 * 5        Bits for $HOLD                                               00213406         
+                                      72 * 6        Bits for $HOLD                                               00213506         
+                                      73 *12        Base Register                                                00213600         
+                                      74 *13        Address of the local save area                               00213700         
+                                      75 *14        Address for returning to the caller                          00213800         
+                                      76 *15        Adress of the subroutine itself                              00213900         
+                                      77 ********************************************                            00214000         
+ 000258                               78 BUILD    CSECT                                                          00214100         
+ 000258 90EC D00C            0000C    79          STM   14,12,12(13)   Save the registers                        00214200         
+ 00025C 18CF                          80          LR    12,15          Establish R12 as the                      00214300         
+ 000258                               81          USING BUILD,12       Base register                             00214400         
+ 00025E 41E0 C16C            003C4    82          LA    14,BLDSAVE     Point R14 at BLDSAVE                      00214500         
+ 000262 50D0 E004            00004    83          ST    13,4(0,14)     Save the forward pointer                  00214600         
+ 000266 50E0 D008            00008    84          ST    14,8(0,13)     Save the backward pointer                 00214700         
+ 00026A 18DE                          85          LR    13,14          Point R13 at BLDSAVE                      00214800         
+                                      86 *                                                                       00214900         
+ 00026C 9834 1000            00000    87          LM    3,4,0(1)       Load R3 through R4                        00215000         
+ 000000                               88          USING $ENTRY,3       Use DSECT $ENTRY at R3                    00215100         
+ 000270 4110 C1C9            00421    89          LA    1,BUFFER       Load Address of BUFFER to R1              00215200         
+ 000000                               90          USING $BUFF,1        Use DSECT $BUFF at R1                     00215300         
+ 000274 E001 0000 0050 00000          91          XREAD 0(1),80        Read first line of input                  00215400         
+ 00027A                               92 BLOOP1   DS    0H                                                       00215506         
+ 00027A 4740 C120            00378    93          BC    B'0100',BEND   If end of file, go to BEND                00215606         
+ 00027E 1934                          94          CR    3,4            Compare R3 to R4                          00215700         
+ 000280 4780 C120            00378    95          BC    B'1000',BEND   If they are equal, go to BEND             00215800         
+ 000284 F276 C1B8 1001 00410 00001    96          PACK  TEMP1(8),$BID(7) Pack $BID into TEMP1                    00215912         
+ 00028A 4F20 C1B8            00410    97          CVB   2,TEMP1        Convert TEMP1 to binary                   00216012         
+ 00028E BE2F 3000            00000    98          STCM  2,B'1111',$ID  Store on $ID                              00216112         
+ 000292 D207 3004 100C 00004 0000C    99          MVC   $PWRD(8),$BPWRD Move $BPWRD to $PWRD                     00216212         
+ 000298 D703 3004 3000 00004 00000   100          XC    $PWRD(4),$ID   Hash $PWRD                                00216312         
+ 00029E D703 3008 3000 00008 00000   101          XC    $PWRD+4(4),$ID Hash $PWRD                                00216412         
+ 0002A4 D208 C1C0 1018 00418 00018   102          MVC   TMPDAY(9),$BDAY Move $BDAY into TMPDAY                   00216512         
+ 0002AA D505 C1C0 C140 00418 00398   103          CLC   TMPDAY(6),=CL6'Monday' Compare TMPDAY to Monday          00216612         
+ 0002B0 4770 C066            002BE   104          BC    B'0111',BTUES  If they are not equal, go to BTUES        00216712         
+ 0002B4 F870 C1B8 C152 00410 003AA   105          ZAP   TEMP1(8),=P'1'  Zero and add 1 to TEMP1                  00216812         
+ 0002BA 47F0 C0DA            00332   106          BC    B'1111',BLOOP2 Go to BLOOP2                              00216912         
+ 0002BE D506 C1C0 C153 00418 003AB   107 BTUES    CLC   TMPDAY(7),=CL7'Tuesday' Compare TMPDAY to Tuesday        00217012         
+ 0002C4 4770 C07A            002D2   108          BC    B'0111',BWEDN  If they are not equal, go to BWEDN        00217112         
+ 0002C8 F870 C1B8 C15A 00410 003B2   109          ZAP   TEMP1(8),=P'2'  Zero and add 2 to TEMP1                  00217212         
+1                                                                                                               PAGE    3         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 0002CE 47F0 C0DA            00332   110          BC    B'1111',BLOOP2 Go to BLOOP2                              00217312         
+ 0002D2 D508 C1C0 C15B 00418 003B3   111 BWEDN    CLC   TMPDAY(9),=CL9'Wednesday' Compare TMPDAY to Wednesday    00217412         
+ 0002D8 4770 C08E            002E6   112          BC    B'0111',BTHUR  If they are not equal, go to BTHUR        00217512         
+ 0002DC F870 C1B8 C164 00410 003BC   113          ZAP   TEMP1(8),=P'3'  Zero and add 3 to TEMP1                  00217612         
+ 0002E2 47F0 C0DA            00332   114          BC    B'1111',BLOOP2 Go to BLOOP2                              00217712         
+ 0002E6 D507 C1C0 C130 00418 00388   115 BTHUR    CLC   TMPDAY(8),=CL8'Thursday' Compare TMPDAY to Thursday      00217812         
+ 0002EC 4770 C0A2            002FA   116          BC    B'0111',BFRID  If they are not equal, go to BFRID        00217912         
+ 0002F0 F870 C1B8 C165 00410 003BD   117          ZAP   TEMP1(8),=P'4'  Zero and add 4 to TEMP1                  00218012         
+ 0002F6 47F0 C0DA            00332   118          BC    B'1111',BLOOP2 Go to BLOOP2                              00218112         
+ 0002FA D505 C1C0 C146 00418 0039E   119 BFRID    CLC   TMPDAY(6),=CL6'Friday' Compare TMPDAY to Friday          00218212         
+ 000300 4770 C0B6            0030E   120          BC    B'0111',BSATU  If they are not equal, go to BSATU        00218312         
+ 000304 F870 C1B8 C166 00410 003BE   121          ZAP   TEMP1(8),=P'5'  Zero and add 5 to TEMP1                  00218412         
+ 00030A 47F0 C0DA            00332   122          BC    B'1111',BLOOP2 Go to BLOOP2                              00218512         
+ 00030E D507 C1C0 C138 00418 00390   123 BSATU    CLC   TMPDAY(8),=CL8'Saturday' Compare TMPDAY to Saturday      00218612         
+ 000314 4770 C0CA            00322   124          BC    B'0111',BSUND  If they are not equal, go to BSUND        00218712         
+ 000318 F870 C1B8 C167 00410 003BF   125          ZAP   TEMP1(8),=P'6'  Zero and add 6 to TEMP1                  00218812         
+ 00031E 47F0 C0DA            00332   126          BC    B'1111',BLOOP2 Go to BLOOP2                              00218912         
+ 000322 D505 C1C0 C14C 00418 003A4   127 BSUND    CLC   TMPDAY(6),=CL6'Sunday' Compare TMPDAY to Sunday          00219012         
+ 000328 F870 C1B8 C168 00410 003C0   128          ZAP   TEMP1(8),=P'0'  Zero and add 0 to TEMP1                  00219112         
+ 00032E 47F0 C0DA            00332   129          BC    B'1111',BLOOP2 Go to BLOOP2                              00219206         
+ 000332                              130 BLOOP2   DS    0H                                                       00219312         
+ 000332 4F50 C1B8            00410   131          CVB   5,TEMP1        Convert TEMP1 to binary in R5             00219412         
+ 000336 8950 0015            00015   132          SLL   5,21           Shift R5 to the left 21 spaces            00219512         
+ 00033A F271 C1B8 1025 00410 00025   133          PACK  TEMP1(8),$BHR(2) Pack $BHR into TEMP1                    00219612         
+ 000340 4F60 C1B8            00410   134          CVB   6,TEMP1        Convert TEMP1 to binary in R6             00219712         
+ 000344 8960 0010            00010   135          SLL   6,16           Shift R6 to the left 16 spaces            00219812         
+ 000348 1756                         136          XR    5,6            Add R5 to R6                              00219912         
+ 00034A F271 C1B8 1028 00410 00028   137          PACK  TEMP1(8),$BMIN(2) Pack $BMIN into TEMP1                  00220012         
+ 000350 4F60 C1B8            00410   138          CVB   6,TEMP1        Convert TEMP1 to binary in R6             00220112         
+ 000354 8960 000A            0000A   139          SLL   6,10           Shift R6 to the left 10 spaces            00220212         
+ 000358 1756                         140          XR    5,6            Add R5 to R6                              00220312         
+ 00035A F272 C1B8 102E 00410 0002E   141          PACK  TEMP1(8),$BRMN(3) Pack $BRMN into TEMP1                  00220412         
+ 000360 4F60 C1B8            00410   142          CVB   6,TEMP1        Convert TEMP1 to binary in R6             00220512         
+ 000364 1756                         143          XR    5,6            Add R5 to R6                              00220606         
+ 000366 BE57 300C            0000C   144          STCM  5,B'0111',$HOLD Move into $HOLD                          00220712         
+ 00036A 4130 300F            0000F   145          LA    3,15(0,3)      Advance to next address                   00220812         
+ 00036E E000 1000 0050 00000         146          XREAD 0(0,1),80      Read next line                            00220912         
+ 000374 47F0 C022            0027A   147          BC    B'1111',BLOOP1 Go to BLOOP1                              00221012         
+ 000378                              148 BEND     DS    0H                                                       00221112         
+ 000378 5030 4000            00000   149          ST    3,0(0,4)       Store EOT address                         00221212         
+                                     150 *                                                                       00221312         
+ 00037C 58D0 D004            00004   151          L     13,4(0,13)     Point R13 at caller's save area           00221412         
+ 000380 98EC D00C            0000C   152          LM    14,12,12(13)   Restore the registers                     00221512         
+ 000384 07FE                         153          BR    14             Return to the caller                      00221612         
+                                     154          LTORG                Literals                                  00221712         
+ 000388 E388A499A28481A8             155                =CL8'Thursday'                                                            
+ 000390 E281A3A4998481A8             156                =CL8'Saturday'                                                            
+ 000398 D496958481A8                 157                =CL6'Monday'                                                              
+ 00039E C699898481A8                 158                =CL6'Friday'                                                              
+ 0003A4 E2A4958481A8                 159                =CL6'Sunday'                                                              
+ 0003AA 1C                           160                =P'1'                                                                     
+ 0003AB E3A485A28481A8               161                =CL7'Tuesday'                                                             
+ 0003B2 2C                           162                =P'2'                                                                     
+ 0003B3 E685849585A28481             163                =CL9'Wednesday'                                                           
+ 0003BC 3C                           164                =P'3'                                                                     
+ 0003BD 4C                           165                =P'4'                                                                     
+ 0003BE 5C                           166                =P'5'                                                                     
+1                                                                                                               PAGE    4         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 0003BF 6C                           167                =P'6'                                                                     
+ 0003C0 0C                           168                =P'0'                                                                     
+                                     169 *                                                                       00221812         
+ 0003C4                              170 BLDSAVE  DS    18F            BUILD Save Area                           00221912         
+ 000410                              171 TEMP1    DS    D              TEMP1                                     00222012         
+ 000418 4040404040404040             172 TMPDAY   DC    CL9' '         Temp Day                                  00222112         
+ 000421                              173 BUFFER   DS    CL80           Buffer                                    00222212         
+ 000471 5C                           174          DC    C'*'                                                     00222312         
+ 000000                              175 $BUFF    DSECT                Buffer DSECT                              00222412         
+ 000000                              176 $SYM1    DS    CL1' '         Symbol1                                   00222514         
+ 000001                              177 $BID     DS    7Z                                                       00222613         
+ 000008 40404040                     178          DC    CL4' '                                                   00222713         
+ 00000C                              179 $BPWRD   DS    CL8' '         Build Password                            00222813         
+ 000014 40404040                     180          DC    CL4' '                                                   00222913         
+ 000018 4040404040404040             181 $BDAY    DC    CL9' '         Build Day                                 00223013         
+ 000021 40404040                     182          DC    CL4' '                                                   00223113         
+ 000025                              183 $BHR     DS    2Z             Build Hour                                00223213         
+ 000027                              184 $SYM2    DS    CL1' '         Symbol2                                   00223314         
+ 000028                              185 $BMIN    DS    2Z             Build Minute                              00223413         
+ 00002A 40404040                     186          DC    CL4' '                                                   00223513         
+ 00002E                              187 $BRMN    DS    3Z             Build Room Number                         00223613         
+ 000031 4040404040404040             188          DC    CL31' '                                                  00223713         
+                                     189 *                                                                       00223812         
+                                     190 ********************************************                            00223906         
+                                     191 * PRINT Subroutine                                                      00224006         
+                                     192 * Register Usage:                                                       00224106         
+                                     193 * 1        PARMS                                                        00224206         
+                                     194 * 2        Storage                                                      00224306         
+                                     195 * 3        TABLE                                                        00224406         
+                                     196 * 4        EOT                                                          00224506         
+                                     197 * 5        Header                                                       00224606         
+                                     198 * 7        Counter                                                      00224706         
+                                     199 *12        Base Register                                                00224806         
+                                     200 *13        Address of the local save area                               00224906         
+                                     201 *14        Address for returning to the caller                          00225006         
+                                     202 *15        Adress of the subroutine itself                              00225106         
+                                     203 ********************************************                            00225206         
+ 000478                              204 PRINT    CSECT                                                          00225306         
+ 000478 90EC D00C            0000C   205          STM   14,12,12(13)   Save the registers                        00225406         
+ 00047C 18CF                         206          LR    12,15          Establish R12 as the                      00225506         
+ 000478                              207          USING PRINT,12       Base register                             00225606         
+ 00047E 41E0 C204            0067C   208          LA    14,PRTSAVE     Point R14 at PRTSAVE                      00225706         
+ 000482 50D0 E004            00004   209          ST    13,4(0,14)     Save the forward pointer                  00225806         
+ 000486 50E0 D008            00008   210          ST    14,8(0,13)     Save the backward pointer                 00225906         
+ 00048A 18DE                         211          LR    13,14          Point R13 at PRTSAVE                      00226006         
+                                     212 *                                                                       00226106         
+ 00048C 9835 1000            00000   213          LM    3,5,0(1)       Load R3 through R5                        00226206         
+ 000000                              214          USING $ENTRY,3       Use DSECT $ENTRY at R3                    00226306         
+ 000490 1B77                         215          SR    7,7            Set R7 to 0                               00226406         
+ 000492                              216 PLOOP1   DS    0H                                                       00226506         
+ 000492 5930 4000            00000   217          C     3,0(0,4)       Compare R3 to end of table                00226606         
+ 000496 4780 C18C            00604   218          BC    B'1000',PEND   If they are equal, go to PEND             00226706         
+ 00049A 5970 C1A0            00618   219          C     7,=F'0'        Compare R7 to 0                           00226806         
+ 00049E 4780 C178            005F0   220          BC    B'1000',PHEAD  If they are equal, go to PHEAD            00226906         
+ 0004A2                              221 PLOOP2   DS    0H                                                       00227006         
+ 0004A2 D207 C250 3000 006C8 00000   222          MVC   DTEMP(8),$ID   Move $ID into DTEMP                       00227106         
+ 0004A8 5820 C250            006C8   223          L     2,DTEMP        Load DTEMP into R2                        00227206         
+1                                                                                                               PAGE    5         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 0004AC 4E20 C250            006C8   224          CVD   2,DTEMP        Convert DTEMP to decimal in R2            00227306         
+ 0004B0 D209 C291 C1AC 00709 00624   225          MVC   PID(10),=X'40212020202020202020' Edit Pattern            00227406         
+ 0004B6 DE09 C291 C253 00709 006CB   226          ED    PID(10),DTEMP+3 Edit DTEMP into PID                      00227506         
+ 0004BC 92D9 C293      0070B         227          MVI   PLINE+3,C'R'   Add R to PLINE                            00227606         
+ 0004C0 D207 C258 3004 006D0 00004   228          MVC   TEMP2(8),$PWRD Move $PWRD into TEMP2                     00227706         
+ 0004C6 D703 C258 3000 006D0 00000   229          XC    TEMP2(4),$ID   Unhash $ID                                00227806         
+ 0004CC D703 C25C 3000 006D4 00000   230          XC    TEMP2+4(4),$ID Unhash $ID                                00227906         
+ 0004D2 D207 C29E C258 00716 006D0   231          MVC   PPWRD(8),TEMP2 Move TEMP2 into PPWRD                     00228006         
+ 0004D8 BF24 300C            0000C   232          ICM   2,B'0100',$HOLD Move byte 2 of $HOLD into R2             00228106         
+ 0004DC 8820 0015            00015   233          SRL   2,21           Shift R2 to the right 21 spaces           00228206         
+ 0004E0 4E20 C250            006C8   234          CVD   2,DTEMP        Convert DTEMP into decimal in R2          00228306         
+ 0004E4 F807 C250 C250 006C8 006C8   235          ZAP   DTEMP(1),DTEMP(8) Zero and add DTEMP to DTEMP            00228406         
+ 0004EA F900 C250 C1BC 006C8 00634   236          CP    DTEMP(1),=P'0' Compare DTEMP to 0                        00228506         
+ 0004F0 4770 C086            004FE   237          BC    B'0111',PMOND  If they are not equal, go to PMOND        00228606         
+ 0004F4 D205 C2A9 C1B6 00721 0062E   238          MVC   PDAY(6),=C'Sunday' Move Sunday into PDAY                 00228706         
+ 0004FA 47F0 C0FA            00572   239          BC    B'1111',PLOOP3 Go to PLOOP3                              00228806         
+ 0004FE F900 C250 C1BD 006C8 00635   240 PMOND    CP    DTEMP(1),=P'1' Compare DTEMP to 1                        00228906         
+ 000504 4770 C09A            00512   241          BC    B'0111',PTUES  If they are not equal, go to PTUES        00229006         
+ 000508 D208 C2A9 C1BE 00721 00636   242          MVC   PDAY(9),=C'Monday   ' Move Monday into PDAY              00229106         
+ 00050E 47F0 C0FA            00572   243          BC    B'1111',PLOOP3 Go to PLOOP3                              00229206         
+ 000512 F900 C250 C1C7 006C8 0063F   244 PTUES    CP    DTEMP(1),=P'2' Compare DTEMP to 2                        00229306         
+ 000518 4770 C0AE            00526   245          BC    B'0111',PWEDN  If they are not equal, go to PWEDN        00229406         
+ 00051C D208 C2A9 C1C8 00721 00640   246          MVC   PDAY(9),=C'Tuesday  ' Move Tuesday into PDAY             00229506         
+ 000522 47F0 C0FA            00572   247          BC    B'1111',PLOOP3 Go to PLOOP3                              00229606         
+ 000526 F900 C250 C1D1 006C8 00649   248 PWEDN    CP    DTEMP(1),=P'3' Compare DTEMP to 3                        00229706         
+ 00052C 4770 C0C2            0053A   249          BC    B'0111',PTHUR  If they are not equal, go to PTHUR        00229806         
+ 000530 D208 C2A9 C1D2 00721 0064A   250          MVC   PDAY(9),=C'Wednesday' Move Wednesday into PDAY           00229906         
+ 000536 47F0 C0FA            00572   251          BC    B'1111',PLOOP3 Go to PLOOP3                              00230006         
+ 00053A F900 C250 C1DB 006C8 00653   252 PTHUR    CP    DTEMP(1),=P'4' Compare DTEMP to 4                        00230106         
+ 000540 4770 C0D6            0054E   253          BC    B'0111',PFRID  If they are not equal, go to PFRID        00230206         
+ 000544 D208 C2A9 C1DC 00721 00654   254          MVC   PDAY(9),=C'Thursday ' Move Thursday into PDAY            00230306         
+ 00054A 47F0 C0FA            00572   255          BC    B'1111',PLOOP3 Go to PLOOP3                              00230406         
+ 00054E F900 C250 C1E5 006C8 0065D   256 PFRID    CP    DTEMP(1),=P'5' Compare DTEMP to 5                        00230506         
+ 000554 4770 C0EA            00562   257          BC    B'0111',PSATU  If they are not equal, go to PSATU        00230606         
+ 000558 D208 C2A9 C1E6 00721 0065E   258          MVC   PDAY(9),=C'Friday   ' Move Friday into PDAY              00230706         
+ 00055E 47F0 C0FA            00572   259          BC    B'1111',PLOOP3 Go to PLOOP3                              00230806         
+ 000562 F900 C250 C1EF 006C8 00667   260 PSATU    CP    DTEMP(1),=P'6' Compare DTEMP to 6                        00230906         
+ 000568 D208 C2A9 C1F0 00721 00668   261          MVC   PDAY(9),=C'Saturday ' Move Saturday into PDAY            00231006         
+ 00056E 47F0 C0FA            00572   262          BC    B'1111',PLOOP3 Go to PLOOP3                              00231106         
+ 000572                              263 PLOOP3   DS    0H                                                       00231206         
+ 000572 BF27 300C            0000C   264          ICM   2,B'0111',$HOLD Move bytes 2,3,4 of $HOLD into R2        00231306         
+ 000576 8920 000B            0000B   265          SLL   2,11           Shift R2 to the left 11 spaces            00231406         
+ 00057A 8820 001B            0001B   266          SRL   2,27           Shift R2 to the right 27 spaces           00231506         
+ 00057E 4E20 C250            006C8   267          CVD   2,DTEMP        Convert DETEMP to decimal in R2           00231606         
+ 000582 F817 C250 C250 006C8 006C8   268          ZAP   DTEMP(2),DTEMP(8) Zero and add DTEMP to DTEMP            00231706         
+ 000588 D203 C2B5 C1A4 0072D 0061C   269          MVC   PHR(4),=X'40212020' Edit pattern                         00231806         
+ 00058E DE03 C2B5 C250 0072D 006C8   270          ED    PHR(4),DTEMP   Edit DTEMP to PRH                         00231906         
+ 000594 BF27 300C            0000C   271          ICM   2,B'0111',$HOLD Move bytes 2,3,4 of $HOLD into R2        00232006         
+ 000598 8920 0010            00010   272          SLL   2,16           Shift R2 to the left 16 spaces            00232106         
+ 00059C 8820 001A            0001A   273          SRL   2,26           Shift R2 to the right 26 spaces           00232206         
+ 0005A0 4E20 C250            006C8   274          CVD   2,DTEMP        Convert DTEMP to decimal in R2            00232306         
+ 0005A4 F817 C250 C250 006C8 006C8   275          ZAP   DTEMP(2),DTEMP(8) Zero and add DTEMP to DTEMP            00232406         
+ 0005AA D202 C2B9 C1F9 00731 00671   276          MVC   PMIN(3),=X'212020' Edit pattern                          00232506         
+ 0005B0 DE02 C2B9 C250 00731 006C8   277          ED    PMIN(3),DTEMP  Edit DTEMP into PMIN                      00232606         
+ 0005B6 927A C2B9      00731         278          MVI   PMIN,C':'      Move : into PMIN                          00232706         
+ 0005BA BF27 300C            0000C   279          ICM   2,B'0111',$HOLD Move bytes 2,3,4 of $HOLD into R2        00232806         
+ 0005BE 8920 0016            00016   280          SLL   2,22           Shift R2 to the left 22 spaces            00232906         
+1                                                                                                               PAGE    6         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 0005C2 8820 0016            00016   281          SRL   2,22           Shift R2 to the right 22 spaces           00233006         
+ 0005C6 4E20 C250            006C8   282          CVD   2,DTEMP        Convert DTEMP to decimal in R2            00233106         
+ 0005CA F837 C250 C250 006C8 006C8   283          ZAP   DTEMP(4),DTEMP(8) Zero and add DTEMP to DTEMP            00233206         
+ 0005D0 F030 C250 0003 006C8 00003   284          SRP   DTEMP(4),3,0   Shift packed DTEMP to the right 3 spaces  00233306         
+ 0005D6 D204 C2C0 C1FC 00738 00674   285          MVC   PRMN(5),=X'4021202020' Edit pattern                      00233408         
+ 0005DC DE04 C2C0 C250 00738 006C8   286          ED    PRMN(5),DTEMP  Edit DTEMP into PRM                       00233507         
+ 0005E2 E020 C290 0035 00708         287          XPRNT PLINE,53       Print PLINE                               00233606         
+ 0005E8 4130 300F            0000F   288          LA    3,15(0,3)      Load next address                         00233706         
+ 0005EC 47F0 C01A            00492   289          BC    B'1111',PLOOP1 Go to PLOOP1                              00233806         
+ 0005F0                              290 PHEAD    DS    0H                                                       00233906         
+ 0005F0 5870 C1A8            00620   291          L     7,=F'1'        Load 1 into R7                            00234006         
+ 0005F4 E020 5000 0033 00000         292          XPRNT 0(0,5),51      Print title                               00234106         
+ 0005FA E020 C25B 0035 006D3         293          XPRNT HEADER,53      Print header                              00234206         
+ 000600 47F0 C02A            004A2   294          BC    B'1111',PLOOP2 Go to PLOOP2                              00234306         
+ 000604                              295 PEND     DS    0H                                                       00234406         
+ 000604 E020 C259 0002 006D1         296          XPRNT BLINE,2        Print Blank Line                          00234506         
+                                     297 *                                                                       00234606         
+ 00060A 58D0 D004            00004   298          L     13,4(0,13)     Point R13 at caller's save area           00234706         
+ 00060E 98EC D00C            0000C   299          LM    14,12,12(13)   Restore the registers                     00234806         
+ 000612 07FE                         300          BR    14             Return to the caller                      00234906         
+                                     301          LTORG                Literals                                  00235006         
+ 000618 00000000                     302                =F'0'                                                                     
+ 00061C 40212020                     303                =X'40212020'                                                              
+ 000620 00000001                     304                =F'1'                                                                     
+ 000624 4021202020202020             305                =X'40212020202020202020'                                                  
+ 00062E E2A4958481A8                 306                =C'Sunday'                                                                
+ 000634 0C                           307                =P'0'                                                                     
+ 000635 1C                           308                =P'1'                                                                     
+ 000636 D496958481A84040             309                =C'Monday   '                                                             
+ 00063F 2C                           310                =P'2'                                                                     
+ 000640 E3A485A28481A840             311                =C'Tuesday  '                                                             
+ 000649 3C                           312                =P'3'                                                                     
+ 00064A E685849585A28481             313                =C'Wednesday'                                                             
+ 000653 4C                           314                =P'4'                                                                     
+ 000654 E388A499A28481A8             315                =C'Thursday '                                                             
+ 00065D 5C                           316                =P'5'                                                                     
+ 00065E C699898481A84040             317                =C'Friday   '                                                             
+ 000667 6C                           318                =P'6'                                                                     
+ 000668 E281A3A4998481A8             319                =C'Saturday '                                                             
+ 000671 212020                       320                =X'212020'                                                                
+ 000674 4021202020                   321                =X'4021202020'                                                            
+                                     322 *                                                                       00235106         
+ 00067C                              323 PRTSAVE  DS    18F            PRINT Save Area                           00235207         
+ 0006C8                              324 DTEMP    DS    D              D Temp                                    00235306         
+ 0006D0                              325 TEMP2    DS    PL1            Temp                                      00235406         
+ 0006D1 4040                         326 BLINE    DC    CL2' '         Blank Line                                00235507         
+ 0006D3 40                           327 HEADER   DC    CL1' '         Header                                    00235606         
+ 0006D4 40C9C440D5A49482             328          DC    CL10' ID Number'                                         00235706         
+ 0006DE 404040                       329          DC    CL3' '                                                   00235806         
+ 0006E1 D781A2A2A6969984             330          DC    CL8'Password'                                            00235906         
+ 0006E9 404040                       331          DC    CL3' '                                                   00236006         
+ 0006EC C481A8                       332          DC    CL3'Day'                                                 00236106         
+ 0006EF 4040404040404040             333          DC    CL12' '                                                  00236206         
+ 0006FB E3899485                     334          DC    CL4'Time'                                                00236306         
+ 0006FF 4040404040                   335          DC    CL5' '                                                   00236406         
+ 000704 D9969694                     336          DC    CL4'Room'                                                00236506         
+ 000708 40                           337 PLINE    DC    CL1' '         Print Line                                00236606         
+1                                                                                                               PAGE    7         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 000709 4040404040404040             338 PID      DC    CL10' '        Print ID                                  00236706         
+ 000713 404040                       339          DC    CL3' '                                                   00236806         
+ 000716 4040404040404040             340 PPWRD    DC    CL8' '         Print Password                            00236907         
+ 00071E 404040                       341          DC    CL3' '                                                   00237006         
+ 000721 4040404040404040             342 PDAY     DC    CL9' '                                                   00237106         
+ 00072A 404040                       343          DC    CL3' '                                                   00237206         
+ 00072D 40404040                     344 PHR      DC    CL4' '         Print Hours                               00237307         
+ 000731 404040                       345 PMIN     DC    CL3' '         Print Minutes                             00237407         
+ 000734 40404040                     346          DC    CL4' '                                                   00237506         
+ 000738 4040404040                   347 PRMN     DC    CL5' '         Print Room Number                         00237607         
+                                     348 ********************************************                            00237706         
+                                     349 * SORTID Subroutine                                                     00237806         
+                                     350 * Register Usage:                                                       00237906         
+                                     351 * 1        PARMS                                                        00238006         
+                                     352 * 3        TABLE                                                        00238106         
+                                     353 * 4        EOT                                                          00238206         
+                                     354 * 6        Table Copy                                                   00238306         
+                                     355 * 8        First Entry                                                  00238406         
+                                     356 * 9        Compare Entry                                                00238506         
+                                     357 *12        Base Register                                                00238606         
+                                     358 *13        Address of the local save area                               00238706         
+                                     359 *14        Address for returning to the caller                          00238806         
+                                     360 *15        Adress of the subroutine itself                              00238906         
+                                     361 ********************************************                            00239006         
+ 000740                              362 SORTID   CSECT                                                          00239106         
+ 000740 90EC D00C            0000C   363          STM   14,12,12(13)   Save the registers                        00239206         
+ 000744 18CF                         364          LR    12,15          Establish R12 as the                      00239306         
+ 000740                              365          USING SORTID,12      Base register                             00239406         
+ 000746 41E0 C06C            007AC   366          LA    14,SRTSAVE     Point R14 at SRTSAVE                      00239506         
+ 00074A 50D0 E004            00004   367          ST    13,4(0,14)     Save the forward pointer                  00239606         
+ 00074E 50E0 D008            00008   368          ST    14,8(0,13)     Save the backward pointer                 00239706         
+ 000752 18DE                         369          LR    13,14          Point R13 at SRTSAVE                      00239806         
+                                     370 *                                                                       00239906         
+ 000754 9835 1000            00000   371          LM    3,5,0(1)       Load R3 through R5                        00240006         
+ 000758 1863                         372          LR    6,3            Load R6 into R3                           00240106         
+ 00075A 5870 4000            00000   373          L     7,0(0,4)       Load end ot table into R7                 00240206         
+ 00075E                              374 SLOOP1   DS    0H                                                       00240306         
+ 00075E 1967                         375          CR    6,7            Compare R7 to R6                          00240406         
+ 000760 4780 C05E            0079E   376          BC    B'1000',SEND   If they are equal, go to SEND             00240506         
+ 000764 1886                         377          LR    8,6            Load R8 into R6                           00240606         
+ 000766                              378 SLOOP2   DS    0H                                                       00240706         
+ 000766 1983                         379          CR    8,3            Compare R3 to R8                          00240806         
+ 000768 4780 C056            00796   380          BC    B'1000',SLOOP4 If they are equal, go to SLOOP4           00240906         
+ 00076C 1898                         381          LR    9,8            Load R9 into R8                           00241006         
+ 00076E 5B90 C068            007A8   382          S     9,=F'15'       Subtract 15 from R9                       00241106         
+ 000772 D503 8000 9000 00000 00000   383          CLC   0(4,8),0(9)    Compare 2 of our entries                  00241206         
+ 000778 4740 C04E            0078E   384          BC    B'0100',SLOOP3 If right is bigger, go to SLOOP3          00241306         
+ 00077C D20E C0B4 8000 007F4 00000   385          MVC   TEMP3(15),0(8) Move R8 into TEMP3                        00241406         
+ 000782 D20E 8000 9000 00000 00000   386          MVC   0(15,8),0(9)   Move R9 into R8                           00241506         
+ 000788 D20E 9000 C0B4 00000 007F4   387          MVC   0(15,9),TEMP3  Move TEMP3 into R9                        00241606         
+ 00078E                              388 SLOOP3   DS    0H                                                       00241706         
+ 00078E 5B80 C068            007A8   389          S     8,=F'15'       Subtract 15 from R8                       00241806         
+ 000792 47F0 C026            00766   390          BC    B'1111',SLOOP2 Go to SLOOP2                              00241906         
+ 000796                              391 SLOOP4   DS    0H                                                       00242006         
+ 000796 4160 600F            0000F   392          LA    6,15(0,6)      Load the next address                     00242106         
+ 00079A 47F0 C01E            0075E   393          BC    B'1111',SLOOP1 Go to SLOOP1                              00242206         
+ 00079E                              394 SEND     DS    0H                                                       00242306         
+1                                                                                                               PAGE    8         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                     395 *                                                                       00242406         
+ 00079E 58D0 D004            00004   396          L     13,4(0,13)     Point R13 at caller's save area           00242506         
+ 0007A2 98EC D00C            0000C   397          LM    14,12,12(13)   Restore the registers                     00242606         
+ 0007A6 07FE                         398          BR    14             Return to the caller                      00242706         
+                                     399          LTORG                Literals                                  00242806         
+ 0007A8 0000000F                     400                =F'15'                                                                    
+                                     401 *                                                                       00242906         
+ 0007AC                              402 SRTSAVE  DS    18F            SORTID Save Area                          00243007         
+ 0007F4                              403 TEMP3    DS    15C            Temp                                      00243106         
+                                     404 ********************************************                            00243206         
+                                     405          END   MAIN                                                     00243306         
+0***  NO   STATEMENTS FLAGGED -  NO   WARNINGS,  NO   ERRORS                                                                      
+0*** DYNAMIC CORE AREA USED:  LOW:   24684 HIGH:    2632 LEAVING:  466252 FREE BYTES. AVERAGE:       67 BYTES/STMT ***            
+0*** ASSEMBLY TIME =    0.001 SECS,   406000 STATEMENTS/SEC ***                                                                   
+0*** PROGRAM EXECUTION BEGINNING - ANY OUTPUT BEFORE EXECUTION TIME MESSAGE IS PRODUCED BY USER PROGRAM ***                       
+0BEGIN XSNAP - CALL     1 AT D0000024 USER STORAGE                                                                                
+0                             CORE ADDRESSES SPECIFIED-     0000A4 TO 0000E0                                                      
+ 0000A0   00000000 00000100 E2C9D5D7 D3C5D6E6    0C004000 60A824F1 925BD0F5 965FDC4A   *........SINPLEOW.. ....1...5....*         
+ 0000C0   7877008B EB3CF17A 1ACDF17A 1ACDA902    A800168E D6D7D76C 34E6C057 12CB3C77   *......1...1.........OPP..W......*         
+0                                                                                                                                 
+   SINPLEOW   -y1k$}5o^õ›ûÖ ¤…1:è1:èzy ®OPP                                                                               
+  ID Number   Password   Day            Time     Room                                                                             
+   R0000256   SIMPLEPW   Sunday        12:00      064                                                                             
+   R6334500   12345678   Tuesday       10:30      119                                                                             
+   R9169724   11111111   Friday        09:00      680                                                                             
+   R1478358   PASSWORD   Saturday      11:15      119                                                                             
+   R6962464   DROWSSAP   Thursday      08:30      356                                                                             
+   R5705145   DONTCARE   Monday        19:45      242                                                                             
+   R3281827   QWERTYUV   Friday        14:20      680                                                                             
+   R9961491   ASDFGHJK   Tuesday       14:00      119                                                                             
+   R2995942   MYSTUFF    Tuesday       18:15      242                                                                             
+   R4827436   ZZZZZZZZ   Thursday      10:30      242                                                                             
+   R2391604   IMBORED    Saturday      14:45      680                                                                             
+   R8723741   WHATFUNN   Wednesday     13:00      356                                                                             
+   R7529778   IAMSILLY   Wednesday     14:45      119                                                                             
+   R4771538   O0I1L5S    Monday        15:30      680                                                                             
+   R5667299   2ZMN8SQ0   Thursday      16:00      242                                                                             
+   R0041467   LETMEIN    Monday        11:00      242                                                                             
+   R1590023   GUESSME    Saturday      12:30      680                                                                             
+ E                                                                                                                                
+0*** EXECUTION TIME =    0.001 SECS.      3005 INSTRUCTIONS EXECUTED -  3005000 INSTRUCTIONS/SEC ***                              
+1 ASSIST COMPLETION DUMP                                                                                                          
+0PSW AT ABEND FFC50004 C00005FA       COMPLETION CODE   SYSTEM = 0C4 PROTECTION                                                   
+0** TRACE OF INSTRUCTIONS JUST BEFORE TERMINATION: PSW BITS SHOWN ARE THOSE BEFORE CORRESPONDING INSTRUCTION DECODED ***          
+0  IM LOCATION    INSTRUCTION :  IM = PSW BITS 32-39(ILC,CC,MASK) BEFORE INSTRUCTION EXECUTED AT PROGRAM LOCATION SHOWN           
+0  00  000486     50E0 D008                                                                                                       
+0  80  00048A     18DE                                                                                                            
+0  40  00048C     9835 1000                                                                                                       
+0  80  000490     1B77                                                                                                            
+0  40  000492     5930 4000                                                                                                       
+0  90  000496     4780 C18C                                                                                                       
+0  90  00049A     5970 C1A0                                                                                                       
+0  80  00049E     4780 C178                                                                                                       
+0  80  0005F0     5870 C1A8                                                                                                       
+0  80  0005F4     E020 5000 0033  <-- LAST INSTRUCTION DONE - PROBABLE CAUSE OF TERMINATION                                       
+0                                                                                                                                 
+-** TRACE OF LAST 10 BRANCH INSTRUCTIONS EXECUTED: PSW BITS SHOWN ARE THOSE BEFORE CORRESPONDING INSTRUCTION DECODED ***          
+0  IM LOCATION    INSTRUCTION :  IM = PSW BITS 32-39(ILC,CC,MASK) BEFORE INSTRUCTION EXECUTED AT PROGRAM LOCATION SHOWN           
+0  10  000778     4740 C04E                                                                                                       
+0  A0  000792     47F0 C026                                                                                                       
+0  90  000778     4740 C04E                                                                                                       
+0  A0  000792     47F0 C026                                                                                                       
+0  80  000768     4780 C056                                                                                                       
+0  80  00079A     47F0 C01E                                                                                                       
+0  80  000760     4780 C05E                                                                                                       
+0  80  0007A6     07FE                                                                                                            
+0  40  000040     05EF                                                                                                            
+0  40  00049E     4780 C178                                                                                                       
+0 REGS 0-7      F4F4F4F4    0000024C    F4F4F4F4    000000A4    000001D0    F5F5F5F5    F4F4F4F4    00000001                      
+  REGS 8-15     F4F4F4F4    F4F4F4F4    F4F4F4F4    F4F4F4F4    00000478    0000067C    0000067C    00000478                      
+0 FLTR 0-6      F4F4F4F4F4F4F4F4        F4F4F4F4F4F4F4F4        F4F4F4F4F4F4F4F4        F4F4F4F4F4F4F4F4                          
+1 USER STORAGE                                                                                                                    
+0                             CORE ADDRESSES SPECIFIED-     000000 TO 000950                                                      
+ 000000   90ECD00C 18CF41E0 C05C50D0 E00450E0    D00818DE 4110C23C 58F0C050 05EFE060   *......................B..0......*         
+ 000020   C0A4003C 4110C244 58F0C054 05EF4110    C23C58F0 C05805EF 4110C24C 58F0C054   *......B..0......B..0......B..0..*         
+ 000040   05EF58D0 D00498EC D00C07FE F5F5F5F5    00000258 00000478 00000740 F5F5F5F5   *............5555........... 5555*         
+ 000060   00000808 0000067C 40000042 00000478    F4F4F4F4 0000024C F4F4F4F4 F4F4F4F4   *........ .......4444....44444444*         
+ 000080   F4F4F4F4 F4F4F4F4 F4F4F4F4 F4F4F4F4    F4F4F4F4 F4F4F4F4 F4F4F4F4 F4F4F4F4   *44444444444444444444444444444444*         
+ 0000A0   00000000 00980013 C17AC4D5 C750D1C1    4E007700 8BEB3CF1 7A1ACDF1 7A1ACDA9   *........A.DNG.JA.......1...1....*         
+ 0000C0   02A80085 1D1DE64D DCFEC661 C8C86D01    640072E5 32C9B331 D0C9A136 DA6EB477   *......W...F.HH.....V.I...I......*         
+ 0000E0   006A3D20 C4B3EBC6 E288FCF7 88796400    60A824F1 925BD0F5 965FDC4A 78770057   *....D..FS..7.......1...5........*         
+ 000100   0DB9C481 D85AC396 D47C33B4 F2005679    E3F2BFAD 36F8B4A1 139000F2 0049A92C   *..D.Q.C.M...2...T2...8.....2....*         
+ 000120   E9A040C5 E9A040C5 8A78F200 48CED2D6    B80723D3 BD2C922F 7AA80032 13A3D8D4   *Z. EZ. E..2...KO...L..........QM*         
+ 000140   D67AE3DA F746AE52 A8002DB6 E6D4C554    05E4EB70 A6523CF2 00247E34 C9F0BCE2   *O.T.7.......WME..U.....2....I0.S*         
+ 000160   D9E1BA74 CEB6A800 184307C7 FC86E5E2    CC8647CC 7AA80016 8ED6D7D7 6C34E6C0   *R..........G..VS.........OPP..W.*         
+ 000180   5712CB3C 770000A1 FBD3C542 2FC5C974    BB2B00F2 00000100 E2C9D5D7 D3C5D6E6   *.........LE..EI....2....SINPLEOW*         
+ 0001A0   0C0040F5 F5F5F5F5 F5F5F5F5 F5F5F5F5    F5F5F5F5 F5F5F5F5 F5F5F5F5 F5F5F5F5   *.. 55555555555555555555555555555*         
+ 0001C0   F5F5F5F5 F5F5F5F5 F5F5F5F5 F5F5F5F5    000001A3 40404040 40404040 40404040   *5555555555555555....            *         
+ 0001E0   404040C1 97979689 95A39485 95A340C9    95869699 9481A389 96954040 40404040   *   A.......... I..........      *         
+ 000200   40404040 40404040 40404040 40404040    40404040 4040C197 97968995 A3948595   *                      A.........*         
+ 000220   A340C995 86969994 81A38996 954082A8    40C9C440 D5A49482 8599F5F5 000000A4   *. I.......... .. ID N.....55....*         
+ 000240   000001D0 000000A4 000001D0 000000A4    000001D0 F5F5F5F5 90ECD00C 18CF41E0   *....................5555........*         
+ 000260   C16C50D0 E00450E0 D00818DE 98341000    4110C1C9 E0010000 00504740 C1201934   *A.................AI....... A...*         
+ 000280   4780C120 F276C1B8 10014F20 C1B8BE2F    3000D207 3004100C D7033004 3000D703   *..A.2.A.....A.....K.....P.....P.*         
+ 0002A0   30083000 D208C1C0 1018D505 C1C0C140    4770C066 F870C1B8 C15247F0 C0DAD506   *....K.A...N.A.A ....8.A.A..0..N.*         
+ 0002C0   C1C0C153 4770C07A F870C1B8 C15A47F0    C0DAD508 C1C0C15B 4770C08E F870C1B8   *A.A.....8.A.A..0..N.A.A.....8.A.*         
+ 0002E0   C16447F0 C0DAD507 C1C0C130 4770C0A2    F870C1B8 C16547F0 C0DAD505 C1C0C146   *A..0..N.A.A.....8.A.A..0..N.A.A.*         
+ 000300   4770C0B6 F870C1B8 C16647F0 C0DAD507    C1C0C138 4770C0CA F870C1B8 C16747F0   *....8.A.A..0..N.A.A.....8.A.A..0*         
+ 000320   C0DAD505 C1C0C14C F870C1B8 C16847F0    C0DA4F50 C1B88950 0015F271 C1B81025   *..N.A.A.8.A.A..0....A.....2.A...*         
+ 000340   4F60C1B8 89600010 1756F271 C1B81028    4F60C1B8 8960000A 1756F272 C1B8102E   *..A.......2.A.....A.......2.A...*         
+ 000360   4F60C1B8 1756BE57 300C4130 300FE000    10000050 47F0C022 50304000 58D0D004   *..A..................0.... .....*         
+ 000380   98ECD00C 07FEF5F5 E388A499 A28481A8    E281A3A4 998481A8 D4969584 81A8C699   *......55T.......S.......M.....F.*         
+ 0003A0   898481A8 E2A49584 81A81CE3 A485A284    81A82CE6 85849585 A28481A8 3C4C5C6C   *....S......T.......W............*         
+ 0003C0   0CF5F5F5 F5F5F5F5 0000005C F5F5F5F5    F5F5F5F5 F5F5F5F5 F5F5F5F5 F5F5F5F5   *.5555555....55555555555555555555*         
+ 0003E0   F5F5F5F5 F5F5F5F5 F5F5F5F5 F5F5F5F5    F5F5F5F5 F5F5F5F5 F5F5F5F5 F5F5F5F5   *55555555555555555555555555555555*         
+ 000400   F5F5F5F5 F5F5F5F5 F5F5F5F5 F5F5F5F5    00000000 0000680F E281A3A4 998481A8   *5555555555555555........S.......*         
+ 000420   40D9F1F5 F9F0F0F2 F3404040 40C7E4C5    E2E2D4C5 40404040 40E281A3 A4998481   * R1590023    GUESSME     S......*         
+ 000440   A8404040 4040F1F2 7AF3F040 404040F6    F8F04040 40404040 40404040 40404040   *.     12.30    680              *         
+ 000460   40404040 40404040 40404040 40404040    405CF5F5 F5F5F5F5 90ECD00C 18CF41E0   *                 .555555........*         
+ 000480   C20450D0 E00450E0 D00818DE 98351000    1B775930 40004780 C18C5970 C1A04780   *B................... ...A...A...*         
+ 0004A0   C178D207 C2503000 5820C250 4E20C250    D209C291 C1ACDE09 C291C253 92D9C293   *A.K.B.....B...B.K.B.A...B.B..RB.*         
+ 0004C0   D207C258 3004D703 C2583000 D703C25C    3000D207 C29EC258 BF24300C 88200015   *K.B...P.B...P.B...K.B.B.........*         
+ 0004E0   4E20C250 F807C250 C250F900 C250C1BC    4770C086 D205C2A9 C1B647F0 C0FAF900   *..B.8.B.B.9.B.A.....K.B.A..0..9.*         
+ 000500   C250C1BD 4770C09A D208C2A9 C1BE47F0    C0FAF900 C250C1C7 4770C0AE D208C2A9   *B.A.....K.B.A..0..9.B.AG....K.B.*         
+ 000520   C1C847F0 C0FAF900 C250C1D1 4770C0C2    D208C2A9 C1D247F0 C0FAF900 C250C1DB   *AH.0..9.B.AJ...BK.B.AK.0..9.B.A.*         
+ 000540   4770C0D6 D208C2A9 C1DC47F0 C0FAF900    C250C1E5 4770C0EA D208C2A9 C1E647F0   *...OK.B.A..0..9.B.AV....K.B.AW.0*         
+ 000560   C0FAF900 C250C1EF D208C2A9 C1F047F0    C0FABF27 300C8920 000B8820 001B4E20   *..9.B.A.K.B.A0.0................*         
+ 000580   C250F817 C250C250 D203C2B5 C1A4DE03    C2B5C250 BF27300C 89200010 8820001A   *B.8.B.B.K.B.A...B.B.............*         
+ 0005A0   4E20C250 F817C250 C250D202 C2B9C1F9    DE02C2B9 C250927A C2B9BF27 300C8920   *..B.8.B.B.K.B.A9..B.B...B.......*         
+ 0005C0   00168820 00164E20 C250F837 C250C250    F030C250 0003D204 C2C0C1FC DE04C2C0   *........B.8.B.B.0.B...K.B.A...B.*         
+ 0005E0   C250E020 C2900035 4130300F 47F0C01A    5870C1A8 E0205000 0033E020 C25B0035   *B...B........0....A.........B...*         
+ 000600   47F0C02A E020C259 000258D0 D00498EC    D00C07FE F5F5F5F5 00000000 40212020   *.0....B.............5555.... ...*         
+ 000620   00000001 40212020 20202020 2020E2A4    958481A8 0C1CD496 958481A8 4040402C   *.... .........S.......M.....   .*         
+ 000640   E3A485A2 8481A840 403CE685 849585A2    8481A84C E388A499 A28481A8 405CC699   *T......  .W.........T....... .F.*         
+ 000660   898481A8 4040406C E281A3A4 998481A8    40212020 40212020 20F5F5F5 F5F5F5F5   *....   .S....... ... ....5555555*         
+ 000680   0000005C F5F5F5F5 F5F5F5F5 F5F5F5F5    F5F5F5F5 F5F5F5F5 F5F5F5F5 F5F5F5F5   *....5555555555555555555555555555*         
+ 0006A0   F5F5F5F5 F5F5F5F5 F5F5F5F5 F5F5F5F5    F5F5F5F5 F5F5F5F5 F5F5F5F5 F5F5F5F5   *55555555555555555555555555555555*         
+ 0006C0   F5F5F5F5 F5F5F5F5 0680000C 0000680C    C7E4C5E2 E2D4C540 D5A49482 85994040   *55555555........GUESSME N.....  *         
+ 0006E0   40D781A2 A2A69699 84404040 C481A840    40404040 40404040 404040E3 89948540   * P.......   D..            T... *         
+ 000700   40404040 D9969694 404040D9 F1F5F9F0    F0F2F340 4040C7E4 C5E2E2D4 C5404040   *    R...   R1590023   GUESSME   *         
+ 000720   40E281A3 A4998481 A8404040 404040F1    F27AF3F0 40404040 4040F6F8 F0F5F5F5   * S.......      12.30      680555*         
+ 000740   90ECD00C 18CF41E0 C06C50D0 E00450E0    D00818DE 98351000 18635870 40001967   *............................ ...*         
+ 000760   4780C05E 18861983 4780C056 18985B90    C068D503 80009000 4740C04E D20EC0B4   *..................N...... ..K...*         
+1000780   8000D20E 80009000 D20E9000 C0B45B80    C06847F0 C0264160 600F47F0 C01E58D0   *..K.....K..........0.......0....*         
+ 0007A0   D00498EC D00C07FE 0000000F F5F5F5F5    0000005C F5F5F5F5 F5F5F5F5 F5F5F5F5   *............5555....555555555555*         
+ 0007C0   F5F5F5F5 F5F5F5F5 F5F5F5F5 F5F5F5F5    F5F5F5F5 F5F5F5F5 F5F5F5F5 F5F5F5F5   *55555555555555555555555555555555*         
+ 0007E0   F5F5F5F5 F5F5F5F5 F5F5F5F5 F5F5F5F5    F5F5F5F5 00184307 C7FC86E5 E2CC8647   *55555555555555555555....G..VS...*         
+ 000800   CC7AA8F5 F5F5F5F5 F5F5F5F5 00000000    0000005C FFFE7960 00000000 F4F4F4F4   *...555555555................4444*         
+ 000820   F4F4F4F4 F4F4F4F4 F4F4F4F4 F4F4F4F4    F4F4F4F4 F4F4F4F4 F4F4F4F4 F4F4F4F4   *44444444444444444444444444444444*         
+ 000840   F4F4F4F4 F4F4F4F4 F4F4F4F4 F4F4F4F4    F5F5F5F5 F5F5F5F5 F5F5F5F5 F5F5F5F5   *44444444444444445555555555555555*         
+ 000860   F5F5F5F5 F5F5F5F5 F5F5F5F5 F5F5F5F5    F5F5F5F5 F5F5F5F5 F5F5F5F5 F5F5F5F5   *55555555555555555555555555555555*         
+   LINES    000880-000920    SAME AS ABOVE                                                                                        
+0                                                                                                                                 

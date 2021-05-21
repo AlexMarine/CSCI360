@@ -1,0 +1,385 @@
+//KC03D3BA JOB ,'ALEX MARINE',MSGCLASS=H                                00010000
+//STEP1 EXEC PGM=ASSIST                                                 00020000
+//STEPLIB DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                        00030000
+//SYSPRINT DD SYSOUT=*                                                  00040000
+//SYSIN DD *                                                            00050000
+********************************************                            00060000
+* Alex Marine                                                           00070000
+* CSCI 360                                                              00080000
+* Assignment 8                                                          00090000
+* Regsiter Usage:                                                       00100000
+* 1        PARMS                                                        00110000
+*12        Base Register                                                00120000
+*13        Address of the local save area                               00130000
+*14        Address for returning to the caller                          00140000
+*15        Adress of the subroutine itself                              00150000
+********************************************                            00160000
+$ENTRY   DSECT                                                          00161000
+$ID      DS    CL4            ID                                        00162006
+$PWRD    DS    CL8            Password                                  00163006
+$HOLD    DS    CL3            Hold                                      00164006
+********************************************                            00165000
+MAIN     CSECT                                                          00170000
+         STM   14,12,12(13)   Save the registers                        00180000
+         LR    12,15          Establish R12 as the                      00190000
+         USING MAIN,12        Base register                             00200000
+         LA    14,MANSAVE     Point R14 at MANSAVE                      00201015
+         ST    13,4(0,14)     Save the forward pointer                  00202000
+         ST    14,8(0,13)     Save the backward pointer                 00203000
+         LR    13,14          Point R13 at MAINSAVE                     00204000
+*                                                                       00205000
+         LA    1,BPARMS       Address of BPARMS                         00206000
+         L     15,=V(BUILD)   Point R15 at BUILD                        00207000
+         BALR  14,15          Branch to BUILD                           00208000
+         XDUMP TABLE,60       DUMP TABLE                                00208100
+*                                                                       00209000
+         LA    1,PPARMS1      Address of PPARMS1                        00209100
+         L     15,=V(PRINT)   Point R15 at PRINT                        00209200
+         BALR  14,15          Branch to PRINT                           00209300
+*                                                                       00209400
+         LA    1,BPARMS       Address of BPARMS                         00209500
+         L     15,=V(SORTID)  Point R15 at SORTID                       00209600
+         BALR  14,15          Branch to SORTID                          00209700
+*                                                                       00209800
+         LA    1,PPARMS2      Address of PPARMS2                        00209900
+         L     15,=V(PRINT)   Point R15 at PRINT                        00210000
+         BALR  14,15          Branch to PRINT                           00210100
+*                                                                       00210200
+         L     13,4(0,13)     Point R13 at caller's save area           00210300
+         LM    14,12,12(13)   Restore the registers                     00210400
+         BR    14             Return to the caller                      00210500
+         LTORG                Literals                                  00210600
+*                                                                       00210700
+MANSAVE  DS    18F            MAIN save area                            00210815
+TABLE    DS    20CL15         TABLE                                     00210900
+EOT      DS    F              End Of Table                              00211000
+MHEAD1   DC    CL15' '        Main Header 1                             00211100
+         DC    CL36'Appointment Information             '               00211206
+MHEAD2   DC    CL15' '        Main Header 2                             00211300
+         DC    CL36'Appointment Information by ID Number'               00212000
+BPARMS   DC    A(TABLE)       BUILD parameters                          00212100
+         DC    A(EOT)                                                   00212200
+PPARMS1  DC    A(TABLE)       PRINT1 parameters                         00212300
+         DC    A(EOT)                                                   00212400
+PPARMS2  DC    A(TABLE)       PRINT2 parameters                         00212500
+         DC    A(EOT)                                                   00212600
+********************************************                            00212700
+* BUILD Subroutine                                                      00212800
+* Register Usage:                                                       00212900
+* 1        PARMS                                                        00213002
+* 2        Storage                                                      00213100
+* 3        TABLE                                                        00213200
+* 4        EOT                                                          00213300
+* 5        Bits for $HOLD                                               00213406
+* 6        Bits for $HOLD                                               00213506
+*12        Base Register                                                00213600
+*13        Address of the local save area                               00213700
+*14        Address for returning to the caller                          00213800
+*15        Adress of the subroutine itself                              00213900
+********************************************                            00214000
+BUILD    CSECT                                                          00214100
+         STM   14,12,12(13)   Save the registers                        00214200
+         LR    12,15          Establish R12 as the                      00214300
+         USING BUILD,12       Base register                             00214400
+         LA    14,BLDSAVE     Point R14 at BLDSAVE                      00214500
+         ST    13,4(0,14)     Save the forward pointer                  00214600
+         ST    14,8(0,13)     Save the backward pointer                 00214700
+         LR    13,14          Point R13 at BLDSAVE                      00214800
+*                                                                       00214900
+         LM    3,4,0(1)       Load R3 through R4                        00215000
+         USING $ENTRY,3       Use DSECT $ENTRY at R3                    00215100
+         LA    1,BUFFER       Load Address of BUFFER to R1              00215200
+         USING $BUFF,1        Use DSECT $BUFF at R1                     00215300
+         XREAD 0(1),80        Read first line of input                  00215400
+BLOOP1   DS    0H                                                       00215506
+         BC    B'0100',BEND   If end of file, go to BEND                00215606
+         CR    3,4            Compare R3 to R4                          00215700
+         BC    B'1000',BEND   If they are equal, go to BEND             00215800
+         PACK  TEMP1(8),$BID(7) Pack $BID into TEMP1                    00215912
+         CVB   2,TEMP1        Convert TEMP1 to binary                   00216012
+         STCM  2,B'1111',$ID  Store on $ID                              00216112
+         MVC   $PWRD(8),$BPWRD Move $BPWRD to $PWRD                     00216212
+         XC    $PWRD(4),$ID   Hash $PWRD                                00216312
+         XC    $PWRD+4(4),$ID Hash $PWRD                                00216412
+         MVC   TMPDAY(9),$BDAY Move $BDAY into TMPDAY                   00216512
+         CLC   TMPDAY(6),=CL6'Monday' Compare TMPDAY to Monday          00216612
+         BC    B'0111',BTUES  If they are not equal, go to BTUES        00216712
+         ZAP   TEMP1(8),=P'1'  Zero and add 1 to TEMP1                  00216812
+         BC    B'1111',BLOOP2 Go to BLOOP2                              00216912
+BTUES    CLC   TMPDAY(7),=CL7'Tuesday' Compare TMPDAY to Tuesday        00217012
+         BC    B'0111',BWEDN  If they are not equal, go to BWEDN        00217112
+         ZAP   TEMP1(8),=P'2'  Zero and add 2 to TEMP1                  00217212
+         BC    B'1111',BLOOP2 Go to BLOOP2                              00217312
+BWEDN    CLC   TMPDAY(9),=CL9'Wednesday' Compare TMPDAY to Wednesday    00217412
+         BC    B'0111',BTHUR  If they are not equal, go to BTHUR        00217512
+         ZAP   TEMP1(8),=P'3'  Zero and add 3 to TEMP1                  00217612
+         BC    B'1111',BLOOP2 Go to BLOOP2                              00217712
+BTHUR    CLC   TMPDAY(8),=CL8'Thursday' Compare TMPDAY to Thursday      00217812
+         BC    B'0111',BFRID  If they are not equal, go to BFRID        00217912
+         ZAP   TEMP1(8),=P'4'  Zero and add 4 to TEMP1                  00218012
+         BC    B'1111',BLOOP2 Go to BLOOP2                              00218112
+BFRID    CLC   TMPDAY(6),=CL6'Friday' Compare TMPDAY to Friday          00218212
+         BC    B'0111',BSATU  If they are not equal, go to BSATU        00218312
+         ZAP   TEMP1(8),=P'5'  Zero and add 5 to TEMP1                  00218412
+         BC    B'1111',BLOOP2 Go to BLOOP2                              00218512
+BSATU    CLC   TMPDAY(8),=CL8'Saturday' Compare TMPDAY to Saturday      00218612
+         BC    B'0111',BSUND  If they are not equal, go to BSUND        00218712
+         ZAP   TEMP1(8),=P'6'  Zero and add 6 to TEMP1                  00218812
+         BC    B'1111',BLOOP2 Go to BLOOP2                              00218912
+BSUND    CLC   TMPDAY(6),=CL6'Sunday' Compare TMPDAY to Sunday          00219012
+         ZAP   TEMP1(8),=P'0'  Zero and add 0 to TEMP1                  00219112
+         BC    B'1111',BLOOP2 Go to BLOOP2                              00219206
+BLOOP2   DS    0H                                                       00219312
+         CVB   5,TEMP1        Convert TEMP1 to binary in R5             00219412
+         SLL   5,21           Shift R5 to the left 21 spaces            00219512
+         PACK  TEMP1(8),$BHR(2) Pack $BHR into TEMP1                    00219612
+         CVB   6,TEMP1        Convert TEMP1 to binary in R6             00219712
+         SLL   6,16           Shift R6 to the left 16 spaces            00219812
+         XR    5,6            Add R5 to R6                              00219912
+         PACK  TEMP1(8),$BMIN(2) Pack $BMIN into TEMP1                  00220012
+         CVB   6,TEMP1        Convert TEMP1 to binary in R6             00220112
+         SLL   6,10           Shift R6 to the left 10 spaces            00220212
+         XR    5,6            Add R5 to R6                              00220312
+         PACK  TEMP1(8),$BRMN(3) Pack $BRMN into TEMP1                  00220412
+         CVB   6,TEMP1        Convert TEMP1 to binary in R6             00220512
+         XR    5,6            Add R5 to R6                              00220606
+         STCM  5,B'0111',$HOLD Move into $HOLD                          00220712
+         LA    3,15(0,3)      Advance to next address                   00220812
+         XREAD 0(0,1),80      Read next line                            00220912
+         BC    B'1111',BLOOP1 Go to BLOOP1                              00221012
+BEND     DS    0H                                                       00221112
+         ST    3,0(0,4)       Store EOT address                         00221212
+*                                                                       00221312
+         L     13,4(0,13)     Point R13 at caller's save area           00221412
+         LM    14,12,12(13)   Restore the registers                     00221512
+         BR    14             Return to the caller                      00221612
+         LTORG                Literals                                  00221712
+*                                                                       00221812
+BLDSAVE  DS    18F            BUILD Save Area                           00221912
+TEMP1    DS    D              TEMP1                                     00222012
+TMPDAY   DC    CL9' '         Temp Day                                  00222112
+BUFFER   DS    CL80           Buffer                                    00222212
+         DC    C'*'                                                     00222312
+$BUFF    DSECT                Buffer DSECT                              00222412
+$SYM1    DS    CL1' '         Symbol1                                   00222514
+$BID     DS    7Z                                                       00222613
+         DC    CL4' '                                                   00222713
+$BPWRD   DS    CL8' '         Build Password                            00222813
+         DC    CL4' '                                                   00222913
+$BDAY    DC    CL9' '         Build Day                                 00223013
+         DC    CL4' '                                                   00223113
+$BHR     DS    2Z             Build Hour                                00223213
+$SYM2    DS    CL1' '         Symbol2                                   00223314
+$BMIN    DS    2Z             Build Minute                              00223413
+         DC    CL4' '                                                   00223513
+$BRMN    DS    3Z             Build Room Number                         00223613
+         DC    CL31' '                                                  00223713
+*                                                                       00223812
+********************************************                            00223906
+* PRINT Subroutine                                                      00224006
+* Register Usage:                                                       00224106
+* 1        PARMS                                                        00224206
+* 2        Storage                                                      00224306
+* 3        TABLE                                                        00224406
+* 4        EOT                                                          00224506
+* 5        Header                                                       00224606
+* 7        Counter                                                      00224706
+*12        Base Register                                                00224806
+*13        Address of the local save area                               00224906
+*14        Address for returning to the caller                          00225006
+*15        Adress of the subroutine itself                              00225106
+********************************************                            00225206
+PRINT    CSECT                                                          00225306
+         STM   14,12,12(13)   Save the registers                        00225406
+         LR    12,15          Establish R12 as the                      00225506
+         USING PRINT,12       Base register                             00225606
+         LA    14,PRTSAVE     Point R14 at PRTSAVE                      00225706
+         ST    13,4(0,14)     Save the forward pointer                  00225806
+         ST    14,8(0,13)     Save the backward pointer                 00225906
+         LR    13,14          Point R13 at PRTSAVE                      00226006
+*                                                                       00226106
+         LM    3,5,0(1)       Load R3 through R5                        00226206
+         USING $ENTRY,3       Use DSECT $ENTRY at R3                    00226306
+         SR    7,7            Set R7 to 0                               00226406
+PLOOP1   DS    0H                                                       00226506
+         C     3,0(0,4)       Compare R3 to end of table                00226606
+         BC    B'1000',PEND   If they are equal, go to PEND             00226706
+         C     7,=F'0'        Compare R7 to 0                           00226806
+         BC    B'1000',PHEAD  If they are equal, go to PHEAD            00226906
+PLOOP2   DS    0H                                                       00227006
+         MVC   DTEMP(8),$ID   Move $ID into DTEMP                       00227106
+         L     2,DTEMP        Load DTEMP into R2                        00227206
+         CVD   2,DTEMP        Convert DTEMP to decimal in R2            00227306
+         MVC   PID(10),=X'40212020202020202020' Edit Pattern            00227406
+         ED    PID(10),DTEMP+3 Edit DTEMP into PID                      00227506
+         MVI   PLINE+3,C'R'   Add R to PLINE                            00227606
+         MVC   TEMP2(8),$PWRD Move $PWRD into TEMP2                     00227706
+         XC    TEMP2(4),$ID   Unhash $ID                                00227806
+         XC    TEMP2+4(4),$ID Unhash $ID                                00227906
+         MVC   PPWRD(8),TEMP2 Move TEMP2 into PPWRD                     00228006
+         ICM   2,B'0100',$HOLD Move byte 2 of $HOLD into R2             00228106
+         SRL   2,21           Shift R2 to the right 21 spaces           00228206
+         CVD   2,DTEMP        Convert DTEMP into decimal in R2          00228306
+         ZAP   DTEMP(1),DTEMP(8) Zero and add DTEMP to DTEMP            00228406
+         CP    DTEMP(1),=P'0' Compare DTEMP to 0                        00228506
+         BC    B'0111',PMOND  If they are not equal, go to PMOND        00228606
+         MVC   PDAY(6),=C'Sunday' Move Sunday into PDAY                 00228706
+         BC    B'1111',PLOOP3 Go to PLOOP3                              00228806
+PMOND    CP    DTEMP(1),=P'1' Compare DTEMP to 1                        00228906
+         BC    B'0111',PTUES  If they are not equal, go to PTUES        00229006
+         MVC   PDAY(9),=C'Monday   ' Move Monday into PDAY              00229106
+         BC    B'1111',PLOOP3 Go to PLOOP3                              00229206
+PTUES    CP    DTEMP(1),=P'2' Compare DTEMP to 2                        00229306
+         BC    B'0111',PWEDN  If they are not equal, go to PWEDN        00229406
+         MVC   PDAY(9),=C'Tuesday  ' Move Tuesday into PDAY             00229506
+         BC    B'1111',PLOOP3 Go to PLOOP3                              00229606
+PWEDN    CP    DTEMP(1),=P'3' Compare DTEMP to 3                        00229706
+         BC    B'0111',PTHUR  If they are not equal, go to PTHUR        00229806
+         MVC   PDAY(9),=C'Wednesday' Move Wednesday into PDAY           00229906
+         BC    B'1111',PLOOP3 Go to PLOOP3                              00230006
+PTHUR    CP    DTEMP(1),=P'4' Compare DTEMP to 4                        00230106
+         BC    B'0111',PFRID  If they are not equal, go to PFRID        00230206
+         MVC   PDAY(9),=C'Thursday ' Move Thursday into PDAY            00230306
+         BC    B'1111',PLOOP3 Go to PLOOP3                              00230406
+PFRID    CP    DTEMP(1),=P'5' Compare DTEMP to 5                        00230506
+         BC    B'0111',PSATU  If they are not equal, go to PSATU        00230606
+         MVC   PDAY(9),=C'Friday   ' Move Friday into PDAY              00230706
+         BC    B'1111',PLOOP3 Go to PLOOP3                              00230806
+PSATU    CP    DTEMP(1),=P'6' Compare DTEMP to 6                        00230906
+         MVC   PDAY(9),=C'Saturday ' Move Saturday into PDAY            00231006
+         BC    B'1111',PLOOP3 Go to PLOOP3                              00231106
+PLOOP3   DS    0H                                                       00231206
+         ICM   2,B'0111',$HOLD Move bytes 2,3,4 of $HOLD into R2        00231306
+         SLL   2,11           Shift R2 to the left 11 spaces            00231406
+         SRL   2,27           Shift R2 to the right 27 spaces           00231506
+         CVD   2,DTEMP        Convert DETEMP to decimal in R2           00231606
+         ZAP   DTEMP(2),DTEMP(8) Zero and add DTEMP to DTEMP            00231706
+         MVC   PHR(4),=X'40212020' Edit pattern                         00231806
+         ED    PHR(4),DTEMP   Edit DTEMP to PRH                         00231906
+         ICM   2,B'0111',$HOLD Move bytes 2,3,4 of $HOLD into R2        00232006
+         SLL   2,16           Shift R2 to the left 16 spaces            00232106
+         SRL   2,26           Shift R2 to the right 26 spaces           00232206
+         CVD   2,DTEMP        Convert DTEMP to decimal in R2            00232306
+         ZAP   DTEMP(2),DTEMP(8) Zero and add DTEMP to DTEMP            00232406
+         MVC   PMIN(3),=X'212020' Edit pattern                          00232506
+         ED    PMIN(3),DTEMP  Edit DTEMP into PMIN                      00232606
+         MVI   PMIN,C':'      Move : into PMIN                          00232706
+         ICM   2,B'0111',$HOLD Move bytes 2,3,4 of $HOLD into R2        00232806
+         SLL   2,22           Shift R2 to the left 22 spaces            00232906
+         SRL   2,22           Shift R2 to the right 22 spaces           00233006
+         CVD   2,DTEMP        Convert DTEMP to decimal in R2            00233106
+         ZAP   DTEMP(4),DTEMP(8) Zero and add DTEMP to DTEMP            00233206
+         SRP   DTEMP(4),3,0   Shift packed DTEMP to the right 3 spaces  00233306
+         MVC   PRMN(5),=X'4021202020' Edit pattern                      00233408
+         ED    PRMN(5),DTEMP  Edit DTEMP into PRM                       00233507
+         XPRNT PLINE,53       Print PLINE                               00233606
+         LA    3,15(0,3)      Load next address                         00233706
+         BC    B'1111',PLOOP1 Go to PLOOP1                              00233806
+PHEAD    DS    0H                                                       00233906
+         L     7,=F'1'        Load 1 into R7                            00234006
+         XPRNT 0(0,5),51      Print title                               00234106
+         XPRNT HEADER,53      Print header                              00234206
+         BC    B'1111',PLOOP2 Go to PLOOP2                              00234306
+PEND     DS    0H                                                       00234406
+         XPRNT BLINE,2        Print Blank Line                          00234506
+*                                                                       00234606
+         L     13,4(0,13)     Point R13 at caller's save area           00234706
+         LM    14,12,12(13)   Restore the registers                     00234806
+         BR    14             Return to the caller                      00234906
+         LTORG                Literals                                  00235006
+*                                                                       00235106
+PRTSAVE  DS    18F            PRINT Save Area                           00235207
+DTEMP    DS    D              D Temp                                    00235306
+TEMP2    DS    PL1            Temp                                      00235406
+BLINE    DC    CL2' '         Blank Line                                00235507
+HEADER   DC    CL1' '         Header                                    00235606
+         DC    CL10' ID Number'                                         00235706
+         DC    CL3' '                                                   00235806
+         DC    CL8'Password'                                            00235906
+         DC    CL3' '                                                   00236006
+         DC    CL3'Day'                                                 00236106
+         DC    CL12' '                                                  00236206
+         DC    CL4'Time'                                                00236306
+         DC    CL5' '                                                   00236406
+         DC    CL4'Room'                                                00236506
+PLINE    DC    CL1' '         Print Line                                00236606
+PID      DC    CL10' '        Print ID                                  00236706
+         DC    CL3' '                                                   00236806
+PPWRD    DC    CL8' '         Print Password                            00236907
+         DC    CL3' '                                                   00237006
+PDAY     DC    CL9' '                                                   00237106
+         DC    CL3' '                                                   00237206
+PHR      DC    CL4' '         Print Hours                               00237307
+PMIN     DC    CL3' '         Print Minutes                             00237407
+         DC    CL4' '                                                   00237506
+PRMN     DC    CL5' '         Print Room Number                         00237607
+********************************************                            00237706
+* SORTID Subroutine                                                     00237806
+* Register Usage:                                                       00237906
+* 1        PARMS                                                        00238006
+* 3        TABLE                                                        00238106
+* 4        EOT                                                          00238206
+* 6        Table Copy                                                   00238306
+* 8        First Entry                                                  00238406
+* 9        Compare Entry                                                00238506
+*12        Base Register                                                00238606
+*13        Address of the local save area                               00238706
+*14        Address for returning to the caller                          00238806
+*15        Adress of the subroutine itself                              00238906
+********************************************                            00239006
+SORTID   CSECT                                                          00239106
+         STM   14,12,12(13)   Save the registers                        00239206
+         LR    12,15          Establish R12 as the                      00239306
+         USING SORTID,12      Base register                             00239406
+         LA    14,SRTSAVE     Point R14 at SRTSAVE                      00239506
+         ST    13,4(0,14)     Save the forward pointer                  00239606
+         ST    14,8(0,13)     Save the backward pointer                 00239706
+         LR    13,14          Point R13 at SRTSAVE                      00239806
+*                                                                       00239906
+         LM    3,5,0(1)       Load R3 through R5                        00240006
+         LR    6,3            Load R6 into R3                           00240106
+         L     7,0(0,4)       Load end ot table into R7                 00240206
+SLOOP1   DS    0H                                                       00240306
+         CR    6,7            Compare R7 to R6                          00240406
+         BC    B'1000',SEND   If they are equal, go to SEND             00240506
+         LR    8,6            Load R8 into R6                           00240606
+SLOOP2   DS    0H                                                       00240706
+         CR    8,3            Compare R3 to R8                          00240806
+         BC    B'1000',SLOOP4 If they are equal, go to SLOOP4           00240906
+         LR    9,8            Load R9 into R8                           00241006
+         S     9,=F'15'       Subtract 15 from R9                       00241106
+         CLC   0(4,8),0(9)    Compare 2 of our entries                  00241206
+         BC    B'0100',SLOOP3 If right is bigger, go to SLOOP3          00241306
+         MVC   TEMP3(15),0(8) Move R8 into TEMP3                        00241406
+         MVC   0(15,8),0(9)   Move R9 into R8                           00241506
+         MVC   0(15,9),TEMP3  Move TEMP3 into R9                        00241606
+SLOOP3   DS    0H                                                       00241706
+         S     8,=F'15'       Subtract 15 from R8                       00241806
+         BC    B'1111',SLOOP2 Go to SLOOP2                              00241906
+SLOOP4   DS    0H                                                       00242006
+         LA    6,15(0,6)      Load the next address                     00242106
+         BC    B'1111',SLOOP1 Go to SLOOP1                              00242206
+SEND     DS    0H                                                       00242306
+*                                                                       00242406
+         L     13,4(0,13)     Point R13 at caller's save area           00242506
+         LM    14,12,12(13)   Restore the registers                     00242606
+         BR    14             Return to the caller                      00242706
+         LTORG                Literals                                  00242806
+*                                                                       00242906
+SRTSAVE  DS    18F            SORTID Save Area                          00243007
+TEMP3    DS    15C            Temp                                      00243106
+********************************************                            00243206
+         END   MAIN                                                     00243306
+/*                                                                      00243406
+//FT05F001  DD  DSN=KC02314.SPRING20.CSCI360.HW8DATA,DISP=SHR           00243506
+//                                                                      00243606
+                                                                        00243706
+                                                                        00243806
+                                                                        00243906
+                                                                        00244006
+                                                                        00244106
+                                                                        00244206
+                                                                        00244306
+                                                                        00244406
+                                                                        00245006
+                                                                        00250006
