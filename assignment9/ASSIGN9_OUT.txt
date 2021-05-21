@@ -1,0 +1,419 @@
+1                   J E S 2  J O B  L O G  --  S Y S T E M  2 9 6 4  --  N O D E  S V S C J E S 2        
+0 
+ 12.36.15 JOB09619 ---- FRIDAY,    01 MAY 2020 ----
+ 12.36.15 JOB09619  IRR010I  USERID KC03D3B  IS ASSIGNED TO THIS JOB.
+ 12.36.15 JOB09619  ICH70001I KC03D3B  LAST ACCESS AT 12:35:01 ON FRIDAY, MAY 1, 2020
+ 12.36.15 JOB09619  $HASP373 KC03D3BA STARTED - INIT 1    - CLASS A        - SYS 2964
+ 12.36.16 JOB09619  $HASP395 KC03D3BA ENDED - RC=0000
+0------ JES2 JOB STATISTICS ------
+-  01 MAY 2020 JOB EXECUTION DATE
+-           39 CARDS READ
+-          423 SYSOUT PRINT RECORDS
+-            0 SYSOUT PUNCH RECORDS
+-           38 SYSOUT SPOOL KBYTES
+-         0.00 MINUTES EXECUTION TIME
+         1 //KC03D3BA JOB ,'Alex Marine',MSGCLASS=H                                JOB09619
+         2 //STEP     EXEC  PGM=ASSIST,PARM='MACRO=H'                              00020015
+         3 //STEPLIB    DD  DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                    00030015
+         4 //SYSPRINT   DD  SYSOUT=*                                               00040015
+         5 //SYSIN      DD  *                                                      00050015
+         6 //          DD DSN=KC02314.SPRING20.CSCI360.HW9DRVR,DISP=SHR            00100917
+         7 //FT05F001  DD DUMMY                                                    00101017
+         8 //FT06F001  DD SYSOUT=*                                                 00110017
+ ICH70001I KC03D3B  LAST ACCESS AT 12:35:01 ON FRIDAY, MAY 1, 2020
+ IEFA111I KC03D3BA IS USING THE FOLLOWING JOB RELATED SETTINGS:
+          SWA=ABOVE,TIOT SIZE=32K,DSENQSHR=DISALLOW,GDGBIAS=JOB
+ IEF236I ALLOC. FOR KC03D3BA STEP
+ IGD103I SMS ALLOCATED TO DDNAME STEPLIB
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IEF237I JES2 ALLOCATED TO SYSIN
+ IGD103I SMS ALLOCATED TO DDNAME
+ IEF237I DMY  ALLOCATED TO FT05F001
+ IEF237I JES2 ALLOCATED TO FT06F001
+ IEF142I KC03D3BA STEP - STEP WAS EXECUTED - COND CODE 0000
+ IGD104I KC02293.ASSIST.LOADLIB                       RETAINED,  DDNAME=STEPLIB 
+ IEF285I   KC03D3B.KC03D3BA.JOB09619.D0000102.?         SYSOUT        
+ IEF285I   KC03D3B.KC03D3BA.JOB09619.D0000101.?         SYSIN         
+ IGD104I KC02314.SPRING20.CSCI360.HW9DRVR             RETAINED,  DDNAME=        
+ IEF285I   KC03D3B.KC03D3BA.JOB09619.D0000103.?         SYSOUT        
+ IEF373I STEP/STEP    /START 2020122.1236
+ IEF032I STEP/STEP    /STOP  2020122.1236 
+         CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+         VIRT:   584K  SYS:   244K  EXT:        0K  SYS:    11436K
+         ATB- REAL:                  1044K  SLOTS:                     0K
+              VIRT- ALLOC:      11M SHRD:       0M
+ IEF375I  JOB/KC03D3BA/START 2020122.1236
+ IEF033I  JOB/KC03D3BA/STOP  2020122.1236 
+         CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+1*** ASSIST 4.0/A2-05/15/82  470/V7A/0:OS/VS2  INS=SDFP7/X=BGHO, CHECK/TRC/=1180, OPTS=CDKMPR FROM PENN ST*NIU COMPSCI*LT         
+0MACRO=H                                                                                                                          
+0                                                                                                               PAGE    1         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                       1 ********************************************                            00060000         
+                                       2 * Alex Marine                                                           00070000         
+                                       3 * CSCI 360                                                              00080000         
+                                       4 * Assignment 9                                                          00090012         
+                                       5 * Regsiter Usage:                                                       00091000         
+                                       6 * 2        &STR                                                         00092000         
+                                       7 * 3        &LEN                                                         00093011         
+                                       8 ********************************************                            00094000         
+                                       9          MACRO                       Start MACRO                        00095000         
+                                      10 &LABEL   STRLEN &STR,&LEN            Name of MACRO and Parameters       00096011         
+                                      11          AIF    ('&STR' EQ '').ERROR Check &STR                         00097002         
+                                      12          AIF    ('&LEN' EQ '').ERROR Check &LEN                         00098002         
+                                      13 &LABEL   STM    2,3,A&SYSNDX         Store R2 through R3 in A&SYSNDX    00099011         
+                                      14          BC     B'1111',B&SYSNDX     Go to B&SYSNDX                     00099103         
+                                      15 A&SYSNDX DS     3F                   MACRO save area                    00099217         
+                                      16 B&SYSNDX DS     0H                                                      00099317         
+                                      17          LA     2,&STR               Load address of &STR into R2       00099417         
+                                      18          SR     3,3                  Set R3 to 0                        00099517         
+                                      19 C&SYSNDX DS     0H                                                      00099617         
+                                      20          CLI    0(2),X'00'           Compare R2 to X'00'                00099717         
+                                      21          BC     B'1000',D&SYSNDX     If they are eqaul, go to D&SYSNDX  00099817         
+                                      22          A      2,=F'1'              Add 1 to R2                        00099917         
+                                      23          A      3,=F'1'              Add 1 to R3                        00100017         
+                                      24          BC     B'1111',C&SYSNDX     Go to C&SYSNDX                     00100117         
+                                      25 D&SYSNDX DS     0H                                                      00100217         
+                                      26          LA     3,&LEN               Load address of &LEN into R3       00100317         
+                                      27          LM     2,3,A&SYSNDX         Load R2 through R3 to A&SYSNDX     00100417         
+                                      28          MEXIT                       MACRO Exit                         00100517         
+                                      29 .ERROR   MNOTE  'Missing Argument'   MACRO note for error               00100617         
+                                      30          MEND                        MACRO End                          00100717         
+                                      31 ********************************************                            00100817         
+                                      32 **********************************************************************                   
+                                      33 *                                                                    *                   
+                                      34 *            Name:  DRIVER.                                          *                   
+                                      35 *                                                                    *                   
+                                      36 *        Function:  Test platform for the STRLEN macro.              *                   
+                                      37 *                                                                    *                   
+                                      38 *           Input:  None.                                            *                   
+                                      39 *                                                                    *                   
+                                      40 *          Output:  Results of the tests.                            *                   
+                                      41 *                                                                    *                   
+                                      42 *     Entry Conds:  14 -- Return address to the operating            *                   
+                                      43 *                         system.                                    *                   
+                                      44 *                   15 -- Address of entry to the program.           *                   
+                                      45 *                                                                    *                   
+                                      46 *  Register Usage:   2 -- Used in addresses in macro tests.          *                   
+                                      47 *                   11 -- Second base register.                      *                   
+                                      48 *                   12 -- Base register.                             *                   
+                                      49 *                                                                    *                   
+                                      50 *      Exit Conds:  14 -- Return address to the operating            *                   
+                                      51 *                         system.                                    *                   
+                                      52 *                                                                    *                   
+1                                                                                                               PAGE    2         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                      53 **********************************************************************                   
+1                                                                                                               PAGE    3         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                                                                                                                  
+                                                                                                                                  
+                                      55 **********************************************************************                   
+                                      56 *               The DRIVER program begins here.                      *                   
+                                      57 **********************************************************************                   
+                                      58 *                                                                                        
+ 000000                               59 DRIVER   CSECT                         Beginning of the program                          
+                                      60 *                                                                                        
+                                      62 *                                                                                        
+                                      63 *  Standard entry linkage.                                                               
+                                      64 *                                                                                        
+ 000000 90EC D00C            0000C    65          STM   14,12,12(13)            Store the registers in the save                   
+                                      66 *                                      area of the calling routine                       
+                                      67 *                                                                                        
+ 000004 18CF                          68          LR    12,15                   Point register 12 at DRIVER                       
+ 000000                               69          USING DRIVER,12               The base register is 12                           
+                                      70 *                                                                                        
+ 000006 41E0 C3B8            003B8    71          LA    14,DRIVSAV              Point register 14 at DRIVER's                     
+                                      72 *                                      save area                                         
+ 00000A 50DE 0004            00004    73          ST    13,4(14)                Store the backward pointer                        
+ 00000E 50ED 0008            00008    74          ST    14,8(13)                Store the forward pointer                         
+ 000012 18DE                          75          LR    13,14                   Point register 13 at DRIVER's                     
+                                      76 *                                      save area                                         
+                                      77 *                                                                                        
+ 000014 E020 C34E 0013 0034E          78          XPRNT =CL19'1Results of testing',19                                             
+                                      79 *                                      Print the title                                   
+                                      80 *                                                                                        
+                                      81 * This block of code tests the STRLEN macro.                                             
+                                      82 *                                                                                        
+ 00001A E020 C361 0001 00361          83          XPRNT =C'0',1                 Skip an extra 2 lines                             
+ 000020 E020 C362 001F 00362          84          XPRNT =CL31'-We will test the STRLEN macro.',31                                 
+                                      85 *                                      Print a heading                                   
+                                      86 *                                                                                        
+                                      87 * These first three calls to STRLEN all have problems which should                       
+                                      88 * result in MNOTEs.                                                                      
+                                      89 *                                                                                        
+                                      90          STRLEN   S1                                                                     
+ ----->AS***MNOTE***     1,Missing Argument                                                                       <-ERROR         
+                                      92 *                                                                                        
+                                      93          STRLEN   ,LENGTH                                                                
+ ----->AS***MNOTE***     1,Missing Argument                                                                       <-ERROR         
+                                      95 *                                                                                        
+                                      96          STRLEN                                                                          
+ ----->AS***MNOTE***     1,Missing Argument                                                                       <-ERROR         
+                                      98 *                                                                                        
+                                      99 * The next few calls to STRLEN should all work.                                          
+                                     100 *                                                                                        
+ 000026 E020 C2D0 0018 002D0         101          XPRNT =CL24'-The input value is:  00',24                                        
+ 00002C E020 C381 001B 00381         102          XPRNT =CL27'0The actual length is:    0',27                                     
+                                     103          STRLEN   S1,LENGTH                                                              
+ 000032 9023 C03C            0003C   104+         STM    2,3,A0004            Store R2 through R3 in A&SYSNDX                     
+ 000036 47F0 C048            00048   105+         BC     B'1111',B0004        Go to B&SYSNDX                                      
+ 00003C                              106+A0004    DS     3F                   MACRO save area                                     
+ 000048                              107+B0004    DS     0H                                                                       
+ 000048 4120 C400            00400   108+         LA     2,S1                 Load address of &STR into R2                        
+ 00004C 1B33                         109+         SR     3,3                  Set R3 to 0                                         
+ 00004E                              110+C0004    DS     0H                                                                       
+1                                                                                                               PAGE    4         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 00004E 9500 2000      00000         111+         CLI    0(2),X'00'           Compare R2 to X'00'                                 
+ 000052 4780 C062            00062   112+         BC     B'1000',D0004        If they are eqaul, go to D&SYSNDX                   
+ 000056 5A20 C2E8            002E8   113+         A      2,=F'1'              Add 1 to R2                                         
+ 00005A 5A30 C2E8            002E8   114+         A      3,=F'1'              Add 1 to R3                                         
+ 00005E 47F0 C04E            0004E   115+         BC     B'1111',C0004        Go to C&SYSNDX                                      
+ 000062                              116+D0004    DS     0H                                                                       
+ 000062 4130 C410            00410   117+         LA     3,LENGTH             Load address of &LEN into R3                        
+ 000066 9823 C03C            0003C   118+         LM     2,3,A0004            Load R2 through R3 to A&SYSNDX                      
+ 00006A 5840 C410            00410   119          L     4,LENGTH                                                                  
+ 00006E 4E40 C430            00430   120          CVD   4,TEMP                                                                    
+ 000072 D203 C42B C2EC 0042B 002EC   121          MVC   SVALUE(4),=XL4'40202120'                                                  
+ 000078 DE03 C42B C436 0042B 00436   122          ED    SVALUE(4),TEMP+6                                                          
+ 00007E E020 C414 001B 00414         123          XPRNT SLINE,27                                                                  
+                                     124 *                                                                                        
+ 000084 E020 C330 001E 00330         125          XPRNT =CL30'-The input value is:  C1C2C300',30                                  
+ 00008A E020 C39C 001B 0039C         126          XPRNT =CL27'0The actual length is:    3',27                                     
+                                     127          STRLEN   S2,LENGTH                                                              
+ 000090 9023 C098            00098   128+         STM    2,3,A0005            Store R2 through R3 in A&SYSNDX                     
+ 000094 47F0 C0A4            000A4   129+         BC     B'1111',B0005        Go to B&SYSNDX                                      
+ 000098                              130+A0005    DS     3F                   MACRO save area                                     
+ 0000A4                              131+B0005    DS     0H                                                                       
+ 0000A4 4120 C401            00401   132+         LA     2,S2                 Load address of &STR into R2                        
+ 0000A8 1B33                         133+         SR     3,3                  Set R3 to 0                                         
+ 0000AA                              134+C0005    DS     0H                                                                       
+ 0000AA 9500 2000      00000         135+         CLI    0(2),X'00'           Compare R2 to X'00'                                 
+ 0000AE 4780 C0BE            000BE   136+         BC     B'1000',D0005        If they are eqaul, go to D&SYSNDX                   
+ 0000B2 5A20 C2E8            002E8   137+         A      2,=F'1'              Add 1 to R2                                         
+ 0000B6 5A30 C2E8            002E8   138+         A      3,=F'1'              Add 1 to R3                                         
+ 0000BA 47F0 C0AA            000AA   139+         BC     B'1111',C0005        Go to C&SYSNDX                                      
+ 0000BE                              140+D0005    DS     0H                                                                       
+ 0000BE 4130 C410            00410   141+         LA     3,LENGTH             Load address of &LEN into R3                        
+ 0000C2 9823 C098            00098   142+         LM     2,3,A0005            Load R2 through R3 to A&SYSNDX                      
+ 0000C6 5840 C410            00410   143          L     4,LENGTH                                                                  
+ 0000CA 4E40 C430            00430   144          CVD   4,TEMP                                                                    
+ 0000CE D203 C42B C2EC 0042B 002EC   145          MVC   SVALUE(4),=XL4'40202120'                                                  
+ 0000D4 DE03 C42B C436 0042B 00436   146          ED    SVALUE(4),TEMP+6                                                          
+ 0000DA E020 C414 001B 00414         147          XPRNT SLINE,27                                                                  
+                                     148 *                                                                                        
+ 0000E0 E020 C2F0 001C 002F0         149          XPRNT =CL28'-The input value is:  000000',28                                    
+ 0000E6 E020 C381 001B 00381         150          XPRNT =CL27'0The actual length is:    0',27                                     
+                                     151          STRLEN   S3,LENGTH                                                              
+ 0000EC 9023 C0F4            000F4   152+         STM    2,3,A0006            Store R2 through R3 in A&SYSNDX                     
+ 0000F0 47F0 C100            00100   153+         BC     B'1111',B0006        Go to B&SYSNDX                                      
+ 0000F4                              154+A0006    DS     3F                   MACRO save area                                     
+ 000100                              155+B0006    DS     0H                                                                       
+ 000100 4120 C405            00405   156+         LA     2,S3                 Load address of &STR into R2                        
+ 000104 1B33                         157+         SR     3,3                  Set R3 to 0                                         
+ 000106                              158+C0006    DS     0H                                                                       
+ 000106 9500 2000      00000         159+         CLI    0(2),X'00'           Compare R2 to X'00'                                 
+ 00010A 4780 C11A            0011A   160+         BC     B'1000',D0006        If they are eqaul, go to D&SYSNDX                   
+ 00010E 5A20 C2E8            002E8   161+         A      2,=F'1'              Add 1 to R2                                         
+ 000112 5A30 C2E8            002E8   162+         A      3,=F'1'              Add 1 to R3                                         
+ 000116 47F0 C106            00106   163+         BC     B'1111',C0006        Go to C&SYSNDX                                      
+ 00011A                              164+D0006    DS     0H                                                                       
+ 00011A 4130 C410            00410   165+         LA     3,LENGTH             Load address of &LEN into R3                        
+ 00011E 9823 C0F4            000F4   166+         LM     2,3,A0006            Load R2 through R3 to A&SYSNDX                      
+ 000122 5840 C410            00410   167          L     4,LENGTH                                                                  
+1                                                                                                               PAGE    5         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 000126 4E40 C430            00430   168          CVD   4,TEMP                                                                    
+ 00012A D203 C42B C2EC 0042B 002EC   169          MVC   SVALUE(4),=XL4'40202120'                                                  
+ 000130 DE03 C42B C436 0042B 00436   170          ED    SVALUE(4),TEMP+6                                                          
+ 000136 E020 C414 001B 00414         171          XPRNT SLINE,27                                                                  
+                                     172 *                                                                                        
+ 00013C E020 C330 001E 00330         173          XPRNT =CL30'-The input value is:  C1C2C300',30                                  
+ 000142 E020 C39C 001B 0039C         174          XPRNT =CL27'0The actual length is:    3',27                                     
+ 000148 4130 C401            00401   175          LA    3,S2                                                                      
+                                     176          STRLEN   0(3),LENGTH                                                            
+ 00014C 9023 C154            00154   177+         STM    2,3,A0007            Store R2 through R3 in A&SYSNDX                     
+ 000150 47F0 C160            00160   178+         BC     B'1111',B0007        Go to B&SYSNDX                                      
+ 000154                              179+A0007    DS     3F                   MACRO save area                                     
+ 000160                              180+B0007    DS     0H                                                                       
+ 000160 4123 0000            00000   181+         LA     2,0(3)               Load address of &STR into R2                        
+ 000164 1B33                         182+         SR     3,3                  Set R3 to 0                                         
+ 000166                              183+C0007    DS     0H                                                                       
+ 000166 9500 2000      00000         184+         CLI    0(2),X'00'           Compare R2 to X'00'                                 
+ 00016A 4780 C17A            0017A   185+         BC     B'1000',D0007        If they are eqaul, go to D&SYSNDX                   
+ 00016E 5A20 C2E8            002E8   186+         A      2,=F'1'              Add 1 to R2                                         
+ 000172 5A30 C2E8            002E8   187+         A      3,=F'1'              Add 1 to R3                                         
+ 000176 47F0 C166            00166   188+         BC     B'1111',C0007        Go to C&SYSNDX                                      
+ 00017A                              189+D0007    DS     0H                                                                       
+ 00017A 4130 C410            00410   190+         LA     3,LENGTH             Load address of &LEN into R3                        
+ 00017E 9823 C154            00154   191+         LM     2,3,A0007            Load R2 through R3 to A&SYSNDX                      
+ 000182 5840 C410            00410   192          L     4,LENGTH                                                                  
+ 000186 4E40 C430            00430   193          CVD   4,TEMP                                                                    
+ 00018A D203 C42B C2EC 0042B 002EC   194          MVC   SVALUE(4),=XL4'40202120'                                                  
+ 000190 DE03 C42B C436 0042B 00436   195          ED    SVALUE(4),TEMP+6                                                          
+ 000196 E020 C414 001B 00414         196          XPRNT SLINE,27                                                                  
+                                     197 *                                                                                        
+ 00019C E020 C330 001E 00330         198          XPRNT =CL30'-The input value is:  C1C2C300',30                                  
+ 0001A2 E020 C39C 001B 0039C         199          XPRNT =CL27'0The actual length is:    3',27                                     
+ 0001A8 4150 C410            00410   200          LA    5,LENGTH                                                                  
+                                     201          STRLEN   S2,0(5)                                                                
+ 0001AC 9023 C1B4            001B4   202+         STM    2,3,A0008            Store R2 through R3 in A&SYSNDX                     
+ 0001B0 47F0 C1C0            001C0   203+         BC     B'1111',B0008        Go to B&SYSNDX                                      
+ 0001B4                              204+A0008    DS     3F                   MACRO save area                                     
+ 0001C0                              205+B0008    DS     0H                                                                       
+ 0001C0 4120 C401            00401   206+         LA     2,S2                 Load address of &STR into R2                        
+ 0001C4 1B33                         207+         SR     3,3                  Set R3 to 0                                         
+ 0001C6                              208+C0008    DS     0H                                                                       
+ 0001C6 9500 2000      00000         209+         CLI    0(2),X'00'           Compare R2 to X'00'                                 
+ 0001CA 4780 C1DA            001DA   210+         BC     B'1000',D0008        If they are eqaul, go to D&SYSNDX                   
+ 0001CE 5A20 C2E8            002E8   211+         A      2,=F'1'              Add 1 to R2                                         
+ 0001D2 5A30 C2E8            002E8   212+         A      3,=F'1'              Add 1 to R3                                         
+ 0001D6 47F0 C1C6            001C6   213+         BC     B'1111',C0008        Go to C&SYSNDX                                      
+ 0001DA                              214+D0008    DS     0H                                                                       
+ 0001DA 4135 0000            00000   215+         LA     3,0(5)               Load address of &LEN into R3                        
+ 0001DE 9823 C1B4            001B4   216+         LM     2,3,A0008            Load R2 through R3 to A&SYSNDX                      
+ 0001E2 5840 C410            00410   217          L     4,LENGTH                                                                  
+ 0001E6 4E40 C430            00430   218          CVD   4,TEMP                                                                    
+ 0001EA D203 C42B C2EC 0042B 002EC   219          MVC   SVALUE(4),=XL4'40202120'                                                  
+ 0001F0 DE03 C42B C436 0042B 00436   220          ED    SVALUE(4),TEMP+6                                                          
+ 0001F6 E020 C414 001B 00414         221          XPRNT SLINE,27                                                                  
+                                     222 *                                                                                        
+ 0001FC E020 C330 001E 00330         223          XPRNT =CL30'-The input value is:  C1C2C300',30                                  
+ 000202 E020 C39C 001B 0039C         224          XPRNT =CL27'0The actual length is:    3',27                                     
+1                                                                                                               PAGE    6         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 000208 4130 C401            00401   225          LA    3,S2                                                                      
+ 00020C 4150 C410            00410   226          LA    5,LENGTH                                                                  
+                                     227          STRLEN   0(3),0(5)                                                              
+ 000210 9023 C218            00218   228+         STM    2,3,A0009            Store R2 through R3 in A&SYSNDX                     
+ 000214 47F0 C224            00224   229+         BC     B'1111',B0009        Go to B&SYSNDX                                      
+ 000218                              230+A0009    DS     3F                   MACRO save area                                     
+ 000224                              231+B0009    DS     0H                                                                       
+ 000224 4123 0000            00000   232+         LA     2,0(3)               Load address of &STR into R2                        
+ 000228 1B33                         233+         SR     3,3                  Set R3 to 0                                         
+ 00022A                              234+C0009    DS     0H                                                                       
+ 00022A 9500 2000      00000         235+         CLI    0(2),X'00'           Compare R2 to X'00'                                 
+ 00022E 4780 C23E            0023E   236+         BC     B'1000',D0009        If they are eqaul, go to D&SYSNDX                   
+ 000232 5A20 C2E8            002E8   237+         A      2,=F'1'              Add 1 to R2                                         
+ 000236 5A30 C2E8            002E8   238+         A      3,=F'1'              Add 1 to R3                                         
+ 00023A 47F0 C22A            0022A   239+         BC     B'1111',C0009        Go to C&SYSNDX                                      
+ 00023E                              240+D0009    DS     0H                                                                       
+ 00023E 4135 0000            00000   241+         LA     3,0(5)               Load address of &LEN into R3                        
+ 000242 9823 C218            00218   242+         LM     2,3,A0009            Load R2 through R3 to A&SYSNDX                      
+ 000246 5840 C410            00410   243          L     4,LENGTH                                                                  
+ 00024A 4E40 C430            00430   244          CVD   4,TEMP                                                                    
+ 00024E D203 C42B C2EC 0042B 002EC   245          MVC   SVALUE(4),=XL4'40202120'                                                  
+ 000254 DE03 C42B C436 0042B 00436   246          ED    SVALUE(4),TEMP+6                                                          
+ 00025A E020 C414 001B 00414         247          XPRNT SLINE,27                                                                  
+                                     248 *                                                                                        
+ 000260 E020 C30C 0024 0030C         249          XPRNT =CL36'-The input value is:  D1D2D300D4D500',36                            
+ 000266 E020 C39C 001B 0039C         250          XPRNT =CL27'0The actual length is:    3',27                                     
+ 00026C 4150 C410            00410   251          LA    5,LENGTH                                                                  
+                                     252          STRLEN   S4,0(5)                                                                
+ 000270 9023 C278            00278   253+         STM    2,3,A0010            Store R2 through R3 in A&SYSNDX                     
+ 000274 47F0 C284            00284   254+         BC     B'1111',B0010        Go to B&SYSNDX                                      
+ 000278                              255+A0010    DS     3F                   MACRO save area                                     
+ 000284                              256+B0010    DS     0H                                                                       
+ 000284 4120 C408            00408   257+         LA     2,S4                 Load address of &STR into R2                        
+ 000288 1B33                         258+         SR     3,3                  Set R3 to 0                                         
+ 00028A                              259+C0010    DS     0H                                                                       
+ 00028A 9500 2000      00000         260+         CLI    0(2),X'00'           Compare R2 to X'00'                                 
+ 00028E 4780 C29E            0029E   261+         BC     B'1000',D0010        If they are eqaul, go to D&SYSNDX                   
+ 000292 5A20 C2E8            002E8   262+         A      2,=F'1'              Add 1 to R2                                         
+ 000296 5A30 C2E8            002E8   263+         A      3,=F'1'              Add 1 to R3                                         
+ 00029A 47F0 C28A            0028A   264+         BC     B'1111',C0010        Go to C&SYSNDX                                      
+ 00029E                              265+D0010    DS     0H                                                                       
+ 00029E 4135 0000            00000   266+         LA     3,0(5)               Load address of &LEN into R3                        
+ 0002A2 9823 C278            00278   267+         LM     2,3,A0010            Load R2 through R3 to A&SYSNDX                      
+ 0002A6 5840 C410            00410   268          L     4,LENGTH                                                                  
+ 0002AA 4E40 C430            00430   269          CVD   4,TEMP                                                                    
+ 0002AE D203 C42B C2EC 0042B 002EC   270          MVC   SVALUE(4),=XL4'40202120'                                                  
+ 0002B4 DE03 C42B C436 0042B 00436   271          ED    SVALUE(4),TEMP+6                                                          
+ 0002BA E020 C414 001B 00414         272          XPRNT SLINE,27                                                                  
+                                     273 *                                                                                        
+1                                                                                                               PAGE    7         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                                                                                                                  
+                                                                                                                                  
+                                     275 *                                                                                        
+                                     276 *  Standard exit linkage with return code = 0.                                           
+                                     277 *                                                                                        
+ 0002C0 17FF                         278          XR    15,15                   Put 0 in register 15                              
+ 0002C2 58DD 0004            00004   279          L     13,4(13)                Point register 13 at the calling                  
+                                     280 *                                      program's save area                               
+ 0002C6 58ED 000C            0000C   281          L     14,12(13)               Restore all registers except                      
+ 0002CA 980C D014            00014   282          LM    0,12,20(13)             15                                                
+ 0002CE 07FE                         283          BR    14                      Return to the calling program                     
+1                                                                                                               PAGE    8         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                                                                                                                  
+                                                                                                                                  
+                                     285 **********************************************************************                   
+                                     286 *          The storage section for DRIVER starts here.               *                   
+                                     287 **********************************************************************                   
+                                     288 *                                                                                        
+                                     289          LTORG                                                                           
+ 0002D0 60E3888540899597             290                =CL24'-The input value is:  00'                                           
+ 0002E8 00000001                     291                =F'1'                                                                     
+ 0002EC 40202120                     292                =XL4'40202120'                                                            
+ 0002F0 60E3888540899597             293                =CL28'-The input value is:  000000'                                       
+ 00030C 60E3888540899597             294                =CL36'-The input value is:  D1D2D300D4D500'                               
+ 000330 60E3888540899597             295                =CL30'-The input value is:  C1C2C300'                                     
+ 00034E F1D985A2A493A3A2             296                =CL19'1Results of testing'                                                
+ 000361 F0                           297                =C'0'                                                                     
+ 000362 60E68540A6899393             298                =CL31'-We will test the STRLEN macro.'                                    
+ 000381 F0E38885408183A3             299                =CL27'0The actual length is:    0'                                        
+ 00039C F0E38885408183A3             300                =CL27'0The actual length is:    3'                                        
+                                     301 *                                                                                        
+ 0003B8 FFFFFFFFFFFFFFFF             302 DRIVSAV  DC    18F'-1'                 Save area for linkage                             
+                                     303 *                                                                                        
+                                     304 * Variables for testing STRLEN                                                           
+ 000400 00                           305 S1       DC    X'00'                                                                     
+                                     306 *                                                                                        
+ 000401 C1C2C300                     307 S2       DC    XL4'C1C2C300'                                                             
+                                     308 *                                                                                        
+ 000405 000000                       309 S3       DC    XL3'000000'                                                               
+                                     310 *                                                                                        
+ 000408 D1D2D300D4D500               311 S4       DC    XL7'D1D2D300D4D500'                                                       
+                                     312 *                                                                                        
+ 000410                              313 LENGTH   DS    F                                                                         
+                                     314 *                                                                                        
+ 000414 F0                           315 SLINE    DC    C'0'                                                                      
+ 000415 E388854083969497             316          DC    CL22'The computed length is'                                              
+ 00042B                              317 SVALUE   DS    4C                                                                        
+                                     318 *                                                                                        
+ 000430                              319 TEMP     DS    D                                                                         
+                                     320 *                                                                                        
+                                     321          END   DRIVER                  End of the overall program                        
+0***  NO   STATEMENTS FLAGGED -  NO   WARNINGS,  NO   ERRORS                                                                      
+0*** DYNAMIC CORE AREA USED:  LOW:   16892 HIGH:    1536 LEAVING:  475140 FREE BYTES. AVERAGE:       57 BYTES/STMT ***            
+0*** ASSEMBLY TIME =    0.001 SECS,   322000 STATEMENTS/SEC ***                                                                   
+0*** PROGRAM EXECUTION BEGINNING - ANY OUTPUT BEFORE EXECUTION TIME MESSAGE IS PRODUCED BY USER PROGRAM ***                       
+1Results of testing                                                                                                               
+0                                                                                                                                 
+-We will test the STRLEN macro.                                                                                                   
+-The input value is:  00                                                                                                          
+0The actual length is:    0                                                                                                       
+0The computed length is  91                                                                                                       
+-The input value is:  C1C2C300                                                                                                    
+0The actual length is:    3                                                                                                       
+0The computed length is  91                                                                                                       
+-The input value is:  000000                                                                                                      
+0The actual length is:    0                                                                                                       
+0The computed length is  91                                                                                                       
+-The input value is:  C1C2C300                                                                                                    
+0The actual length is:    3                                                                                                       
+0The computed length is  91                                                                                                       
+-The input value is:  C1C2C300                                                                                                    
+0The actual length is:    3                                                                                                       
+0The computed length is  91                                                                                                       
+-The input value is:  C1C2C300                                                                                                    
+0The actual length is:    3                                                                                                       
+0The computed length is  91                                                                                                       
+-The input value is:  D1D2D300D4D500                                                                                              
+0The actual length is:    3                                                                                                       
+0The computed length is  91                                                                                                       
+0*** EXECUTION TIME =    0.000 SECS.       199 INSTRUCTIONS EXECUTED -   199000 INSTRUCTIONS/SEC ***                              
+0*** FIRST CARD NOT READ: NO CARDS READ:FILE UNOPENED                                                                             
+0*** AM004 - NORMAL USER TERMINATION BY RETURN ***                                                                                
