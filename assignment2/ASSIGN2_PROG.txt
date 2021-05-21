@@ -1,0 +1,96 @@
+//KC03D3BA JOB ,'Alex Marine',MSGCLASS=H                    
+//STEP1    EXEC  PGM=ASSIST                                 
+//STEPLIB    DD  DSN=KC02293.ASSIST.LOADLIB,DISP=SHR        
+//SYSPRINT   DD  SYSOUT=*                                   
+//SYSIN      DD  *                                          
+************************************************************
+*                                                           
+*  Program:     ASSIGN2                                     
+*  Programmer:  Alex Marine                                 
+*                                                           
+*  Register Usage:                                          
+*  1        XDECI                                           
+*  2        W Variable                                      
+*  3        X Variable                                      
+*  4        Y Variable         
+*  5        Z Variable                                         
+*  6        Calculations                                       
+*  7        Lines                                              
+*  8        Total                                                
+* 15        Base Register                                      
+*                                                              
+********************************************                   
+MAIN     CSECT                                                
+         USING MAIN,15                                        
+         SR    7,7             Initialize Counter             
+         SR    8,8             Initialize Total               
+LOOP     XREAD BUFFER,80       Start loop and read in 80 lines
+         BC    B'0100',ENDLOOP Stop at end                    
+         A     7,=F'1'         Add one to Lines               
+         XDECI 2,BUFFER        Put first number in Register 2 
+         XDECI 3,0(1)          Put second number in Register 3
+         XDECI 4,0(1)          Put third number in Register 4 
+         XDECI 5,0(1)          Put fourth number in Register 5  
+         LR    6,5             Load Register 5 into 6              
+         SR    6,4             Subtract Register 4 from 5          
+         SR    6,3             Subtract Register 3 from 5          
+         AR    6,2             Add Register 2 to 6                 
+         AR    8,6             Add Register 6 to 8                 
+         XDECO 2,WVAR          Convert Register 2 and store in WVAR
+         XDECO 3,XVAR          Convert Register 3 and store in XVAR
+         XDECO 4,YVAR          Convert Register 4 and store in YVAR
+         XDECO 5,ZVAR          Convert Register 5 and store in ZVAR
+         XDECO 6,CALC          Convert Register 6 and store in CALC
+         XPRNT LINE,90         Print formated string at LINE       
+         BC    B'1111',LOOP    Repeat Loop                         
+ENDLOOP  XDECO 7,LNUM          Format register 7 and store in LNUM 
+         XDECO 8,TOTL          Format register 8 and store in TOTL  
+         XPRNT FORM,60         Print variable FORM 
+         BR    14              End of code                         
+         LTORG                 Literals                            
+LINE     DC    C' '            Start of LINE                       
+         DC    CL3'W ='                                      
+WVAR     DS    CL12            Variable WVAR                 
+         DC    CL8' '                                        
+         DC    CL3'X ='                                      
+XVAR     DS    CL12            Variable XVAR                 
+         DC    CL8' '                                        
+         DC    CL3'Y ='                                      
+YVAR     DS    CL12            Variable YVAR                 
+         DC    CL8' '                                        
+         DC    CL3'Z ='                                      
+ZVAR     DS    CL12            Variable ZVAR                 
+         DC    CL8' '                                        
+         DC    CL8'Result ='                                 
+CALC     DS    CL12            Variable CALC                 
+FORM     DC    C' '            Variable FORM
+         DC    CL17'Number of Lines ='                       
+LNUM     DS    CL12            Variable LNUM                 
+         DC    CL8' '                                        
+         DC    CL16'Sum of Results ='           
+TOTL     DS    CL12            Variable TOTL     
+BUFFER   DS    0H              Variable BUFFER  
+         END   MAIN            End of program   
+/*                                            
+//FT05F001   DD  *                            
+   005   005   005   005                      
+   001   002   004   006                      
+    +7     2   -45     0                      
+   088   035    10   100                      
+     0     0     0     0                      
+   -10    10   -10    10                      
+   230     9    58   500                      
+   853     0    17   516                      
+     0   245   316   020                      
+   977   681     0   529                      
+   250    85   831   013                      
+   364   275     0     0           
+   100   293   993   887 
+   447   591    13   234 
+    -7    23   104   -89 
+   002   003   004   001 
+   007   006   005   008 
+   998   997   996   999 
+/*                       
+//FT06F001   DD SYSOUT=* 
+//                                  
