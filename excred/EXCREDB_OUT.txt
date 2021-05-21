@@ -1,0 +1,184 @@
+1                   J E S 2  J O B  L O G  --  S Y S T E M  2 9 6 4  --  N O D E  S V S C J E S 2        
+0 
+ 18.58.27 JOB06989 ---- TUESDAY,   28 APR 2020 ----
+ 18.58.27 JOB06989  IRR010I  USERID KC03D3B  IS ASSIGNED TO THIS JOB.
+ 18.58.27 JOB06989  ICH70001I KC03D3B  LAST ACCESS AT 18:56:11 ON TUESDAY, APRIL 28, 2020
+ 18.58.27 JOB06989  $HASP373 KC03D3BA STARTED - INIT 2    - CLASS A        - SYS 2964
+ 18.58.27 JOB06989  $HASP395 KC03D3BA ENDED - RC=0000
+0------ JES2 JOB STATISTICS ------
+-  28 APR 2020 JOB EXECUTION DATE
+-          111 CARDS READ
+-          188 SYSOUT PRINT RECORDS
+-            0 SYSOUT PUNCH RECORDS
+-           21 SYSOUT SPOOL KBYTES
+-         0.00 MINUTES EXECUTION TIME
+         1 //KC03D3BA JOB ,'Alex Marine',MSGCLASS=H                                JOB06989
+         2 //STEP1    EXEC  PGM=ASSIST                                             00020000
+         3 //STEPLIB    DD  DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                    00030000
+         4 //SYSPRINT   DD  SYSOUT=*                                               00040000
+         5 //SYSIN      DD  *                                                      00050000
+         6 //FT05F001  DD  DSN=KC02314.AUTUMN17.CSCI360.HWEXDATA,DISP=SHR          00270000
+ ICH70001I KC03D3B  LAST ACCESS AT 18:56:11 ON TUESDAY, APRIL 28, 2020
+ IEFA111I KC03D3BA IS USING THE FOLLOWING JOB RELATED SETTINGS:
+          SWA=ABOVE,TIOT SIZE=32K,DSENQSHR=DISALLOW,GDGBIAS=JOB
+ IEF236I ALLOC. FOR KC03D3BA STEP1
+ IGD103I SMS ALLOCATED TO DDNAME STEPLIB
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IEF237I JES2 ALLOCATED TO SYSIN
+ IGD103I SMS ALLOCATED TO DDNAME FT05F001
+ IEF142I KC03D3BA STEP1 - STEP WAS EXECUTED - COND CODE 0000
+ IGD104I KC02293.ASSIST.LOADLIB                       RETAINED,  DDNAME=STEPLIB 
+ IEF285I   KC03D3B.KC03D3BA.JOB06989.D0000102.?         SYSOUT        
+ IEF285I   KC03D3B.KC03D3BA.JOB06989.D0000101.?         SYSIN         
+ IGD104I KC02314.AUTUMN17.CSCI360.HWEXDATA            RETAINED,  DDNAME=FT05F001
+ IEF373I STEP/STEP1   /START 2020119.1858
+ IEF032I STEP/STEP1   /STOP  2020119.1858 
+         CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+         VIRT:   584K  SYS:   248K  EXT:        0K  SYS:    13564K
+         ATB- REAL:                  4116K  SLOTS:                     0K
+              VIRT- ALLOC:      11M SHRD:       0M
+ IEF375I  JOB/KC03D3BA/START 2020119.1858
+ IEF033I  JOB/KC03D3BA/STOP  2020119.1858 
+         CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+1*** ASSIST 4.0/A2-05/15/82  470/V7A/0:OS/VS2  INS=SDFP7/X=BGHO, CHECK/TRC/=1180, OPTS=CDKMPR FROM PENN ST*NIU COMPSCI*LT         
+0                                                                                                                                 
+0                                                                                                               PAGE    1         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                       1 ********************************************                            00060000         
+                                       2 * Alex Marine                                                           00070000         
+                                       3 * CSCI 360                                                              00080000         
+                                       4 * Extra-Credit Assignment B                                             00090004         
+                                       5 * Regsiter Usage:                                                       00100000         
+                                       6 * 1        EDMK                                                         00110000         
+                                       7 * 2        EDMK                                                         00120000         
+                                       8 *12        Line Location                                                00130000         
+                                       9 *13        Save Location                                                00140000         
+                                      10 *14        Exit                                                         00150000         
+                                      11 *15        Base Register                                                00160000         
+                                      12 ********************************************                            00170000         
+ 000000                               13 LINE     DSECT                Format for Table                          00180000         
+ 000000                               14 NUM1     DS    CL6            Number 1                                  00190000         
+ 000006                               15          DS    CL2                                                      00200000         
+ 000008                               16 NUM2     DS    CL6            Number 2                                  00210000         
+                                      17 ********************************************                            00220000         
+ 000000                               18 MAIN     CSECT                                                          00230000         
+ 000000                               19          USING MAIN,15        Base Register                             00240000         
+ 000000 50E0 F164            00164    20          ST    14,EXIT        Store EXIT into R14                       00241000         
+ 000004 41D0 F11C            0011C    21          LA    13,MANSAVE     Load address of MANSAVE into R13          00242000         
+                                      22 *                                                                       00243000         
+ 000000                               23          USING LINE,12        Use LINE DSECT at R12                     00244000         
+ 000008 E020 F209 002D 00209          24          XPRNT HEADER,45      Print HEADER                              00245000         
+ 00000E                               25 LOOP1    DS    0H                                                       00246000         
+ 00000E E000 F168 0050 00168          26          XREAD BUFFER,80      Read Input Line                           00247000         
+ 000014 4740 F106            00106    27          BC    B'0100',END    If End of File, go to END                 00248000         
+ 000018 D205 F1E3 F110 001E3 00110    28          MVC   PACK1(6),=X'402020202120' Pattern for PACK1              00249000         
+ 00001E D205 F1F3 F110 001F3 00110    29          MVC   PACK2(6),=X'402020202120' Pattern for PACK2              00249100         
+ 000024 D205 F203 F110 00203 00110    30          MVC   PACK3(6),=X'402020202120' Pattern for PACK3              00249200         
+ 00002A 41C0 F168            00168    31          LA    12,BUFFER      Load address of BUFFER into R12           00249300         
+ 00002E F255 F1B8 C000 001B8 00000    32          PACK  TEMP1(6),NUM1(6) PACK NUM1 into TEMP1                    00249400         
+ 000034 F255 F1BE C008 001BE 00008    33          PACK  TEMP2(6),NUM2(6) PACK NUM2 into TEMP2                    00249500         
+ 00003A 4110 F1E8            001E8    34          LA    1,PACK1+5      Load adfress of PACK1+5 into R1           00249600         
+ 00003E DF05 F1E3 F1BB 001E3 001BB    35          EDMK  PACK1(6),TEMP1+3 Edit TEMP1+3 into PACK1                 00249700         
+ 000044 F950 F1B8 F116 001B8 00116    36          CP    TEMP1(6),=PL1'0' Compare TEMP1 to 0                      00249802         
+ 00004A 47B0 F054            00054    37          BC    B'1011',LOOP2  If TEMP1 is less, go to LOOP2             00249900         
+ 00004E 0610                          38          BCTR  1,0            Subtract 1 from R1                        00250000         
+ 000050 9260 1000      00000          39          MVI   0(1),C'-'      Put '-' Sign                              00250100         
+ 000054                               40 LOOP2    DS    0H                                                       00250200         
+ 000054 4110 F1F8            001F8    41          LA    1,PACK2+5      Load address of PACK2+5 into R1           00250300         
+ 000058 DF05 F1F3 F1C1 001F3 001C1    42          EDMK  PACK2(6),TEMP2+3 Edit TEMP2+3 into PACK2                 00250400         
+ 00005E F950 F1BE F116 001BE 00116    43          CP    TEMP2(6),=PL1'0' Compare TEMP2 to 0                      00250500         
+ 000064 47B0 F06E            0006E    44          BC    B'1011',LOOP3  If TEMP2 is less, go to LOOP3             00250600         
+ 000068 0610                          45          BCTR  1,0            Subtract 1 from R1                        00250700         
+ 00006A 9260 1000      00000          46          MVI   0(1),C'-'      Put '-' Sign                              00250800         
+ 00006E                               47 LOOP3    DS    0H                                                       00250900         
+ 00006E F855 F1C4 F1B8 001C4 001B8    48          ZAP   TEMP3(6),TEMP1(6)   Zero and Add TEMP1 into TEMP3        00251001         
+ 000074 FD52 F1C4 F1C1 001C4 001C1    49          DP    TEMP3(6),TEMP2+3(3) Divide TEMP3 by TEMP2+3              00251101         
+ 00007A F862 F1CA F1C7 001CA 001C7    50          ZAP   TEMP4(7),TEMP3+3(3) Zero and Add TEMP3+3 into TEMP4      00251201         
+ 000080 F852 F1C4 F1C4 001C4 001C4    51          ZAP   TEMP3(6),TEMP3(3) Zero and Add TEMP3 into TEMP3          00251301         
+ 000086 F875 F1D8 F1C4 001D8 001C4    52          ZAP   TEMP6(8),TEMP3(6) Zero and Add TEMP3 into TEMP6          00251401         
+1                                                                                                               PAGE    2         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 00008C FC75 F1D8 F1BE 001D8 001BE    53          MP    TEMP6(8),TEMP2(6) Multiply TEMP6 by TEMP2                00251501         
+ 000092 F865 F1D1 F1BE 001D1 001BE    54          ZAP   TEMP5(7),TEMP2(6) Zero and Add TEMP2 into TEMP5          00251601         
+ 000098 F960 F1D1 F116 001D1 00116    55          CP    TEMP5(7),=PL1'0' Compare TEMP5 to 0                      00251701         
+ 00009E 47B0 F0A8            000A8    56          BC    B'1011',LOOP4  If TEMP5 is less, go to LOOP4             00251801         
+ 0000A2 FC60 F1D1 F117 001D1 00117    57          MP    TEMP5(7),=PL1'-1' Multiply TEMP5 by -1                   00251901         
+ 0000A8                               58 LOOP4    DS    0H                                                       00252001         
+ 0000A8 FC60 F1CA F118 001CA 00118    59          MP    TEMP4(7),=PL1'2' Multiply TEMP4 by 2                     00252101         
+ 0000AE F960 F1CA F116 001CA 00116    60          CP    TEMP4(7),=PL1'0' Compare TEMP4 to 0                      00252201         
+ 0000B4 47B0 F0BE            000BE    61          BC    B'1011',LOOP5  IF TEMP4 is less, go to LOOP5             00252301         
+ 0000B8 FC60 F1CA F117 001CA 00117    62          MP    TEMP4(7),=PL1'-1' Multiply TEMP4 by -1                   00252402         
+ 0000BE                               63 LOOP5    DS    0H                                                       00252501         
+ 0000BE F966 F1CA F1D1 001CA 001D1    64          CP    TEMP4(7),TEMP5(7) Compare TEMP4 to TEMP5                 00252601         
+ 0000C4 4740 F0E2            000E2    65          BC    B'0100',OUT    If TEMP4 is greater, go to OUT            00252701         
+ 0000C8 F950 F1B8 F116 001B8 00116    66          CP    TEMP1(6),=PL1'0' Compare TEMP1 to 0                      00252801         
+ 0000CE 47D0 F0DC            000DC    67          BC    B'1101',LOOP6  If TEMP 1 not greater, go to LOOP6        00252901         
+ 0000D2 FA76 F1D8 F1D1 001D8 001D1    68          AP    TEMP6(8),TEMP5(7) Add TEMP6 to TEMP5                     00253001         
+ 0000D8 47F0 F0E2            000E2    69          BC    B'1111',OUT    Go to OUT                                 00253101         
+ 0000DC                               70 LOOP6    DS    0H                                                       00253201         
+ 0000DC FB76 F1D8 F1D1 001D8 001D1    71          SP    TEMP6(8),TEMP5(7) Subtract TEMP5 from TEMP6              00253301         
+ 0000E2                               72 OUT      DS    0H                                                       00253401         
+ 0000E2 4110 F208            00208    73          LA    1,PACK3+5      Load address of PACK3+5 into R1           00253501         
+ 0000E6 DF05 F203 F1DD 00203 001DD    74          EDMK  PACK3(6),TEMP6+5 Edit TEMP6+5 into PACK3                 00253601         
+ 0000EC F970 F1D8 F116 001D8 00116    75          CP    TEMP6(8),=PL1'0' Compare TEMP6 into 0                    00253703         
+ 0000F2 47B0 F0FC            000FC    76          BC    B'1011',LOOP7  If TEMP6 is less, go to LOOP7             00253801         
+ 0000F6 0610                          77          BCTR  1,0            Subtract 1 from R1                        00253901         
+ 0000F8 9260 1000      00000          78          MVI   0(1),C'-'      Put '-' Sign                              00254001         
+ 0000FC                               79 LOOP7    DS    0H                                                       00254101         
+ 0000FC E020 F1E0 0029 001E0          80          XPRNT PLINE,41       Print the Print Line                      00254201         
+ 000102 47F0 F00E            0000E    81          BC    B'1111',LOOP1  Go to LOOP1                               00254301         
+ 000106                               82 END      DS    0H                                                       00254401         
+                                      83 *                                                                       00254501         
+ 000106 58E0 F164            00164    84          L     14,EXIT        Load EXIT into R14                        00254601         
+ 00010A 07FE                          85          BR    14             End program                               00254701         
+                                      86          LTORG                Literals                                  00254801         
+ 000110 402020202120                  87                =X'402020202120'                                                          
+ 000116 0C                            88                =PL1'0'                                                                   
+ 000117 1D                            89                =PL1'-1'                                                                  
+ 000118 2C                            90                =PL1'2'                                                                   
+                                      91 *                                                                       00254901         
+ 00011C                               92 MANSAVE  DS    18F'0'         Save area for MAIN                        00255001         
+ 000164                               93 EXIT     DS    F              Exit                                      00255101         
+ 000168                               94 BUFFER   DS    80C            Buffer                                    00256001         
+ 0001B8                               95 TEMP1    DS    PL6            Temp 1                                    00257001         
+ 0001BE                               96 TEMP2    DS    PL6            Temp 2                                    00258001         
+ 0001C4                               97 TEMP3    DS    PL6            Temp 3                                    00259001         
+ 0001CA                               98 TEMP4    DS    PL7            Temp 4                                    00259101         
+ 0001D1                               99 TEMP5    DS    PL7            Temp 5                                    00259201         
+ 0001D8                              100 TEMP6    DS    PL8            Temp 6                                    00259301         
+ 0001E0 F04040                       101 PLINE    DC    CL3'0  '       Print Line                                00259402         
+ 0001E3                              102 PACK1    DS    6C             Packed Number 1                           00259501         
+ 0001E9 4040404040404040             103          DC    CL10'          '                                         00259601         
+ 0001F3                              104 PACK2    DS    6C             Packed Number 2                           00259701         
+ 0001F9 4040404040404040             105          DC    CL10'          '                                         00259801         
+ 000203                              106 PACK3    DS    6C             Packed Number 3                           00259901         
+ 000209 F1C68999A2A340D5             107 HEADER   DC    CL45'1First Number   Second Number   Rounded Value'      00260001         
+                                     108          END   MAIN                                                     00260101         
+0***  NO   STATEMENTS FLAGGED -  NO   WARNINGS,  NO   ERRORS                                                                      
+0*** DYNAMIC CORE AREA USED:  LOW:    6640 HIGH:     944 LEAVING:  485984 FREE BYTES. AVERAGE:       69 BYTES/STMT ***            
+1*** ASSEMBLY TIME =    0.000 SECS,   109000 STATEMENTS/SEC ***                                                                   
+0*** PROGRAM EXECUTION BEGINNING - ANY OUTPUT BEFORE EXECUTION TIME MESSAGE IS PRODUCED BY USER PROGRAM ***                       
+1First Number   Second Number   Rounded Value                                                                                     
+0       0             100               0                                                                                         
+0       0            -100               0                                                                                         
+0       3               4               4                                                                                         
+0      -3              -4              -4                                                                                         
+0      -3               4              -4                                                                                         
+0       3              -4               4                                                                                         
+0      17               5              15                                                                                         
+0     -22               5             -20                                                                                         
+0     -25              15             -30                                                                                         
+0      25             -15              30                                                                                         
+0      39              11              44                                                                                         
+0      42               1              42                                                                                         
+0       1               1               1                                                                                         
+0      -1               1              -1                                                                                         
+0       1              -1               1                                                                                         
+0      42              -1              42                                                                                         
+0      68             -10              70                                                                                         
+0     -68              10             -70                                                                                         
+0     -68             -11             -66                                                                                         
+0    2001             670            2010                                                                                         
+0    4003              17            3995                                                                                         
+0*** EXECUTION TIME =    0.000 SECS.       857 INSTRUCTIONS EXECUTED -   857000 INSTRUCTIONS/SEC ***                              
+0*** AM004 - NORMAL USER TERMINATION BY RETURN ***                                                                                

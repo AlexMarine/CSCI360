@@ -1,0 +1,112 @@
+//KC03D3BA JOB ,'Alex Marine',MSGCLASS=H                                00010000
+//STEP1    EXEC  PGM=ASSIST                                             00020000
+//STEPLIB    DD  DSN=KC02293.ASSIST.LOADLIB,DISP=SHR                    00030000
+//SYSPRINT   DD  SYSOUT=*                                               00040000
+//SYSIN      DD  *                                                      00050000
+********************************************                            00060000
+* Alex Marine                                                           00070000
+* CSCI 360                                                              00080000
+* Extra-Credit Assignment B                                             00090004
+* Regsiter Usage:                                                       00100000
+* 1        EDMK                                                         00110000
+* 2        EDMK                                                         00120000
+*12        Line Location                                                00130000
+*13        Save Location                                                00140000
+*14        Exit                                                         00150000
+*15        Base Register                                                00160000
+********************************************                            00170000
+LINE     DSECT                Format for Table                          00180000
+NUM1     DS    CL6            Number 1                                  00190000
+         DS    CL2                                                      00200000
+NUM2     DS    CL6            Number 2                                  00210000
+********************************************                            00220000
+MAIN     CSECT                                                          00230000
+         USING MAIN,15        Base Register                             00240000
+         ST    14,EXIT        Store EXIT into R14                       00241000
+         LA    13,MANSAVE     Load address of MANSAVE into R13          00242000
+*                                                                       00243000
+         USING LINE,12        Use LINE DSECT at R12                     00244000
+         XPRNT HEADER,45      Print HEADER                              00245000
+LOOP1    DS    0H                                                       00246000
+         XREAD BUFFER,80      Read Input Line                           00247000
+         BC    B'0100',END    If End of File, go to END                 00248000
+         MVC   PACK1(6),=X'402020202120' Pattern for PACK1              00249000
+         MVC   PACK2(6),=X'402020202120' Pattern for PACK2              00249100
+         MVC   PACK3(6),=X'402020202120' Pattern for PACK3              00249200
+         LA    12,BUFFER      Load address of BUFFER into R12           00249300
+         PACK  TEMP1(6),NUM1(6) PACK NUM1 into TEMP1                    00249400
+         PACK  TEMP2(6),NUM2(6) PACK NUM2 into TEMP2                    00249500
+         LA    1,PACK1+5      Load adfress of PACK1+5 into R1           00249600
+         EDMK  PACK1(6),TEMP1+3 Edit TEMP1+3 into PACK1                 00249700
+         CP    TEMP1(6),=PL1'0' Compare TEMP1 to 0                      00249802
+         BC    B'1011',LOOP2  If TEMP1 is less, go to LOOP2             00249900
+         BCTR  1,0            Subtract 1 from R1                        00250000
+         MVI   0(1),C'-'      Put '-' Sign                              00250100
+LOOP2    DS    0H                                                       00250200
+         LA    1,PACK2+5      Load address of PACK2+5 into R1           00250300
+         EDMK  PACK2(6),TEMP2+3 Edit TEMP2+3 into PACK2                 00250400
+         CP    TEMP2(6),=PL1'0' Compare TEMP2 to 0                      00250500
+         BC    B'1011',LOOP3  If TEMP2 is less, go to LOOP3             00250600
+         BCTR  1,0            Subtract 1 from R1                        00250700
+         MVI   0(1),C'-'      Put '-' Sign                              00250800
+LOOP3    DS    0H                                                       00250900
+         ZAP   TEMP3(6),TEMP1(6)   Zero and Add TEMP1 into TEMP3        00251001
+         DP    TEMP3(6),TEMP2+3(3) Divide TEMP3 by TEMP2+3              00251101
+         ZAP   TEMP4(7),TEMP3+3(3) Zero and Add TEMP3+3 into TEMP4      00251201
+         ZAP   TEMP3(6),TEMP3(3) Zero and Add TEMP3 into TEMP3          00251301
+         ZAP   TEMP6(8),TEMP3(6) Zero and Add TEMP3 into TEMP6          00251401
+         MP    TEMP6(8),TEMP2(6) Multiply TEMP6 by TEMP2                00251501
+         ZAP   TEMP5(7),TEMP2(6) Zero and Add TEMP2 into TEMP5          00251601
+         CP    TEMP5(7),=PL1'0' Compare TEMP5 to 0                      00251701
+         BC    B'1011',LOOP4  If TEMP5 is less, go to LOOP4             00251801
+         MP    TEMP5(7),=PL1'-1' Multiply TEMP5 by -1                   00251901
+LOOP4    DS    0H                                                       00252001
+         MP    TEMP4(7),=PL1'2' Multiply TEMP4 by 2                     00252101
+         CP    TEMP4(7),=PL1'0' Compare TEMP4 to 0                      00252201
+         BC    B'1011',LOOP5  IF TEMP4 is less, go to LOOP5             00252301
+         MP    TEMP4(7),=PL1'-1' Multiply TEMP4 by -1                   00252402
+LOOP5    DS    0H                                                       00252501
+         CP    TEMP4(7),TEMP5(7) Compare TEMP4 to TEMP5                 00252601
+         BC    B'0100',OUT    If TEMP4 is greater, go to OUT            00252701
+         CP    TEMP1(6),=PL1'0' Compare TEMP1 to 0                      00252801
+         BC    B'1101',LOOP6  If TEMP 1 not greater, go to LOOP6        00252901
+         AP    TEMP6(8),TEMP5(7) Add TEMP6 to TEMP5                     00253001
+         BC    B'1111',OUT    Go to OUT                                 00253101
+LOOP6    DS    0H                                                       00253201
+         SP    TEMP6(8),TEMP5(7) Subtract TEMP5 from TEMP6              00253301
+OUT      DS    0H                                                       00253401
+         LA    1,PACK3+5      Load address of PACK3+5 into R1           00253501
+         EDMK  PACK3(6),TEMP6+5 Edit TEMP6+5 into PACK3                 00253601
+         CP    TEMP6(8),=PL1'0' Compare TEMP6 into 0                    00253703
+         BC    B'1011',LOOP7  If TEMP6 is less, go to LOOP7             00253801
+         BCTR  1,0            Subtract 1 from R1                        00253901
+         MVI   0(1),C'-'      Put '-' Sign                              00254001
+LOOP7    DS    0H                                                       00254101
+         XPRNT PLINE,41       Print the Print Line                      00254201
+         BC    B'1111',LOOP1  Go to LOOP1                               00254301
+END      DS    0H                                                       00254401
+*                                                                       00254501
+         L     14,EXIT        Load EXIT into R14                        00254601
+         BR    14             End program                               00254701
+         LTORG                Literals                                  00254801
+*                                                                       00254901
+MANSAVE  DS    18F'0'         Save area for MAIN                        00255001
+EXIT     DS    F              Exit                                      00255101
+BUFFER   DS    80C            Buffer                                    00256001
+TEMP1    DS    PL6            Temp 1                                    00257001
+TEMP2    DS    PL6            Temp 2                                    00258001
+TEMP3    DS    PL6            Temp 3                                    00259001
+TEMP4    DS    PL7            Temp 4                                    00259101
+TEMP5    DS    PL7            Temp 5                                    00259201
+TEMP6    DS    PL8            Temp 6                                    00259301
+PLINE    DC    CL3'0  '       Print Line                                00259402
+PACK1    DS    6C             Packed Number 1                           00259501
+         DC    CL10'          '                                         00259601
+PACK2    DS    6C             Packed Number 2                           00259701
+         DC    CL10'          '                                         00259801
+PACK3    DS    6C             Packed Number 3                           00259901
+HEADER   DC    CL45'1First Number   Second Number   Rounded Value'      00260001
+         END   MAIN                                                     00260101
+/*                                                                      00261000
+//FT05F001  DD  DSN=KC02314.AUTUMN17.CSCI360.HWEXDATA,DISP=SHR          00270000
+//                                                                      00280000
