@@ -450,39 +450,39 @@
 0*** PROGRAM EXECUTION BEGINNING - ANY OUTPUT BEFORE EXECUTION TIME MESSAGE IS PRODUCED BY USER PROGRAM ***                       
                         Initial Table Contents                  Page                                                              
 1 D Number   Last Name     First Name       High Score        Date0  555555                                                       
- 0041 DAM     HARON           DAMSON    H      00         28/11/2016                                                             
- 6334 LLE     ONALD           LLENLD    O      00         15/12/2019                                                             
- 9169 AKE     RIAN            AKERN     R      00         03/01/2026                                                             
- 6962 AMP     EORGE           AMPBELL   E      03         12/12/2015                                                             
- 5705 ART     USAN            ARTER     U      00         30/11/2013                                                             
- 3281 LAR     EVIN            LARKN     E      00         02/12/2014                                                             
- 4827 VAN     HARLES          VANSLES   H      00         15/11/2012                                                             
- 2391 ARC     IMBERLY          ARCIARLY  I      00         31/12/2013                                                             
- 3902 ONZ     ANIEL           ONZALEZ   A      00         01/01/2027                                                             
- 7421 ALL     ARIA             ALLIA     A      00         25/11/2019                                                             
- 9718 ARR     ENNIFER   &      ARRISFER  E      05         13/11/2015                                                             
- 5447 ERN     ELEN            ERNANDEZ  E      00         14/12/2015                                                             
- 5667 ONE     IMBERLEY        ONESERLEY I      00         01/02/2027                                                             
- 7035 ING     ICHARD    	      INGHARD   I      00         15/03/2028                                                             
- 8703 EEV     EVIN            EEVIN     E      00         11/02/2027                                                             
- 7673 ART     LIZABETH        ARTINBETH L      00         30/12/2015                                                             
- 5141 ART     ENNIFER         ARTINEZR  E      00         28/02/2028                                                             
- 8253 ILL     HOMAS           ILLERS    H      00         01/03/2020                                                             
+ 0041 DAM     HARON    �      DAMSON    H      00         28/11/2016                                                             
+ 6334 LLE     ONALD    �      LLENLD    O      00         15/12/2019                                                             
+ 9169 AKE     RIAN     �      AKERN     R      00         03/01/2026                                                             
+ 6962 AMP     EORGE    �      AMPBELL   E      03         12/12/2015                                                             
+ 5705 ART     USAN     �      ARTER     U      00         30/11/2013                                                             
+ 3281 LAR     EVIN     �      LARKN     E      00         02/12/2014                                                             
+ 4827 VAN     HARLES   �      VANSLES   H      00         15/11/2012                                                             
+ 2391 ARC     IMBERLY  ��      ARCIARLY  I      00         31/12/2013                                                             
+ 3902 ONZ     ANIEL    �      ONZALEZ   A      00         01/01/2027                                                             
+ 7421 ALL     ARIA     ��      ALLIA     A      00         25/11/2019                                                             
+ 9718 ARR     ENNIFER  �&      ARRISFER  E      05         13/11/2015                                                             
+ 5447 ERN     ELEN     �      ERNANDEZ  E      00         14/12/2015                                                             
+ 5667 ONE     IMBERLEY �      ONESERLEY I      00         01/02/2027                                                             
+ 7035 ING     ICHARD   �	      INGHARD   I      00         15/03/2028                                                             
+ 8703 EEV     EVIN     �      EEVIN     E      00         11/02/2027                                                             
+ 7673 ART     LIZABETH �      ARTINBETH L      00         30/12/2015                                                             
+ 5141 ART     ENNIFER  �      ARTINEZR  E      00         28/02/2028                                                             
+ 8253 ILL     HOMAS    �      ILLERS    H      00         01/03/2020                                                             
                         Initial Table Contents                  Page                                                              
   D Number   Last Name     First Name       High Score        Date0  8253 I                                                       
- 0037 ELS     ANIEL           ELSONL    A      00         11/11/2018                                                             
- 8723 ARK     EVIN            ARKER     E      00         28/01/2027                                                             
- 7529 ERE     ANDRA           EREZRA    A      00         27/02/2022                                                             
- 2190 OBE     ASON            OBERTS    A      00         23/12/2010                                                             
- 0288 OBI     TEVEN           OBINSON   T      00         25/12/2019                                                             
- 9040 ODR     ICHELLE         ODRIGUEZ  I      00         01/12/2025                                                             
- 5890 AYL     EORGE           AYLORE    E      00         04/03/2024                                                             
- 4370 HOM     ARK             HOMAS     A      00         10/12/2019                                                             
- 9629 ALK     TEVEN           ALKERN    T      00         20/02/2024                                                             
- 4084 ILL     UTH             ILLIAMS   U      02         15/02/2028                                                             
- 8756 ILS     EFF             ILSON     E      02         05/03/2024                                                             
- 4966 RIG     UTH             RIGHT     U      00         12/01/2013                                                             
- 3931 OUN     ARK       	      OUNG      A      00         22/02/2029                                                             
+ 0037 ELS     ANIEL    �      ELSONL    A      00         11/11/2018                                                             
+ 8723 ARK     EVIN     �      ARKER     E      00         28/01/2027                                                             
+ 7529 ERE     ANDRA    �      EREZRA    A      00         27/02/2022                                                             
+ 2190 OBE     ASON     �      OBERTS    A      00         23/12/2010                                                             
+ 0288 OBI     TEVEN    �      OBINSON   T      00         25/12/2019                                                             
+ 9040 ODR     ICHELLE  �      ODRIGUEZ  I      00         01/12/2025                                                             
+ 5890 AYL     EORGE    �      AYLORE    E      00         04/03/2024                                                             
+ 4370 HOM     ARK      �      HOMAS     A      00         10/12/2019                                                             
+ 9629 ALK     TEVEN    �      ALKERN    T      00         20/02/2024                                                             
+ 4084 ILL     UTH      �      ILLIAMS   U      02         15/02/2028                                                             
+ 8756 ILS     EFF      �      ILSON     E      02         05/03/2024                                                             
+ 4966 RIG     UTH      �      RIGHT     U      00         12/01/2013                                                             
+ 3931 OUN     ARK      �	      OUNG      A      00         22/02/2029                                                             
 0                                                                                                                                 
                         Result of Updates                  Page                                                                   
 0*** EXECUTION TIME =    0.001 SECS.      2095 INSTRUCTIONS EXECUTED -  2095000 INSTRUCTIONS/SEC ***                              
